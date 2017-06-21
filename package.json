@@ -6,9 +6,6 @@
     "precommit": "lint-staged",
     "build": "echo 'nothing set for build'"
   },
-  "lint-staged": {
-    "*.js": ["eslint --fix", "git add"]
-  },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
     "autoprefixer-core": "^6.0.1",
