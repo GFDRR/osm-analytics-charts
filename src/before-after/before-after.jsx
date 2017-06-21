@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import cx from 'classnames'
 
+import { mountComponent } from 'utils'
 import appStyles from 'styles.scss'
 import styles from './before-after.scss'
 
@@ -11,4 +12,6 @@ BeforeAfter.propTypes = {
   width: PropTypes.string
 }
 
-export default BeforeAfter
+export default function topContributors (selector, options) {
+  return mountComponent(BeforeAfter, selector, options)
+}

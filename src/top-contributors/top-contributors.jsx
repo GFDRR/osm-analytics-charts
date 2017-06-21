@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import cx from 'classnames'
 
+import { mountComponent } from 'utils'
 import appStyles from 'styles.scss'
 import styles from './top-contributors.scss'
 
@@ -11,4 +12,6 @@ TopContributors.propTypes = {
   width: PropTypes.string
 }
 
-export default TopContributors
+export default function topContributors (selector, options) {
+  return mountComponent(TopContributors, selector, options)
+}
