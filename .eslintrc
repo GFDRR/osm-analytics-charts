@@ -1,0 +1,6 @@
+{
+  "extends": ["standard", "standard-react"],
+  "rules": {
+    "jsx-quotes": ["error", "prefer-double"]
+  }
+}
