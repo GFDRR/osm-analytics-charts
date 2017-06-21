@@ -1,4 +1,4 @@
 {
-  "*.{js,jsx}": ["eslint --fix", "git add"],
+  "*.{js,jsx}": ["prettier --parser flow --write", "git add"],
   "*.scss": "stylelint --syntax=scss"
 }
