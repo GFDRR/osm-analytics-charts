@@ -1,5 +1,4 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import { h, render } from 'preact'
 
 export const mountComponent = (Component, selector, options) =>
-  ReactDOM.render(React.createElement(Component, options), document.querySelector(selector))
+  render(h(Component, options), document.querySelector(selector))
