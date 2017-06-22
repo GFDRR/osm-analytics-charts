@@ -1,0 +1,9 @@
+dd, dt {
+  margin: 0;
+}
+
+.container {
+  border: 1px solid;
+  max-width: 800px;
+  padding: 30px;
+}

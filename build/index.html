@@ -3,41 +3,39 @@
   <head>
     <meta charset="utf-8">
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <style media="screen">
-      dd, dt {
-        margin: 0;
-      }
-    </style>
+    <link rel="stylesheet" href="./app.css">
   </head>
   <body>
-    <article style="padding: 30px;max-width:800px">
-      <h1>Haiti</h1>
-      <section>
+    <div class="wrap">
+      <article class="container">
+        <h1>Haiti</h1>
+        <section>
 
-        <div class="project-box">
-          <p>The Open Data for Resilience Initiative supports the HaitiData GeoNode for disaster risk management.</p>
-          <dl>
-            <dt>DATA SHARING PLATFORM</dt><dd><a href="http://www.haitidata.org/">http://www.haitidata.org/</a></dd>
-            <dt>COUNTERPART</dt><dd>Centre National de l’Information Géo-Spatiale</dd>
-            <dt>NUMBER OF MAPS</dt><dd>51</dd>
-            <dt>NUMBER OF USERS</dt><dd>177</dd>
-            <dt>NUMBER OF LAYERS</dt><dd>106</dd>
-            <dt>Daily activity in the area</dt><dd id="daily-activity"></dd>
-          </dl>
-        </div>
+          <div class="project-box">
+            <p>The Open Data for Resilience Initiative supports the HaitiData GeoNode for disaster risk management.</p>
+            <dl>
+              <dt>DATA SHARING PLATFORM</dt><dd><a href="http://www.haitidata.org/">http://www.haitidata.org/</a></dd>
+              <dt>COUNTERPART</dt><dd>Centre National de l’Information Géo-Spatiale</dd>
+              <dt>NUMBER OF MAPS</dt><dd>51</dd>
+              <dt>NUMBER OF USERS</dt><dd>177</dd>
+              <dt>NUMBER OF LAYERS</dt><dd>106</dd>
+              <dt>Daily activity in the area</dt><dd id="activity"></dd>
+            </dl>
+          </div>
 
-        <h2>Understanding Haiti’s Risks</h2>
-        <p>Haiti’s development challenges are compounded by repeated and devastating impacts of natural disasters. Hurricanes and tropical storms routinely strike Haiti, causing massive flooding and deadly landslides. In January 2010, an unprecedented earthquake of magnitude 7.0 decimated Port-auPrince, affecting 3.5 million and leaving more than 200,000 dead. Furthermore, growth pressure has led to extreme environmental degradation, with an estimated 98% of forests cleared for charcoal production. These destabilizing forces, as well as settlement in zones with high levels of natural hazard and poor construction practices, have left most Haitians extremely vulnerable to natural disasters.</p>
+          <h2>Understanding Haiti’s Risks</h2>
+          <p>Haiti’s development challenges are compounded by repeated and devastating impacts of natural disasters. Hurricanes and tropical storms routinely strike Haiti, causing massive flooding and deadly landslides. In January 2010, an unprecedented earthquake of magnitude 7.0 decimated Port-auPrince, affecting 3.5 million and leaving more than 200,000 dead. Furthermore, growth pressure has led to extreme environmental degradation, with an estimated 98% of forests cleared for charcoal production. These destabilizing forces, as well as settlement in zones with high levels of natural hazard and poor construction practices, have left most Haitians extremely vulnerable to natural disasters.</p>
 
-        <div id="before-and-after"></div>
+          <div id="OSMA"></div>
 
-        <h2>Sharing Data</h2>
-        <p>The Open Data for Resilience Initiative supports the <a href="http://www.haitidata.org/" target="_blank">HaitiData GeoNode</a> for disaster risk management. The purpose of this site is to facilitate open access to Haiti-related geo-spatial information, data and knowledge sources, encouraging others to share and use them for the development of Haiti.</p>
-        <p>In response to the 2010 earthquake in Haiti, 600 volunteers from 29 countries contributed 1.2 million edits in under 30 days as a result of OpenDRI efforts. Typically, this level of data collection would take approximately 1 year to complete. To date, the HaitiData GeoNode hosts 106 layers and 51 maps with 177 users.</p>
+          <h2>Sharing Data</h2>
+          <p>The Open Data for Resilience Initiative supports the <a href="http://www.haitidata.org/" target="_blank">HaitiData GeoNode</a> for disaster risk management. The purpose of this site is to facilitate open access to Haiti-related geo-spatial information, data and knowledge sources, encouraging others to share and use them for the development of Haiti.</p>
+          <p>In response to the 2010 earthquake in Haiti, 600 volunteers from 29 countries contributed 1.2 million edits in under 30 days as a result of OpenDRI efforts. Typically, this level of data collection would take approximately 1 year to complete. To date, the HaitiData GeoNode hosts 106 layers and 51 maps with 177 users.</p>
 
-        <div id="top-contributors"></div>
-      </section>
-    </article>
+          <div id="top-contributors"></div>
+        </section>
+      </article>
+    </div>
   </body>
   <script src="./app.js" charset="utf-8"></script>
 </html>
