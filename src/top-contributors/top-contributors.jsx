@@ -6,7 +6,7 @@ import appStyles from 'styles.scss'
 import styles from './top-contributors.scss'
 
 const TopContributors = ({ width }) =>
-  <div style={{ width }} className={cx(styles.tc, appStyles.viz)}>Top contributors</div>
+  <div style={{ width }} class={cx(styles.tc, appStyles.viz)}>Top contributors</div>
 
 export default function topContributors (selector, options) {
   return mountComponent(TopContributors, selector, options)

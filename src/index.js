@@ -1,9 +1,7 @@
-import dailyActivity from './daily-activity'
-import beforeAfter from './before-after'
+import activity from './activity'
 import topContributors from './top-contributors'
 
 export {
-  dailyActivity,
-  beforeAfter,
+  activity,
   topContributors
 }
