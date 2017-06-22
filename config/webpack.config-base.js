@@ -6,7 +6,7 @@ const pck = require('../package.json')
 const _dirname = path.join(__dirname, '..')
 const srcPath = path.join(_dirname, 'src')
 const entry = path.join(srcPath, 'index.js')
-const buildPath = path.join('build')
+const buildPath = path.join('public')
 
 module.exports = {
   config: {
