@@ -1,5 +1,5 @@
 import { h, Component } from 'preact'
-import styles from './activity.scss'
+import styles from '../activity.scss'
 import cx from 'classnames'
 
 class Dropdown extends Component {

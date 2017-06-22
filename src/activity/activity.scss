@@ -1,9 +1,6 @@
 
 $red: #f00;
-
-.da {
-  color: $red;
-}
+$blue: #00f;
 
 .tab {
   padding: 2px;
@@ -30,4 +27,17 @@ $red: #f00;
 
 .option-selected {
   text-decoration: line-through;
+}
+
+.bars {
+  border: 1px solid $blue;
+  bottom: 0;
+  height: 200px;
+  position: relative;
+}
+
+.bar {
+  background-color: $blue;
+  bottom: 0;
+  position: absolute;
 }

@@ -1,7 +1,7 @@
 const { ODRI, fetch } = window
 
 function mountViz (data) {
-  ODRI.activity('#activity', { width: '200px', data })
+  ODRI.activity('#activity', { width: '500px', data })
   ODRI.topContributors('#top-contributors', { width: '300px', data })
 }
 

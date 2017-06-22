@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import styles from './activity.scss'
+import styles from '../activity.scss'
 import cx from 'classnames'
 
 const Tabs = ({onClick, facets, facet}) => <div class={styles.tabs}>

@@ -3,9 +3,11 @@ import cx from 'classnames'
 
 import { mountComponent } from 'utils'
 
+import Tabs from './components/tabs'
+import Dropdown from './components/dropdown'
+import Bars from './components/bars'
+
 import appStyles from 'styles.scss'
-import Tabs from './tabs'
-import Dropdown from './dropdown'
 import styles from './activity.scss'
 
 class DailyActivity extends Component {
@@ -28,8 +30,34 @@ class DailyActivity extends Component {
         m: 'Monthly'
       },
       granularity: 'd',
-      facet: 'u'
+      facet: 'u',
+      Users: this.formatUsers(data),
+      Features: this.formatFeatures(data)
     }
+  }
+
+  formatUsers (data) {
+    const max = Math.max(...data.top_users.map(u => u.num_features))
+    return data.top_users.map(u => {
+      const user = {
+        features: u.num_features,
+        name: u.name,
+        local: u.is_local,
+        max
+      }
+      return user
+    })
+  }
+
+  formatFeatures (data) {
+    return data.top_users.map(u => {
+      const feature = {
+        features: u.num_features,
+        name: u.name,
+        local: u.isLocal
+      }
+      return feature
+    })
   }
 
   updateGranularity (granularity) {
@@ -49,10 +77,12 @@ class DailyActivity extends Component {
   render () {
     const { width } = this.props
     const { facets, facet, granularity, granularities } = this.state
+    const data = this.state[facets[facet]]
 
     return (<div style={{ width }} class={cx(styles.da, appStyles.viz)}>
       <Dropdown onSelect={this.updateGranularity} {...{granularities, granularity}} />
       <Tabs onClick={this.updateFacet} {...{facets, facet}} />
+      <Bars {...{data, margin: 2}} />
     </div>)
   }
 }
