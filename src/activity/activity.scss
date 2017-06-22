@@ -1,6 +1,7 @@
 
 $red: #f00;
 $blue: #00f;
+$purple: #800080;
 
 .tab {
   padding: 2px;
@@ -29,8 +30,11 @@ $blue: #00f;
   text-decoration: line-through;
 }
 
+.bargroup {
+  border: 1px solid $purple;
+}
+
 .bars {
-  border: 1px solid $blue;
   bottom: 0;
   height: 200px;
   position: relative;

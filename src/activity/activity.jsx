@@ -5,7 +5,7 @@ import { mountComponent } from 'utils'
 
 import Tabs from './components/tabs'
 import Dropdown from './components/dropdown'
-import Bars from './components/bars'
+import BarGroup from './components/bargroup'
 
 import appStyles from 'styles.scss'
 import styles from './activity.scss'
@@ -82,7 +82,7 @@ class DailyActivity extends Component {
     return (<div style={{ width }} class={cx(styles.da, appStyles.viz)}>
       <Dropdown onSelect={this.updateGranularity} {...{granularities, granularity}} />
       <Tabs onClick={this.updateFacet} {...{facets, facet}} />
-      <Bars {...{data, margin: 2}} />
+      <BarGroup {...{data, margin: 2}} />
     </div>)
   }
 }
