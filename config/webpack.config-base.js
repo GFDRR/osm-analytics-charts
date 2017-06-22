@@ -14,7 +14,9 @@ module.exports = {
     output: {
       filename: path.join(buildPath, 'bundle.js'),
       path: _dirname,
-      publicPath: '/'
+      publicPath: '/',
+      library: 'ODRI',
+      libraryTarget: 'umd'
     },
 
     module: {
