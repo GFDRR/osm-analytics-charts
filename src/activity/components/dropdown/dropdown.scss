@@ -1,0 +1,17 @@
+
+.options {
+  display: block;
+  list-style: none;
+  position: absolute;
+  background: white;
+  margin: 0;
+  padding: 0;
+}
+
+.options-closed {
+  display: none;
+}
+
+.option-selected {
+  text-decoration: underline;
+}

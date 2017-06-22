@@ -42,7 +42,7 @@ module.exports = {
     },
 
     resolve: {
-      modules: ['node_modules', path.join(srcPath)],
+      modules: ['node_modules', path.join(srcPath), path.join(buildPath)],
       plugins: [new ComponentDirectoryPlugin()],
       extensions: ['.js', '.json', '.jsx', '.css', '.scss']
     },

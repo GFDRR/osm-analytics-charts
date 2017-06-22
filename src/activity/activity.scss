@@ -3,45 +3,26 @@ $red: #f00;
 $blue: #00f;
 $purple: #800080;
 
-.tab {
-  padding: 2px;
-}
-
-.tab-selected {
-  text-decoration: line-through;
-}
-
-.dropdown {
+.activity {
   border: 1px solid;
+  margin: 1rem 0;
+  padding: 1rem 0 0;
 }
 
-.options {
-  display: block;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3rem;
 }
 
-.options-closed {
-  display: none;
-}
-
-.option-selected {
-  text-decoration: line-through;
-}
-
-.bargroup {
-  border: 1px solid $purple;
-}
-
-.bars {
-  bottom: 0;
-  height: 200px;
+.selector {
   position: relative;
 }
 
-.bar {
-  background-color: $blue;
-  bottom: 0;
-  position: absolute;
+.dropdown {
+  display: inline-block;
+}
+
+.histogram {
+  // margin-bottom: 1rem;
 }
