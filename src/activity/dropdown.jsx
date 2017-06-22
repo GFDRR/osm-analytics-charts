@@ -2,12 +2,6 @@ import { h, Component } from 'preact'
 import styles from './activity.scss'
 import cx from 'classnames'
 
-const granularities = {
-  d: 'Daily',
-  w: 'Weekly',
-  m: 'Monthly'
-}
-
 class Dropdown extends Component {
   constructor (props) {
     super(props)
@@ -47,7 +41,7 @@ class Dropdown extends Component {
   }
 
   render () {
-    const { granularity } = this.props
+    const { granularity, granularities } = this.props
     const { closed } = this.state
     return (
       <div class={styles.dropdown} ref={el => { this.container = el }}>

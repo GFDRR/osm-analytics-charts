@@ -18,6 +18,15 @@ class DailyActivity extends Component {
 
   formatState (data) {
     return {
+      facets: {
+        f: 'Features',
+        u: 'Users'
+      },
+      granularities: {
+        d: 'Daily',
+        w: 'Weekly',
+        m: 'Monthly'
+      },
       granularity: 'd',
       facet: 'u'
     }
@@ -39,11 +48,11 @@ class DailyActivity extends Component {
 
   render () {
     const { width } = this.props
-    const { facet, granularity } = this.state
+    const { facets, facet, granularity, granularities } = this.state
 
     return (<div style={{ width }} class={cx(styles.da, appStyles.viz)}>
-      <Dropdown onSelect={this.updateGranularity} {...{granularity}} />
-      <Tabs onClick={this.updateFacet} {...{facet}} />
+      <Dropdown onSelect={this.updateGranularity} {...{granularities, granularity}} />
+      <Tabs onClick={this.updateFacet} {...{facets, facet}} />
     </div>)
   }
 }

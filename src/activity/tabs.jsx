@@ -2,12 +2,7 @@ import { h } from 'preact'
 import styles from './activity.scss'
 import cx from 'classnames'
 
-const facets = {
-  f: 'Features',
-  u: 'Users'
-}
-
-const Tabs = ({onClick, facet}) => <div class={styles.tabs}>
+const Tabs = ({onClick, facets, facet}) => <div class={styles.tabs}>
   {Object.keys(facets).map(f => {
     return <span
       class={cx(styles.tab, {[styles['tab-selected']]: f === facet})}
