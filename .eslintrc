@@ -1,5 +1,5 @@
 {
-  "extends": ["standard", "standard-react"],
+  "extends": ["standard", "standard-preact"],
   "rules": {
     "jsx-quotes": ["error", "prefer-double"]
   }
