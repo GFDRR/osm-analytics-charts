@@ -4,3 +4,30 @@ $red: #f00;
 .da {
   color: $red;
 }
+
+.tab {
+  padding: 2px;
+}
+
+.tab-selected {
+  text-decoration: line-through;
+}
+
+.dropdown {
+  border: 1px solid;
+}
+
+.options {
+  display: block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.options-closed {
+  display: none;
+}
+
+.option-selected {
+  text-decoration: line-through;
+}
