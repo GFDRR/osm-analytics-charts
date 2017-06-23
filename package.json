@@ -4,7 +4,8 @@
     "start": "echo 'call \"npm run server\" for development or \"npm run build\" for production'",
     "server": "webpack-dev-server --progress --colors --config ./config/webpack.config-dev",
     "precommit": "lint-staged",
-    "build": "webpack --config ./config/webpack.config-prod"
+    "build": "NODE_ENV=production && webpack --config ./config/webpack.config-prod",
+    "publish": "cp -rf ./public/ ../opendri-charts-gh-pages"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",

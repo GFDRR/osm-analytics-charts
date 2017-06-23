@@ -11,7 +11,7 @@ module.exports = {
   config: {
     entry,
     output: {
-      filename: path.join(buildPath, 'bundle.js'),
+      filename: 'bundle.js',
       path: _dirname,
       publicPath: '/',
       library: 'ODRI',
@@ -60,8 +60,7 @@ module.exports = {
     plugins: [
       new HtmlWebpackPlugin({
         template: path.join(buildPath, 'index.html'),
-        inject: false,
-        baseUrl: process.env.NODE_ENV === 'development' ? '/' : '/public'
+        inject: false
       })
     ]
   },
