@@ -11,12 +11,12 @@ const avgToColor = (d, m) => `rgba(0, 0, 255, ${_.avg(m) / 100})`
 const Histogram = ({ data, margin = 1, monthNames, className }) => {
   return (
     <div class={cx(className, styles.histogram)}>
-      {data.map((month, i) =>
+      {data.map(([month, max], i) =>
         <div
           class={styles['histogram-month']}
           style={{ width: `calc(100% / ${data.length})` }}
         >
-          <Bars max={_.max(month)} data={month} />
+          <Bars data={month} {...{max}} />
           <div
             style={{ borderColor: avgToColor(data, month) }}
             class={styles['histogram-month-label']}

@@ -5,7 +5,7 @@ import * as _ from 'utils'
 
 import Tabs from './components/tabs'
 import Dropdown from './components/dropdown'
-import Histogram, { key as getKey, values as getValues } from './components/histogram'
+import Histogram from './components/histogram'
 
 import styles from './activity.scss'
 
@@ -54,41 +54,45 @@ class DailyActivity extends Component {
 
   formatUsers (data) {
     return histogramUsers.slice(0, 6)
+      .map(d => [d, _.max(d)])
   }
 
   formatFeatures (data) {
     return histogramFeatures.slice(0, 6)
+      .map(d => [d, _.max(d)])
+  }
+
+  // groups days by week and returns the average of each week
+  groupByWeek (data) {
+    return data.reduce((acc, [days, max]) => {
+      const weeks = _.chunk(days, 7).map(d => _.avg(d))
+      acc.push([weeks, max])
+      return acc
+    }, [])
+  }
+
+  // groups days by month and returns the average of each Monthly
+  groupByMonth (data) {
+    return data.map(([d, max]) => [[_.avg(d)], max])
   }
 
   updateGranularity (granularity) {
     const { facets, facet } = this.state
     const dataKey = facets[facet]
-    let newData = this.state[dataKey]
+    let data = [...this[`format${dataKey}`]()]
 
     switch (granularity) {
       case 'w':
-        newData = [...this[`format${dataKey}`]()].reduce((acc, v) => {
-          const k = getKey(v)
-          const days = getValues(v)
-          const weeks = _.chunk(days, 7).map(d => {
-            // console.log(d)
-            return _.avg(d)
-          })
-          console.log(weeks);
-          acc.push({[k]: weeks})
-          return acc
-        }, [])
+        data = this.groupByWeek(data)
         break
       case 'm':
-        break
-      case 'd':
-        newData = [...this[`format${dataKey}`]()]
+        data = this.groupByMonth(data)
         break
     }
-    // console.log(newData);
+
     this.setState({
       ...this.state,
-      [dataKey]: newData,
+      [dataKey]: data,
       granularity
     })
   }
