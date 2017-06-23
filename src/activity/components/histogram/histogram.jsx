@@ -6,7 +6,7 @@ import * as _ from 'utils'
 import Bars from './bars'
 import styles from './histogram.scss'
 
-import sassVars from '../../../variables.scss'
+import sassVars from 'variables.scss'
 
 const shorten = m => (m).substring(0, 3)
 const avgToColor = (d, m) => rgba(sassVars.blue, _.avg(m) / 100)

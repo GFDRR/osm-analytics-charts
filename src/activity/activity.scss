@@ -1,8 +1,22 @@
-
+@import 'src/variables';
 $red: #f00;
 $purple: #800080;
 
+@font-face {
+  font-family: Bariol;
+  font-weight: bold;
+  src: url('/fonts/Bariol_Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: Bariol;
+  src: url('/fonts/Bariol_regular.otf') format('opentype');
+}
+
 .activity {
+  color: $black;
+  font-family: 'Bariol', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1rem;
   margin: 1rem 0;
   padding: 1rem 0 0;
 }
@@ -14,7 +28,10 @@ $purple: #800080;
 }
 
 .selector {
+  font-weight: bold;
+  letter-spacing: .5px;
   position: relative;
+  text-transform: uppercase;
 }
 
 .dropdown {

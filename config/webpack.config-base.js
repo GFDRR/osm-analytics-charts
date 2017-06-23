@@ -22,6 +22,10 @@ module.exports = {
     module: {
       rules: [
         {
+          test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+          loader: 'file-loader?name=public/fonts/[name].[ext]'
+        },
+        {
           test: /\.scss$/,
           use: [
             'style-loader',
@@ -49,7 +53,7 @@ module.exports = {
     },
 
     resolve: {
-      modules: ['node_modules', path.join(srcPath), path.join(buildPath)],
+      modules: [path.join(srcPath), path.join(buildPath), 'node_modules'],
       plugins: [new ComponentDirectoryPlugin()],
       extensions: ['.js', '.json', '.jsx', '.css', '.scss']
     },

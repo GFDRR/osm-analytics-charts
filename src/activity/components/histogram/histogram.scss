@@ -1,4 +1,4 @@
-@import '../../../variables';
+@import 'src/variables';
 $month-margin: 1px;
 
 .histogram {
@@ -8,7 +8,8 @@ $month-margin: 1px;
 
 .histogram-month-label {
   border-top: 5px solid;
-  margin: 0.5rem $month-margin;
+  color: $light-grey;
+  margin: .5rem $month-margin;
   padding: 1rem 10px;
   text-align: center;
   width: calc(100% - #{2 * $month-margin});

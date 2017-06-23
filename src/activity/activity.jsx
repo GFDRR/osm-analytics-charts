@@ -53,12 +53,12 @@ class DailyActivity extends Component {
   }
 
   formatUsers (data) {
-    return histogramUsers//.slice(0, 6)
+    return histogramUsers // .slice(0, 6)
       .map(d => [d, _.max(d)])
   }
 
   formatFeatures (data) {
-    return histogramFeatures//.slice(0, 6)
+    return histogramFeatures // .slice(0, 6)
       .map(d => [d, _.max(d)])
   }
 
@@ -110,11 +110,10 @@ class DailyActivity extends Component {
   }
 
   render () {
-    const { width } = this.props
     const { facets, facet, granularity, granularities, monthNames } = this.state
     const data = this.getData()
     return (
-      <div style={{ width }} class={cx(styles.activity)}>
+      <div class={cx(styles.activity)}>
         <div class={styles.top}>
           <div class={styles.selector}>
             OSM{' '}

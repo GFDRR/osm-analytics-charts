@@ -1,4 +1,6 @@
 const webpack = require('webpack')
+const express = require('express')
+const path = require('path')
 
 const baseConfig = require('./webpack.config-base')
 const { config, paths } = baseConfig
@@ -14,6 +16,11 @@ module.exports = Object.assign(config, {
   devServer: {
     hot: true,
     contentBase: buildPath,
-    publicPath: '/'
+    publicPath: '/',
+    setup (app) {
+      app.use('/public', express.static(path.resolve(buildPath), { index: false }))
+      // app.use('/public/*', express.static(buildPath, { index: false }))
+      // app.use('/fonts', express.static(path.join(buildPath, 'fonts')))
+    }
   }
 })
