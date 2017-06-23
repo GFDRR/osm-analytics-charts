@@ -10,7 +10,10 @@ export const max = m => Math.max(...m)
 export const chunk = (arr, chunkSize) => {
   var R = []
   for (var i = 0, len = arr.length; i < len; i += chunkSize) {
-    R.push(arr.slice(i, i + chunkSize))
+    var rest = i + chunkSize > len
+      ? null
+      : i + chunkSize
+    R.push(arr.slice(i, rest))
   }
   return R
 }
