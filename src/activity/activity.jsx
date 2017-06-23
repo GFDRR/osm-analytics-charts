@@ -1,11 +1,11 @@
 import { h, Component } from 'preact'
 import cx from 'classnames'
 
-import { mountComponent } from 'utils'
+import * as _ from 'utils'
 
 import Tabs from './components/tabs'
 import Dropdown from './components/dropdown'
-import Histogram from './components/histogram'
+import Histogram, { key as getKey, values as getValues } from './components/histogram'
 
 import styles from './activity.scss'
 
@@ -22,6 +22,20 @@ class DailyActivity extends Component {
 
   formatState (data) {
     return {
+      monthNames: [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+      ],
       facets: {
         f: 'Features',
         u: 'Users'
@@ -39,36 +53,42 @@ class DailyActivity extends Component {
   }
 
   formatUsers (data) {
-    // data.buildings.experiences.map(d => console.log(d))
-    // const max = Math.max(...data.top_users.map(u => u.num_features))
-    // // const max = Math.max(...data.top_users.map(u => u.num_features))
-    // return data.top_users.map(u => {
-    //   const user = {
-    //     features: u.num_features,
-    //     name: u.name,
-    //     local: u.is_local,
-    //     max
-    //   }
-    //   return user
-    // })
     return histogramUsers.slice(0, 6)
   }
 
   formatFeatures (data) {
-    // return data.top_users.map(u => {
-    //   const feature = {
-    //     features: u.num_features,
-    //     name: u.name,
-    //     local: u.isLocal
-    //   }
-    //   return feature
-    // })
     return histogramFeatures.slice(0, 6)
   }
 
   updateGranularity (granularity) {
+    const { facets, facet } = this.state
+    const dataKey = facets[facet]
+    let newData = this.state[dataKey]
+
+    switch (granularity) {
+      case 'w':
+        newData = [...this[`format${dataKey}`]()].reduce((acc, v) => {
+          const k = getKey(v)
+          const days = getValues(v)
+          const weeks = _.chunk(days, 7).map(d => {
+            // console.log(d)
+            return _.avg(d)
+          })
+          console.log(weeks);
+          acc.push({[k]: weeks})
+          return acc
+        }, [])
+        break
+      case 'm':
+        break
+      case 'd':
+        newData = [...this[`format${dataKey}`]()]
+        break
+    }
+    // console.log(newData);
     this.setState({
       ...this.state,
+      [dataKey]: newData,
       granularity
     })
   }
@@ -80,11 +100,15 @@ class DailyActivity extends Component {
     })
   }
 
+  getData () {
+    const { facets, facet } = this.state
+    return this.state[facets[facet]]
+  }
+
   render () {
     const { width } = this.props
-    const { facets, facet, granularity, granularities } = this.state
-    const data = this.state[facets[facet]]
-
+    const { facets, facet, granularity, granularities, monthNames } = this.state
+    const data = this.getData()
     return (
       <div style={{ width }} class={cx(styles.activity)}>
         <div class={styles.top}>
@@ -103,12 +127,12 @@ class DailyActivity extends Component {
             {...{ facets, facet }}
           />
         </div>
-        <Histogram className={styles.histogram} {...{ data, margin: 2 }} />
+        <Histogram className={styles.histogram} {...{ data, margin: 2, monthNames }} />
       </div>
     )
   }
 }
 
 export default function topContributors (selector, options) {
-  return mountComponent(DailyActivity, selector, options)
+  return _.mountComponent(DailyActivity, selector, options)
 }
