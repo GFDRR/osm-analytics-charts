@@ -10,7 +10,6 @@
   margin: .5rem 0 0;
   padding: 10px;
   position: absolute;
-  text-transform: none;
   width: 100%;
   z-index: $foreground;
 }
@@ -27,6 +26,7 @@
 }
 
 .option {
+  font-size: .9em;
   margin: .7em 0;
 }
 
