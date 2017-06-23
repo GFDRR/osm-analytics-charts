@@ -1,11 +1,12 @@
+$white: #fff;
 
 .options {
+  background: $white;
   display: block;
   list-style: none;
-  position: absolute;
-  background: white;
   margin: 0;
   padding: 0;
+  position: absolute;
 }
 
 .options-closed {
