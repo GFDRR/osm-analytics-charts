@@ -35,6 +35,13 @@ module.exports = {
             },
             'postcss-loader',
             'sass-loader'
+          ],
+          exclude: /variables\.scss$/
+        },
+        {
+          test: /variables\.scss$/,
+          use: [
+            'sass-variable-loader'
           ]
         },
         { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ }

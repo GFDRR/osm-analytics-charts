@@ -1,12 +1,15 @@
 import { h } from 'preact'
 import cx from 'classnames'
+import { rgba } from 'polished'
 import * as _ from 'utils'
 
 import Bars from './bars'
 import styles from './histogram.scss'
 
+import sassVars from '../../../variables.scss'
+
 const shorten = m => (m).substring(0, 3)
-const avgToColor = (d, m) => `rgba(0, 0, 255, ${_.avg(m) / 100})`
+const avgToColor = (d, m) => rgba(sassVars.blue, _.avg(m) / 100)
 
 const Histogram = ({ data, margin = 1, monthNames, className }) => {
   return (
