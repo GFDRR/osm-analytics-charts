@@ -1,12 +1,12 @@
 @font-face {
   font-family: Bariol;
   font-weight: bold;
-  src: url('/fonts/Bariol_Bold.otf') format('opentype');
+  src: url('./fonts/Bariol_Bold.otf') format('opentype');
 }
 
 @font-face {
   font-family: Bariol;
-  src: url('/fonts/Bariol_regular.otf') format('opentype');
+  src: url('./fonts/Bariol_Regular.otf') format('opentype');
 }
 
 
