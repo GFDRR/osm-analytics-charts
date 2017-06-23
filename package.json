@@ -4,7 +4,7 @@
     "start": "echo 'call \"npm run server\" for development or \"npm run build\" for production'",
     "server": "webpack-dev-server --progress --colors --config ./config/webpack.config-dev",
     "precommit": "lint-staged",
-    "build": "echo 'nothing set for build'"
+    "build": "webpack --config ./config/webpack.config-prod"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",

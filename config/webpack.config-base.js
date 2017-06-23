@@ -2,7 +2,6 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ComponentDirectoryPlugin = require('component-directory-webpack-plugin')
 
-const pck = require('../package.json')
 const _dirname = path.join(__dirname, '..')
 const srcPath = path.join(_dirname, 'src')
 const entry = path.join(srcPath, 'index.js')
@@ -61,7 +60,8 @@ module.exports = {
     plugins: [
       new HtmlWebpackPlugin({
         template: path.join(buildPath, 'index.html'),
-        title: pck.name
+        inject: false,
+        baseUrl: process.env.NODE_ENV === 'development' ? '/' : '/public'
       })
     ]
   },

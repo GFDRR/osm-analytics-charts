@@ -19,8 +19,6 @@ module.exports = Object.assign(config, {
     publicPath: '/',
     setup (app) {
       app.use('/public', express.static(path.resolve(buildPath), { index: false }))
-      // app.use('/public/*', express.static(buildPath, { index: false }))
-      // app.use('/fonts', express.static(path.join(buildPath, 'fonts')))
     }
   }
 })
