@@ -14,12 +14,12 @@ export const MONTH_NAMES = [
 ]
 
 export const FACETS = {
-  'features': 'Features',
-  'users': 'Users'
+  f: 'Features',
+  u: 'Users'
 }
 
 export const GRANULARITIES = {
-  'daily': 'Daily',
-  'weekly': 'Weekly',
-  'monthly': 'Monthly'
+  d: 'Daily',
+  w: 'Weekly',
+  m: 'Monthly'
 }

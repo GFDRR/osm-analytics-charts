@@ -1,6 +1,7 @@
 import { h, Component } from 'preact'
-import styles from './dropdown.scss'
 import cx from 'classnames'
+
+import styles from './dropdown.scss'
 
 class Dropdown extends Component {
   constructor (props) {
@@ -41,7 +42,7 @@ class Dropdown extends Component {
   }
 
   render () {
-    const { granularity, granularities, className } = this.props
+    const { options, selected, className } = this.props
     const { closed } = this.state
     return (
       <div
@@ -51,18 +52,18 @@ class Dropdown extends Component {
         }}
       >
         <div onClick={this.toggleOpen} class={styles.label}>
-          {granularities[granularity]}
+          {options[selected]}
         </div>
         <ul class={cx(styles.options, { [styles['options-closed']]: closed })}>
-          {Object.keys(granularities).map(g => {
+          {Object.keys(options).map(g => {
             return (
               <li
                 class={cx(styles.option, {
-                  [styles['option-selected']]: g === granularity
+                  [styles['option-selected']]: g === selected
                 })}
                 onClick={() => this.selectItem(g)}
               >
-                {granularities[g]}
+                {options[g]}
               </li>
             )
           })}

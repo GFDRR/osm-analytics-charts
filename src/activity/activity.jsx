@@ -1,7 +1,12 @@
 import { h, Component } from 'preact'
 import cx from 'classnames'
 
-import * as _ from 'utils'
+import _max from 'lodash/max'
+import _mean from 'lodash/mean'
+
+import { mountComponent, chunk } from 'utils'
+
+import { FACETS, GRANULARITIES } from 'src/constants'
 
 import Tabs from './components/tabs'
 import Dropdown from './components/dropdown'
@@ -22,29 +27,6 @@ class DailyActivity extends Component {
 
   formatState (data) {
     return {
-      monthNames: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-      ],
-      facets: {
-        f: 'Features',
-        u: 'Users'
-      },
-      granularities: {
-        d: 'Daily',
-        w: 'Weekly',
-        m: 'Monthly'
-      },
       granularity: 'd',
       facet: 'u',
       Users: this.formatUsers(data),
@@ -54,18 +36,18 @@ class DailyActivity extends Component {
 
   formatUsers (data) {
     return histogramUsers // .slice(0, 6)
-      .map(d => [d, _.max(d)])
+      .map(d => [d, _max(d)])
   }
 
   formatFeatures (data) {
     return histogramFeatures // .slice(0, 6)
-      .map(d => [d, _.max(d)])
+      .map(d => [d, _max(d)])
   }
 
   // groups days by week and returns the average of each week
   groupByWeek (data) {
     return data.reduce((acc, [days, max]) => {
-      const weeks = _.chunk(days, 7).map(d => _.avg(d))
+      const weeks = chunk(days, 7).map(d => _mean(d))
       acc.push([weeks, max])
       return acc
     }, [])
@@ -73,12 +55,12 @@ class DailyActivity extends Component {
 
   // groups days by month and returns the average of each Monthly
   groupByMonth (data) {
-    return data.map(([d, max]) => [[_.avg(d)], max])
+    return data.map(([d, max]) => [[_mean(d)], max])
   }
 
   updateGranularity (granularity) {
-    const { facets, facet } = this.state
-    const dataKey = facets[facet]
+    const { facet } = this.state
+    const dataKey = FACETS[facet]
     let data = [...this[`format${dataKey}`]()]
 
     switch (granularity) {
@@ -105,12 +87,12 @@ class DailyActivity extends Component {
   }
 
   getData () {
-    const { facets, facet } = this.state
-    return this.state[facets[facet]]
+    const { facet } = this.state
+    return this.state[FACETS[facet]]
   }
 
   render () {
-    const { facets, facet, granularity, granularities, monthNames } = this.state
+    const { facet, granularity } = this.state
     const data = this.getData()
     return (
       <div class={cx(styles.activity)}>
@@ -120,22 +102,22 @@ class DailyActivity extends Component {
             <Dropdown
               className={styles.dropdown}
               onSelect={this.updateGranularity}
-              {...{ granularities, granularity }}
+              {...{ options: GRANULARITIES, selected: granularity }}
             />{' '}
             activity
           </div>
           <Tabs
             className={styles.tabs}
             onClick={this.updateFacet}
-            {...{ facets, facet }}
+            {...{ tabs: FACETS, selected: facet }}
           />
         </div>
-        <Histogram className={styles.histogram} {...{ data, margin: 2, monthNames }} />
+        <Histogram className={styles.histogram} {...{ data, margin: 2 }} />
       </div>
     )
   }
 }
 
 export default function topContributors (selector, options) {
-  return _.mountComponent(DailyActivity, selector, options)
+  return mountComponent(DailyActivity, selector, options)
 }
