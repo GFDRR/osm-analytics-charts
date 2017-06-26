@@ -45,6 +45,7 @@
     "classnames": "^2.2.5",
     "es6-promise": "^4.1.0",
     "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.17.4",
     "polished": "^1.2.0",
     "preact": "^8.1.0"
   }
