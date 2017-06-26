@@ -1,8 +1,8 @@
 const { ODRI, fetch } = window
 
 function mountViz (data) {
-  ODRI.activity('#activity', { width: '670px', data })
-  ODRI.topContributors('#top-contributors', { width: '300px', data })
+  ODRI.activity('#activity', { data })
+  ODRI.contributors('#contributors', { data })
 }
 
 document.addEventListener('DOMContentLoaded', function () {
