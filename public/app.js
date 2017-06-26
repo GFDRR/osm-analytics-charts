@@ -6,6 +6,7 @@ function mountViz (data) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  console.warn('🤓 add fetch and promise polyfill not present!')
   fetch('./mocks/buildings_country_hti.json')
     .then(r => r.json())
     .then(mountViz)

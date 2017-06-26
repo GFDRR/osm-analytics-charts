@@ -1,0 +1,48 @@
+@import 'src/variables';
+
+.contributors {
+  width: 380px;
+}
+
+.header {
+  display: flex;
+}
+
+.title {
+
+}
+
+.contributor-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contributor-item {
+}
+
+.name {
+  width: 25%;
+}
+
+.percent {
+  width: 65%;
+}
+
+.percent-bar {
+  background-color: $blue;
+  height: 5px;
+  margin-right: $percent-width;
+}
+
+.percent-nr {
+  // margin-left: 1rem;
+  width: 0;
+}
+
+.name,
+.percent,
+.percent-nr,
+.percent-bar {
+  display: inline-block;
+}

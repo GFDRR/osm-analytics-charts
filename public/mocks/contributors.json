@@ -1,0 +1,65 @@
+[{
+  "osm_id": "12345",
+  "name": "koos krijnders",
+  "num_features": 678,
+  "is_local": 0.24678
+},
+{
+  "osm_id": "12345",
+  "name": "Leonmvd",
+  "num_features": 601,
+  "is_local": 0.78567
+},
+{
+  "osm_id": "12345",
+  "name": "Latjuba",
+  "num_features": 340,
+  "is_local": 0.24678
+},
+{
+  "osm_id": "12345",
+  "name": "Quinten Dengerink",
+  "num_features": 234,
+  "is_local": 0.24678
+},
+{
+  "osm_id": "12345",
+  "name": "marco443",
+  "num_features": 123,
+  "is_local": 0.24678
+},
+{
+  "osm_id": "12345",
+  "name": "micheeels",
+  "num_features": 101,
+  "is_local": 0.78567
+},
+{
+  "osm_id": "12345",
+  "name": "raymondnijssen",
+  "num_features": 88,
+  "is_local": 0.78567
+},
+{
+  "osm_id": "12345",
+  "name": "ToffeHoff",
+  "num_features": 54,
+  "is_local": 0.24678
+},
+{
+  "osm_id": "12345",
+  "name": "Postman81",
+  "num_features": 52,
+  "is_local": 0.78567
+},
+{
+  "osm_id": "12345",
+  "name": "koos krijnders",
+  "num_features": 34,
+  "is_local": 0.24678
+},{
+  "osm_id": "12345",
+  "name": "krijnders koos",
+  "num_features": 3,
+  "is_local": 0.24678
+}]

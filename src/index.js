@@ -1,10 +1,7 @@
 import activity from './activity'
-import topContributors from './top-contributors'
-
-require('es6-promise').polyfill()
-require('isomorphic-fetch')
+import contributors from './contributors'
 
 export {
   activity,
-  topContributors
+  contributors
 }
