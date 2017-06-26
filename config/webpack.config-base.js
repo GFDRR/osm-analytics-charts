@@ -52,7 +52,7 @@ module.exports = {
     },
 
     resolve: {
-      modules: [path.join(srcPath), path.join(buildPath), 'node_modules'],
+      modules: [_dirname, path.join(srcPath), path.join(buildPath), 'node_modules'],
       plugins: [new ComponentDirectoryPlugin()],
       extensions: ['.js', '.json', '.jsx', '.css', '.scss']
     },
