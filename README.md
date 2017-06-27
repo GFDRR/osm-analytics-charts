@@ -32,6 +32,13 @@ To start a development server run:
 npm run server
 ```
 
+To override default endpoints configuration:
+```
+cp public/.env.sample.js public /.env.js
+```
+
+Then edit to override.
+
 # Production
 
 To bundle all the dependencies and minify the code run:
