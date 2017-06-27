@@ -5,7 +5,9 @@ function mountViz (data) {
   ODRI.compareMap('#compare-map', {
     width: '100%',
     height: '500px',
-    settings: {}
+    settings: {
+      defaultFeatureType: 'highways'
+    }
   })
   ODRI.topContributors('#top-contributors', { width: '300px', data })
 }
