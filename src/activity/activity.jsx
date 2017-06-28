@@ -28,8 +28,8 @@ class DailyActivity extends Component {
 
   formatState (data) {
     return {
-      granularity: 'd',
-      facet: 'u',
+      granularity: GRANULARITIES.Daily,
+      facet: FACETS.Features,
       Users: this.formatUsers(data),
       Features: this.formatFeatures(data)
     }
@@ -65,10 +65,10 @@ class DailyActivity extends Component {
     let data = [...this[`format${dataKey}`]()]
 
     switch (granularity) {
-      case 'w':
+      case GRANULARITIES.Weekly:
         data = this.groupByWeek(data)
         break
-      case 'm':
+      case GRANULARITIES.Monthly:
         data = this.groupByMonth(data)
         break
     }

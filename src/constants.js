@@ -14,8 +14,8 @@ export const MONTH_NAMES = [
 ]
 
 export const FACETS = {
-  f: 'Features',
-  u: 'Users'
+  Features: 'Features',
+  Users: 'Users'
 }
 
 export const USER_SCOPES = {
@@ -24,9 +24,9 @@ export const USER_SCOPES = {
 }
 
 export const GRANULARITIES = {
-  d: 'Daily',
-  w: 'Weekly',
-  m: 'Monthly'
+  Daily: 'Daily',
+  Weekly: 'Weekly',
+  Monthly: 'Monthly'
 }
 
 export const COMPARE_MAP_DEFAULTS = {
