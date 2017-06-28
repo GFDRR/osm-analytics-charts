@@ -5,7 +5,11 @@ import { COMPARE_MAP_DEFAULTS } from 'src/constants'
 
 const CompareMap = ({ width, height, settings }) => {
   const finalSettings = Object.assign(COMPARE_MAP_DEFAULTS, settings)
-  const iframeUrl = `${finalSettings.iframeBaseUrl}/#/compare/polygon:${finalSettings.polygon}/${finalSettings.defaultStartYear}...${finalSettings.defaultEndYear}/${finalSettings.defaultFeatureType}/embed`
+  const iframeUrl = `${finalSettings.iframeBaseUrl}/#/compare
+  /polygon:${finalSettings.polygon}
+  /${finalSettings.defaultStartYear}...${finalSettings.defaultEndYear}
+  /${finalSettings.defaultFeatureType}
+  /embed`
 
   return (
     <iframe
