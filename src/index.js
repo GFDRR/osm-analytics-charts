@@ -1,10 +1,5 @@
 import activity from './activity'
-import topContributors from './top-contributors'
+import compareMap from './compare-map'
+import contributors from './contributors'
 
-require('es6-promise').polyfill()
-require('isomorphic-fetch')
-
-export {
-  activity,
-  topContributors
-}
+export { activity, compareMap, contributors }

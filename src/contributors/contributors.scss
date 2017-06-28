@@ -1,0 +1,57 @@
+@import 'src/variables';
+
+.contributors {
+  font-size: .9rem;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+}
+
+.name,
+.percent,
+.percent-nr,
+.percent-bar {
+  display: inline-block;
+}
+
+.title {
+
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list,
+.list-items {
+  margin-bottom: 1em;
+}
+
+.name {
+  width: 35%;
+}
+
+.percent {
+  width: 65%;
+}
+
+.percent-bar {
+  background-color: $blue;
+  height: 5px;
+  margin-bottom: 2px;
+  margin-right: $percent-width;
+}
+
+.percent-nr {
+  // margin-left: 1rem;
+  width: 0;
+}
+
+.percent-nr,
+.remaining {
+  color: $light-grey;
+}

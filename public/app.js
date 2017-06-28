@@ -1,12 +1,17 @@
-const { ODRI, fetch } = window
+const { ODRI, fetch, process } = window
 
 function mountViz (data) {
-  ODRI.activity('#activity', { width: '670px', data })
-  ODRI.topContributors('#top-contributors', { width: '300px', data })
+  ODRI.activity('#activity', { data })
+  ODRI.compareMap('#compare-map', {
+    width: '100%',
+    height: '500px',
+    settings: {
+      defaultFeatureType: 'highways'
+    }
+  })
+  ODRI.contributors('#contributors', { data })
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  fetch('./mocks/buildings_country_hti.json')
-    .then(r => r.json())
-    .then(mountViz)
+  fetch(`${process.env.SANDBOX_ENDPOINT}`).then(r => r.json()).then(mountViz)
 })
