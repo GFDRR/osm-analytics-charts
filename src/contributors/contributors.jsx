@@ -2,7 +2,6 @@ import { h, Component } from 'preact'
 import cx from 'classnames'
 import max from 'lodash/max'
 
-import { getCountryMeta } from 'api'
 import { mountComponent, percent } from 'utils'
 import Tabs from 'components/tabs'
 
@@ -17,33 +16,30 @@ class TopContributors extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      userScope: 'all',
-      data: null
+      userScope: 'all'
     }
+
     this.updateUserScope = this.updateUserScope.bind(this)
     this.formatContributors = this.formatContributors.bind(this)
   }
 
-  componentDidMount () {
-    getCountryMeta('HTI')
-      .then(d => {
-        const data = d.json()
-        console.log(data)
-      })
-      // .then(r => r.json())
-      // .then(data => {
-      //   this.setState({ data })
-      // })
-  }
-
   formatContributors () {
-    const maxContributions = max(contributors.map(c => c.num_features))
-    return contributors.map(c => ({
+    const { data } = this.props
+    const top = 10
+
+    const users = Object.keys(data).reduce((allUsers, users) => allUsers.concat(data[users].users), [])
+    const maxContributions = max(users.map(c => c.value))
+
+    const allUsers = users.map(c => ({
       name: c.name,
-      contributions: c.num_features,
-      local: (c.is_local > 0.8),
-      percent: percent(c.num_features, maxContributions, 1)
+      contributions: c.value,
+      percent: percent(c.value, maxContributions, 1)
     }))
+
+    return {
+      top: allUsers.slice(0, top),
+      remaining: allUsers.length - top
+    }
   }
 
   updateUserScope (userScope) {
@@ -55,9 +51,9 @@ class TopContributors extends Component {
 
   render () {
     const { width } = this.props
-    const { userScope, data } = this.state
-    const contributors = this.formatContributors()
-    console.log(data);
+    const { userScope } = this.state
+    const { top, remaining } = this.formatContributors()
+
     return (
       <div style={{ width }} class={cx(styles.contributors, appStyles.viz)}>
         <div class={cx(styles['header'], appStyles.heading)}>
@@ -67,7 +63,7 @@ class TopContributors extends Component {
             {...{ tabs: USER_SCOPES, selected: userScope }}
           />
         </div>
-        <ul class={styles['list']}>{contributors.map(c =>
+        <ul class={styles['list']}>{top.map(c =>
           <li class={styles['list-items']}>
             <span class={cx(styles['name'], {[styles['local']]: c.local})}>
               {c.name}
@@ -81,6 +77,7 @@ class TopContributors extends Component {
             </div>
           </li>
         )}</ul>
+        <div class={styles['remaining']}>+ {remaining} More</div>
       </div>
     )
   }
