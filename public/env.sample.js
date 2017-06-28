@@ -1,5 +1,5 @@
 window.process = {
   env: {
-    SANDBOX_ENDPOINT: './mocks/buildings_country_hti.json'
+    SANDBOX_ENDPOINT: 'http://54.224.10.82/api/v1/stats/buildings/country/HTI'
   }
 }

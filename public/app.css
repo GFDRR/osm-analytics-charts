@@ -25,3 +25,7 @@ dd, dt {
   max-width: 800px;
   padding: 30px;
 }
+
+#contributors {
+  width: 380px;
+}

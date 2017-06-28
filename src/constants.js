@@ -18,6 +18,11 @@ export const FACETS = {
   u: 'Users'
 }
 
+export const USER_SCOPES = {
+  all: 'All users',
+  local: 'Local only'
+}
+
 export const GRANULARITIES = {
   d: 'Daily',
   w: 'Weekly',

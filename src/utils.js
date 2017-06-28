@@ -13,3 +13,13 @@ export const chunk = (arr, chunkSize) => {
   }
   return R
 }
+
+const toInt = n => Math.floor(n)
+const toNum = n => n * 1
+
+export const percent = (n, m, fix = 2) => {
+  const pc = n * 100 / m
+  const fixed = toNum(pc.toFixed(fix))
+  const intPc = toInt(pc)
+  return intPc === fixed ? intPc : fixed
+}
