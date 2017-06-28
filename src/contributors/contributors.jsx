@@ -15,11 +15,7 @@ import styles from './contributors.scss'
 class TopContributors extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      userScope: 'all'
-    }
 
-    this.updateUserScope = this.updateUserScope.bind(this)
     this.formatContributors = this.formatContributors.bind(this)
   }
 
@@ -42,26 +38,14 @@ class TopContributors extends Component {
     }
   }
 
-  updateUserScope (userScope) {
-    this.setState({
-      ...this.state,
-      userScope
-    })
-  }
-
   render () {
     const { width } = this.props
-    const { userScope } = this.state
     const { top, remaining } = this.formatContributors()
 
     return (
       <div style={{ width }} class={cx(styles.contributors, appStyles.viz)}>
         <div class={cx(styles['header'], appStyles.heading)}>
           <div class={cx(styles.title, appStyles.title)}>Top contributors</div>
-          <Tabs
-            onClick={this.updateUserScope}
-            {...{ tabs: USER_SCOPES, selected: userScope }}
-          />
         </div>
         <ul class={styles['list']}>{top.map(c =>
           <li class={styles['list-items']}>
