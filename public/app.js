@@ -1,13 +1,10 @@
-const { ODRI, fetch } = window
+const { ODRI, fetch, process } = window
 
 function mountViz (data) {
-  ODRI.activity('#activity', { data })
-  ODRI.contributors('#contributors', { data })
+  ODRI.activity('#activity', { width: '670px', data })
+  ODRI.topContributors('#top-contributors', { width: '300px', data })
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  console.warn('🤓 add fetch and promise polyfill not present!')
-  fetch('./mocks/buildings_country_hti.json')
-    .then(r => r.json())
-    .then(mountViz)
+  fetch(process.env.SANDBOX_ENDPOINT).then(r => r.json()).then(mountViz)
 })
