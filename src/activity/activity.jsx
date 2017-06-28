@@ -8,10 +8,11 @@ import { mountComponent, chunk } from 'utils'
 
 import { FACETS, GRANULARITIES } from 'src/constants'
 
-import Tabs from './components/tabs'
+import Tabs from 'components/tabs'
 import Dropdown from './components/dropdown'
 import Histogram from './components/histogram'
 
+import appStyles from 'src/styles'
 import styles from './activity.scss'
 
 import histogramUsers from '../../public/mocks/histogram-users.json'
@@ -27,8 +28,8 @@ class DailyActivity extends Component {
 
   formatState (data) {
     return {
-      granularity: 'd',
-      facet: 'u',
+      granularity: GRANULARITIES.Daily,
+      facet: FACETS.Features,
       Users: this.formatUsers(data),
       Features: this.formatFeatures(data)
     }
@@ -64,10 +65,10 @@ class DailyActivity extends Component {
     let data = [...this[`format${dataKey}`]()]
 
     switch (granularity) {
-      case 'w':
+      case GRANULARITIES.Weekly:
         data = this.groupByWeek(data)
         break
-      case 'm':
+      case GRANULARITIES.Monthly:
         data = this.groupByMonth(data)
         break
     }
@@ -96,8 +97,8 @@ class DailyActivity extends Component {
     const data = this.getData()
     return (
       <div class={cx(styles.activity)}>
-        <div class={styles.top}>
-          <div class={styles.selector}>
+        <div class={appStyles.heading}>
+          <div class={appStyles.title}>
             OSM{' '}
             <Dropdown
               className={styles.dropdown}

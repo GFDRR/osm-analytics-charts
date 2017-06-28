@@ -14,12 +14,26 @@ export const MONTH_NAMES = [
 ]
 
 export const FACETS = {
-  f: 'Features',
-  u: 'Users'
+  Features: 'Features',
+  Users: 'Users'
+}
+
+export const USER_SCOPES = {
+  all: 'All users',
+  local: 'Local only'
 }
 
 export const GRANULARITIES = {
-  d: 'Daily',
-  w: 'Weekly',
-  m: 'Monthly'
+  Daily: 'Daily',
+  Weekly: 'Weekly',
+  Monthly: 'Monthly'
+}
+
+export const COMPARE_MAP_DEFAULTS = {
+  iframeBaseUrl: 'http://localhost:3000',
+  polygon:
+    'ifv%7BDndwkBx%60%40aYwQev%40sHkPuf%40ss%40%7BfA_%40uq%40xdCn%7D%40%5E',
+  defaultStartYear: '2010',
+  defaultEndYear: 'now',
+  defaultFeatureType: 'buildings'
 }
