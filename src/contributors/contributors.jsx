@@ -53,8 +53,8 @@ class TopContributors extends Component {
             {...{ tabs: USER_SCOPES, selected: userScope }}
           />
         </div>
-        <ul class={styles['contributor-list']}>{contributors.map(c =>
-          <li styles={styles['contributor-item']}>
+        <ul class={styles['list']}>{contributors.map(c =>
+          <li class={styles['list-items']}>
             <span class={cx(styles['name'], {[styles['local']]: c.local})}>
               {c.name}
             </span>

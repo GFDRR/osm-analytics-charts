@@ -8,21 +8,29 @@
   display: flex;
 }
 
+.name,
+.percent,
+.percent-nr,
+.percent-bar {
+  display: inline-block;
+}
+
 .title {
 
 }
 
-.contributor-list {
+.list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.contributor-item {
+.list-items {
+  margin-bottom: .5em;
 }
 
 .name {
-  width: 25%;
+  width: 35%;
 }
 
 .percent {
@@ -38,11 +46,4 @@
 .percent-nr {
   // margin-left: 1rem;
   width: 0;
-}
-
-.name,
-.percent,
-.percent-nr,
-.percent-bar {
-  display: inline-block;
 }
