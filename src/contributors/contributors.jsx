@@ -1,6 +1,8 @@
 import { h, Component } from 'preact'
 import cx from 'classnames'
 import max from 'lodash/max'
+
+import { getCountryMeta } from 'api'
 import { mountComponent, percent } from 'utils'
 import Tabs from 'components/tabs'
 
@@ -15,11 +17,23 @@ class TopContributors extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      userScope: 'all'
+      userScope: 'all',
+      data: null
     }
-
     this.updateUserScope = this.updateUserScope.bind(this)
     this.formatContributors = this.formatContributors.bind(this)
+  }
+
+  componentDidMount () {
+    getCountryMeta('HTI')
+      .then(d => {
+        const data = d.json()
+        console.log(data)
+      })
+      // .then(r => r.json())
+      // .then(data => {
+      //   this.setState({ data })
+      // })
   }
 
   formatContributors () {
@@ -41,9 +55,9 @@ class TopContributors extends Component {
 
   render () {
     const { width } = this.props
-    const { userScope } = this.state
+    const { userScope, data } = this.state
     const contributors = this.formatContributors()
-
+    console.log(data);
     return (
       <div style={{ width }} class={cx(styles.contributors, appStyles.viz)}>
         <div class={cx(styles['header'], appStyles.heading)}>
