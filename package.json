@@ -4,7 +4,8 @@
     "start": "echo 'call \"npm run server\" for development or \"npm run build\" for production'",
     "server": "webpack-dev-server --progress --colors --config ./config/webpack.config-dev",
     "precommit": "lint-staged",
-    "build": "echo 'nothing set for build'"
+    "build": "NODE_ENV=production && webpack --config ./config/webpack.config-prod",
+    "publish": "cp -rf ./public/ ../opendri-charts-gh-pages"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
@@ -23,6 +24,8 @@
     "eslint-plugin-node": "^5.0.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "express": "^4.15.3",
+    "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.28.0",
     "html-webpack-template": "^6.0.1",
     "husky": "^0.13.4",
@@ -32,12 +35,18 @@
     "prettier": "^1.4.4",
     "react": "^15.6.1",
     "sass-loader": "^6.0.6",
+    "sass-variable-loader": "^0.1.2",
     "style-loader": "^0.18.2",
+    "stylelint": "^7.11.1",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "es6-promise": "^4.1.0",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.17.4",
+    "polished": "^1.2.0",
     "preact": "^8.1.0"
   }
 }

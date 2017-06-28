@@ -1,0 +1,12 @@
+@import 'src/variables';
+
+.tab {
+  color: $blue;
+  cursor: pointer;
+  margin-left: 10px;
+  padding: 2px;
+}
+
+.tab-selected {
+  text-decoration: underline;
+}

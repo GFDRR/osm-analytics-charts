@@ -2,17 +2,16 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ComponentDirectoryPlugin = require('component-directory-webpack-plugin')
 
-const pck = require('../package.json')
 const _dirname = path.join(__dirname, '..')
 const srcPath = path.join(_dirname, 'src')
 const entry = path.join(srcPath, 'index.js')
-const buildPath = path.join('build')
+const buildPath = path.join('public')
 
 module.exports = {
   config: {
     entry,
     output: {
-      filename: path.join(buildPath, 'bundle.js'),
+      filename: 'bundle.js',
       path: _dirname,
       publicPath: '/',
       library: 'ODRI',
@@ -21,6 +20,10 @@ module.exports = {
 
     module: {
       rules: [
+        {
+          test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+          loader: 'file-loader?name=public/fonts/[name].[ext]'
+        },
         {
           test: /\.scss$/,
           use: [
@@ -35,6 +38,13 @@ module.exports = {
             },
             'postcss-loader',
             'sass-loader'
+          ],
+          exclude: /variables\.scss$/
+        },
+        {
+          test: /variables\.scss$/,
+          use: [
+            'sass-variable-loader'
           ]
         },
         { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ }
@@ -42,7 +52,7 @@ module.exports = {
     },
 
     resolve: {
-      modules: ['node_modules', path.join(srcPath)],
+      modules: [_dirname, path.join(srcPath), path.join(buildPath), 'node_modules'],
       plugins: [new ComponentDirectoryPlugin()],
       extensions: ['.js', '.json', '.jsx', '.css', '.scss']
     },
@@ -50,7 +60,7 @@ module.exports = {
     plugins: [
       new HtmlWebpackPlugin({
         template: path.join(buildPath, 'index.html'),
-        title: pck.name
+        inject: false
       })
     ]
   },

@@ -1,0 +1,31 @@
+@font-face {
+  font-family: Bariol;
+  font-weight: bold;
+  src: url('./fonts/Bariol_Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: Bariol;
+  src: url('./fonts/Bariol_Regular.otf') format('opentype');
+}
+
+
+body, html {
+  font-family: 'Bariol', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  color: #555;
+}
+
+dd, dt {
+  margin: 0;
+}
+
+.container {
+  border: 1px solid;
+  max-width: 800px;
+  padding: 30px;
+}
+
+#contributors {
+  width: 380px;
+}

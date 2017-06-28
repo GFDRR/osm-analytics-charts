@@ -1,0 +1,39 @@
+@import 'src/variables';
+
+.options {
+  background-color: $white;
+  border: 1px solid $thin-grey;
+  display: block;
+  font-weight: normal;
+  height: 8em;
+  list-style: none;
+  margin: .5rem 0 0;
+  padding: 10px;
+  position: absolute;
+  width: 100%;
+  z-index: $foreground;
+}
+
+.options,
+.label {
+  color: $blue;
+}
+
+.option,
+.label {
+  color: $blue;
+  cursor: pointer;
+}
+
+.option {
+  font-size: .9em;
+  margin: .7em 0;
+}
+
+.options-closed {
+  display: none;
+}
+
+.option-selected {
+  text-decoration: underline;
+}

@@ -1,9 +1,5 @@
-import dailyActivity from './daily-activity'
-import beforeAfter from './before-after'
-import topContributors from './top-contributors'
+import activity from './activity'
+import compareMap from './compare-map'
+import contributors from './contributors'
 
-export {
-  dailyActivity,
-  beforeAfter,
-  topContributors
-}
+export { activity, compareMap, contributors }

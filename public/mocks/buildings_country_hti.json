@@ -109,31 +109,6 @@
         "count_day": 42
       }
     ],
-    "experience": [
-      {
-        "experience": 0,
-        "count_experience": 34
-      },
-      {
-        "experience": 0.2,
-        "count_experience": 34
-      },
-      {
-        "experience": 0.3,
-        "count_experience": 34
-      },
-      {
-        "experience": 0.4,
-        "count_experience": 34
-      },
-      {
-        "experience": 0.5,
-        "count_experience": 34
-      },
-      {
-        "experience": 0.6,
-        "count_experience": 34
-      }
-    ]
+    "experiences": [{"experience":0,"count_experience":11999.460468697982},{"experience":1,"count_experience":42162.82813852814},{"experience":2,"count_experience":63875.840071040075},{"experience":3,"count_experience":136189.82947469203},{"experience":4,"count_experience":318020.1142857146},{"experience":5,"count_experience":370720.38026556757},{"experience":6,"count_experience":979868.1195304682},{"experience":7,"count_experience":1635188.0598443209},{"experience":8,"count_experience":2460697.427598793},{"experience":9,"count_experience":3475456.9344350146},{"experience":10,"count_experience":4276858.41209623},{"experience":11,"count_experience":6991006.576005936},{"experience":12,"count_experience":10809920.939155295},{"experience":13,"count_experience":14524395.873514004},{"experience":14,"count_experience":18939522.118591208},{"experience":15,"count_experience":27325302.534949847},{"experience":16,"count_experience":29955131.361419115},{"experience":17,"count_experience":26226859.289209437},{"experience":18,"count_experience":28046765.252335124},{"experience":19,"count_experience":17802175.605158716},{"experience":20,"count_experience":9173079.766666673},{"experience":21,"count_experience":5436747.125},{"experience":22,"count_experience":11049175.151785713}]
   }
 }

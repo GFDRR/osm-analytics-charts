@@ -1,5 +1,24 @@
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 .viz {
-  border: 1px solid;
+  // border: 1px solid;
   margin: 1rem 0;
-  padding: 20px;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-weight: bold;
+  letter-spacing: .5px;
+  position: relative;
+  text-transform: uppercase;
 }
