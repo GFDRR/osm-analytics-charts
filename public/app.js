@@ -1,4 +1,4 @@
-const { ODRI, fetch } = window
+const { ODRI, fetch, process } = window
 
 function mountViz (data) {
   ODRI.activity('#activity', { width: '670px', data })
@@ -6,7 +6,5 @@ function mountViz (data) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  fetch('./mocks/buildings_country_hti.json')
-    .then(r => r.json())
-    .then(mountViz)
+  fetch(process.env.SANDBOX_ENDPOINT).then(r => r.json()).then(mountViz)
 })
