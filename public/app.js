@@ -6,7 +6,7 @@ function mountViz (data) {
     width: '100%',
     height: '500px',
     settings: {
-      defaultFeatureType: 'highways'
+      default_feature_type: 'highways'
     }
   })
   ODRI.contributors('#contributors', { data })

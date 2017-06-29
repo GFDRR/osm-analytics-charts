@@ -50,22 +50,25 @@ npm run bundle
 
 # Charts configuration
 
+Note: parameters are snake_cased to be consistent with WP API requirements
+
 ## Activity chart
 
-- __startDate__ (`2016-01-01`) represents the start date of an OpenDRI project
-- __endDate__ (`2017-01-01`) represents the end date of an OpenDRI project
-- __defaultGranularity__ (`daily`) show activity `daily|weekly|monthly` by default
-- __defaultFacet__ (`features`) show either `features` or `users` histogram by default
+- __start_date__ (`2016-01-01`) represents the start date of an OpenDRI project
+- __end_date__ (`2017-01-01`) represents the end date of an OpenDRI project
+- __default_granularity__ (`daily`) show activity `daily|weekly|monthly` by default
+- __default_facet__ (`features`) show either `features` or `users` histogram by default
 
 ## Before/after map
 
+- __iframe_base_url__ (`http://localhost:3000`) 
 - __polygon__ an encoded polyline of the area of interest related to the project (ie `ifv%7BDndwkBx%60%40aYwQev%40sHkPuf%40ss%40%7BfA_%40uq%40xdCn%7D%40%5E`))
-- __defaultStartYear__ (`2016`) represents the start year of an OpenDRI project
-- __defaultEndYear__ (`now`) represents the end year of an OpenDRI project. `now` can also be provided to compare with latest OSM data
-- __defaultFeatureType__ (`buildings`) compare `buildings` or `highways`
+- __default_start_year__ (`2016`) represents the start year of an OpenDRI project
+- __default_end_year__ (`now`) represents the end year of an OpenDRI project. `now` can also be provided to compare with latest OSM data
+- __default_feature_type__ (`buildings`) compare `buildings` or `highways`
 
 ## Top contributors
 
-- __startDate__ (`2016-01-01`) represents the start date of an OpenDRI project
-- __endDate__ (`2017-01-01`) represents the end date of an OpenDRI project
-- __defaultTab__ (`all`) show `all` or `local` users by default
+- __start_date__ (`2016-01-01`) represents the start date of an OpenDRI project
+- __end_date__ (`2017-01-01`) represents the end date of an OpenDRI project
+- __default_tab__ (`all`) show `all` or `local` users by default
