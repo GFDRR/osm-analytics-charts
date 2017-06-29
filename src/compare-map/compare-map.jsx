@@ -9,7 +9,7 @@ const CompareMap = ({ width, height, settings }) => {
   /polygon:${finalSettings.polygon}
   /${finalSettings.defaultStartYear}...${finalSettings.defaultEndYear}
   /${finalSettings.defaultFeatureType}
-  /embed`
+  /embed`.replace(/\s/gm, '')
 
   return (
     <iframe
