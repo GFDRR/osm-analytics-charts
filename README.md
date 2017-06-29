@@ -47,6 +47,15 @@ To bundle all the dependencies and minify the code run:
 npm run bundle
 ```
 
+There's an utility to build and copy the bundle to the target WP plugin folder (provided you have the opendri-website repo checked in in the same folder):
+```
+npm run publish-wp
+```
+
+Or in watch mode:
+```
+npm run publish-wp:watch
+```
 
 # Charts configuration
 
