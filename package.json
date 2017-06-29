@@ -5,7 +5,9 @@
     "server": "webpack-dev-server --progress --colors --config ./config/webpack.config-dev",
     "precommit": "lint-staged",
     "build": "NODE_ENV=production && webpack --config ./config/webpack.config-prod",
-    "publish": "cp -rf ./public/ ../opendri-charts-gh-pages"
+    "publish": "cp -rf ./public/ ../opendri-charts-gh-pages",
+    "publish-wp": "npm run build && cp ./public/bundle.js ../opendri-website/wp-content/plugins/opendri-charts/scripts",
+    "publish-wp:watch": "onchange 'src/**/*.*' -- npm run publish-wp"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
@@ -31,6 +33,7 @@
     "husky": "^0.13.4",
     "lint-staged": "^4.0.0",
     "node-sass": "^4.5.3",
+    "onchange": "^3.2.1",
     "postcss-loader": "^2.0.6",
     "prettier": "^1.4.4",
     "react": "^15.6.1",
