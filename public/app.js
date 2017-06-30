@@ -13,5 +13,5 @@ function mountViz (data) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  fetch(`${process.env.SANDBOX_ENDPOINT}`).then(r => r.json()).then(mountViz)
+  fetch(`${process.env.SANDBOX_ENDPOINT}/HTI`).then(r => r.json()).then(mountViz)
 })

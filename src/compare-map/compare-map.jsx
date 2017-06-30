@@ -9,7 +9,7 @@ const CompareMap = ({ width, height, settings }) => {
   /polygon:${finalSettings.polygon}
   /${finalSettings.default_start_year}...${finalSettings.default_end_year}
   /${finalSettings.default_feature_type}
-  /embed`.replace(/\s/gm, '')
+  /embed/ODRI`.replace(/\s/gm, '')
 
   return (
     <iframe
