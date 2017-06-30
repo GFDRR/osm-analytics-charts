@@ -29,18 +29,16 @@ class DailyActivity extends Component {
   formatState (data) {
     return {
       granularity: GRANULARITIES.Daily,
-      facet: FACETS.Features,
-      Users: this.formatUsers(data),
-      Features: this.formatFeatures(data)
+      facet: FACETS.Features
     }
   }
 
-  formatUsers (data) {
+  getUsers (data) {
     return histogramUsers // .slice(0, 6)
       .map(d => [d, _max(d)])
   }
 
-  formatFeatures (data) {
+  getFeatures (data) {
     return histogramFeatures // .slice(0, 6)
       .map(d => [d, _max(d)])
   }
@@ -60,22 +58,8 @@ class DailyActivity extends Component {
   }
 
   updateGranularity (granularity) {
-    const { facet } = this.state
-    const dataKey = FACETS[facet]
-    let data = [...this[`format${dataKey}`]()]
-
-    switch (granularity) {
-      case GRANULARITIES.Weekly:
-        data = this.groupByWeek(data)
-        break
-      case GRANULARITIES.Monthly:
-        data = this.groupByMonth(data)
-        break
-    }
-
     this.setState({
       ...this.state,
-      [dataKey]: data,
       granularity
     })
   }
@@ -88,8 +72,20 @@ class DailyActivity extends Component {
   }
 
   getData () {
-    const { facet } = this.state
-    return this.state[FACETS[facet]]
+    const { facet, granularity } = this.state
+    const dataKey = FACETS[facet]
+    let data = [...this[`get${dataKey}`]()]
+
+    switch (granularity) {
+      case GRANULARITIES.Weekly:
+        data = this.groupByWeek(data)
+        break
+      case GRANULARITIES.Monthly:
+        data = this.groupByMonth(data)
+        break
+    }
+
+    return data
   }
 
   render () {

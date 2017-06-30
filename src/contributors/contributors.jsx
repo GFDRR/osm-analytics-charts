@@ -3,10 +3,6 @@ import cx from 'classnames'
 import max from 'lodash/max'
 
 import { mountComponent, percent } from 'utils'
-import Tabs from 'components/tabs'
-
-import contributors from 'public/mocks/contributors.json'
-import { USER_SCOPES } from 'src/constants'
 import { percentWidth } from 'variables.scss'
 
 import appStyles from 'styles.scss'
@@ -23,7 +19,9 @@ class TopContributors extends Component {
     const { data } = this.props
     const top = 10
 
-    const users = Object.keys(data).reduce((allUsers, users) => allUsers.concat(data[users].users), [])
+    const users = Object.keys(data).reduce((allUsers, users) =>
+      allUsers.concat(data[users].users), [])
+
     const maxContributions = max(users.map(c => c.value))
 
     const allUsers = users.map(c => ({
