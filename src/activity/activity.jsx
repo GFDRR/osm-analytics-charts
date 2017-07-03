@@ -4,7 +4,7 @@ import cx from 'classnames'
 import _max from 'lodash/max'
 import _mean from 'lodash/mean'
 
-import { mountComponent, chunk } from 'utils'
+import { mountComponent, chunk, monthLength } from 'utils'
 
 import { FACETS, GRANULARITIES } from 'src/constants'
 
@@ -29,7 +29,9 @@ class DailyActivity extends Component {
   formatState (data) {
     return {
       granularity: GRANULARITIES.Daily,
-      facet: FACETS.Features
+      facet: FACETS.Features,
+      data,
+      features: this.formatFeatures(data)
     }
   }
 
@@ -38,9 +40,42 @@ class DailyActivity extends Component {
       .map(d => [d, _max(d)])
   }
 
-  getFeatures (data) {
-    return histogramFeatures // .slice(0, 6)
-      .map(d => [d, _max(d)])
+  parseDate (d) {
+    const date = new Date(d.day)
+    const day = date.getDate() - 1
+    const month = date.getMonth()
+    const year = date.getFullYear()
+    return {
+      day,
+      month,
+      year,
+      len: monthLength(month, year)
+    }
+  }
+
+  formatFeatures (data) {
+    const months = 12
+    return data.buildings.recency
+      .sort((a, b) => a.day - b.day)
+      .reduce((result, item) => {
+        const { day, month, year, len } = this.parseDate(item)
+        result[year] = (!result[year]) ? new Array(months) : result[year]
+        result[year][month] = result[year][month] || new Array(len).fill(0, 0, len)
+
+        result[year][month].forEach((d, i) => {
+          if (i + 1 === day) {
+            result[year][month][i] = item.count_day
+          }
+        })
+
+        return result
+      }, {})
+  }
+
+  getFeatures () {
+    // return histogramFeatures
+    return this.state.features['2010']
+      .map(d => [d, _max(d)]) || []
   }
 
   // groups days by week and returns the average of each week
@@ -74,18 +109,15 @@ class DailyActivity extends Component {
   getData () {
     const { facet, granularity } = this.state
     const dataKey = FACETS[facet]
-    let data = [...this[`get${dataKey}`]()]
-
+    let groupedData = [...this[`get${dataKey}`]()]
     switch (granularity) {
       case GRANULARITIES.Weekly:
-        data = this.groupByWeek(data)
-        break
+        return this.groupByWeek(groupedData)
       case GRANULARITIES.Monthly:
-        data = this.groupByMonth(data)
-        break
+        return this.groupByMonth(groupedData)
     }
 
-    return data
+    return groupedData
   }
 
   render () {
