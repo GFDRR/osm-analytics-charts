@@ -1,8 +1,9 @@
+/* eslint no-return-assign: 0 */
 import { h } from 'preact'
 import cx from 'classnames'
 import _mean from 'lodash/mean'
 import _max from 'lodash/max'
-import { rgba } from 'polished'
+import { rgba, stripUnit } from 'polished'
 
 import { MONTH_NAMES } from 'src/constants'
 
@@ -12,24 +13,24 @@ import styles from './histogram.scss'
 import sassVars from 'variables.scss'
 
 const shorten = m => (m).substring(0, 3)
-const avgToColor = (d, m) => rgba(sassVars.blue, _mean(m) / 100)
+const avgToColor = m => rgba(sassVars.blue, _mean(m) / 100)
 
 const Histogram = ({ data, margin = 1, className }) => {
+  const totalMonths = Object.keys(data).reduce((yy, y) => yy += Number(data[y].length), 0)
   return (
     <div class={cx(className, styles.histogram)}>
       {Object.keys(data).map(year => data[year]
-        .map(d => [d, _max(d)])
-        .map(([month, max], i) =>
+        .map((month, i) =>
           <div
             class={styles['histogram-month']}
-            style={{ width: `calc(100% / ${data.length})` }}
+            style={{ width: `calc(100% / ${totalMonths})` }}
           >
-            <Bars data={month} {...{max}} />
+            <Bars margin={stripUnit(sassVars.monthMargin)} data={month} {...{max: _max(month)}} />
             <div
-              style={{ borderColor: avgToColor(data, month) }}
+              style={{ borderColor: avgToColor(month) }}
               class={styles['histogram-month-label']}
             >
-              {`${shorten(MONTH_NAMES[i])} ${year}`}
+              {totalMonths > 12 ? '' : `${shorten(MONTH_NAMES[i])} ${year}`}
             </div>
           </div>
         ))}

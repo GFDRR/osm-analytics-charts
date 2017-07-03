@@ -1,7 +1,7 @@
 const { ODRI, fetch, process } = window
 
 function mountViz (data) {
-  const from = new Date(2011, 1, 1)
+  const from = new Date(2010, 1, 1)
   const to = new Date()
   // const to = new Date(2016, 5, 1)
   ODRI.activity('#activity', { data, range: [from, to] })
