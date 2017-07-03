@@ -1,6 +1,7 @@
 import { h } from 'preact'
 import cx from 'classnames'
 import _mean from 'lodash/mean'
+import _max from 'lodash/max'
 import { rgba } from 'polished'
 
 import { MONTH_NAMES } from 'src/constants'
@@ -16,20 +17,22 @@ const avgToColor = (d, m) => rgba(sassVars.blue, _mean(m) / 100)
 const Histogram = ({ data, margin = 1, className }) => {
   return (
     <div class={cx(className, styles.histogram)}>
-      {data.map(([month, max], i) =>
-        <div
-          class={styles['histogram-month']}
-          style={{ width: `calc(100% / ${data.length})` }}
-        >
-          <Bars data={month} {...{max}} />
+      {Object.keys(data).map(year => data[year]
+        .map(d => [d, _max(d)])
+        .map(([month, max], i) =>
           <div
-            style={{ borderColor: avgToColor(data, month) }}
-            class={styles['histogram-month-label']}
+            class={styles['histogram-month']}
+            style={{ width: `calc(100% / ${data.length})` }}
           >
-            {shorten(MONTH_NAMES[i])}
+            <Bars data={month} {...{max}} />
+            <div
+              style={{ borderColor: avgToColor(data, month) }}
+              class={styles['histogram-month-label']}
+            >
+              {`${shorten(MONTH_NAMES[i])} ${year}`}
+            </div>
           </div>
-        </div>
-      )}
+        ))}
     </div>
   )
 }

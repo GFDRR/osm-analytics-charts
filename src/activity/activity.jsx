@@ -16,22 +16,21 @@ import appStyles from 'src/styles'
 import styles from './activity.scss'
 
 import histogramUsers from '../../public/mocks/histogram-users.json'
-import histogramFeatures from '../../public/mocks/histogram-features.json'
 
 class DailyActivity extends Component {
   constructor (props) {
     super(props)
     this.updateFacet = this.updateFacet.bind(this)
     this.updateGranularity = this.updateGranularity.bind(this)
-    this.state = this.formatState(props.data)
+    this.state = this.formatState(props)
   }
 
-  formatState (data) {
+  formatState (props) {
     return {
       granularity: GRANULARITIES.Daily,
       facet: FACETS.Features,
-      data,
-      features: this.formatFeatures(data)
+      data: props.data,
+      range: props.range || []
     }
   }
 
@@ -41,7 +40,7 @@ class DailyActivity extends Component {
   }
 
   parseDate (d) {
-    const date = new Date(d.day)
+    const date = new Date(d)
     const day = date.getDate() - 1
     const month = date.getMonth()
     const year = date.getFullYear()
@@ -55,10 +54,13 @@ class DailyActivity extends Component {
 
   formatFeatures (data) {
     const months = 12
+    const [from, to] = this.state.range
+
     return data.buildings.recency
       .sort((a, b) => a.day - b.day)
+      .filter(d => d.day >= from && d.day < to)
       .reduce((result, item) => {
-        const { day, month, year, len } = this.parseDate(item)
+        const { day, month, year, len } = this.parseDate(item.day)
         result[year] = (!result[year]) ? new Array(months) : result[year]
         result[year][month] = result[year][month] || new Array(len).fill(0, 0, len)
 
@@ -73,9 +75,7 @@ class DailyActivity extends Component {
   }
 
   getFeatures () {
-    // return histogramFeatures
-    return this.state.features['2010']
-      .map(d => [d, _max(d)]) || []
+    return this.formatFeatures(this.state.data)
   }
 
   // groups days by week and returns the average of each week
@@ -109,7 +109,7 @@ class DailyActivity extends Component {
   getData () {
     const { facet, granularity } = this.state
     const dataKey = FACETS[facet]
-    let groupedData = [...this[`get${dataKey}`]()]
+    let groupedData = this[`get${dataKey}`]()
     switch (granularity) {
       case GRANULARITIES.Weekly:
         return this.groupByWeek(groupedData)

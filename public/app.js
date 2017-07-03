@@ -1,7 +1,10 @@
 const { ODRI, fetch, process } = window
 
 function mountViz (data) {
-  ODRI.activity('#activity', { data })
+  const from = new Date(2011, 1, 1)
+  const to = new Date()
+  // const to = new Date(2016, 5, 1)
+  ODRI.activity('#activity', { data, range: [from, to] })
   ODRI.compareMap('#compare-map', {
     width: '100%',
     height: '500px',
