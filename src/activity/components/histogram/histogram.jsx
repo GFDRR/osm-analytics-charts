@@ -2,21 +2,25 @@
 import { h } from 'preact'
 import cx from 'classnames'
 import _mean from 'lodash/mean'
-import _max from 'lodash/max'
 import { rgba, stripUnit } from 'polished'
-
-import { MONTH_NAMES } from 'src/constants'
+import { scalePow } from 'd3-scale'
+// import { MONTH_NAMES } from 'src/constants'
 
 import Bars from './bars'
 import styles from './histogram.scss'
 
 import sassVars from 'variables.scss'
 
-const shorten = m => (m).substring(0, 3)
-const avgToColor = m => rgba(sassVars.blue, _mean(m) / 100)
+// const shorten = m => (m).substring(0, 3)
+// const displayLabel = m => `${shorten(MONTH_NAMES[i])} ${year}`
+// const displayLabel = (m, y) => `${m + 1}/${y}`
+// const displayLabel = (m, y) => `${m + 1}`
+const displayLabel = (m, y) => ``
 
-const Histogram = ({ data, margin = 1, className }) => {
+const Histogram = ({ data, max, margin = 1, className }) => {
   const totalMonths = Object.keys(data).reduce((yy, y) => yy += Number(data[y].length), 0)
+  const yScale = scalePow().domain([0, max]).range([0, 100]).exponent(0.25)
+  const avgToColor = (m, max) => rgba(sassVars.blue, yScale(_mean(m)) / 100)
   return (
     <div class={cx(className, styles.histogram)}>
       {Object.keys(data).map(year => data[year]
@@ -25,13 +29,11 @@ const Histogram = ({ data, margin = 1, className }) => {
             class={styles['histogram-month']}
             style={{ width: `calc(100% / ${totalMonths})` }}
           >
-            <Bars margin={stripUnit(sassVars.monthMargin)} data={month} {...{max: _max(month)}} />
+            <Bars margin={stripUnit(sassVars.monthMargin)} data={month} {...{yScale}} />
             <div
-              style={{ borderColor: avgToColor(month) }}
+              style={{ borderColor: avgToColor(month, max) }}
               class={styles['histogram-month-label']}
-            >
-              {totalMonths > 12 ? '' : `${shorten(MONTH_NAMES[i])} ${year}`}
-            </div>
+            >{displayLabel(i, year)}</div>
           </div>
         ))}
     </div>

@@ -2,9 +2,12 @@ import { h, Component } from 'preact'
 import cx from 'classnames'
 
 import _max from 'lodash/max'
+import _maxBy from 'lodash/maxBy'
 import _mean from 'lodash/mean'
+import _chunk from 'lodash/chunk'
+import _reduce from 'lodash/reduce'
 
-import { mountComponent, chunk, monthLength } from 'utils'
+import { mountComponent, monthLength } from 'utils'
 
 import { FACETS, GRANULARITIES } from 'src/constants'
 
@@ -16,6 +19,8 @@ import appStyles from 'src/styles'
 import styles from './activity.scss'
 
 import histogramUsers from '../../public/mocks/histogram-users.json'
+
+const getValue = d => d.count_features
 
 class DailyActivity extends Component {
   constructor (props) {
@@ -55,23 +60,25 @@ class DailyActivity extends Component {
   formatFeatures (data) {
     const months = 12
     const [from, to] = this.state.range
-
-    return data.buildings.recency
+    const filteredValues = data.buildings.activity_count
       .sort((a, b) => a.day - b.day)
       .filter(d => d.day >= from && d.day < to)
-      .reduce((result, item) => {
-        const { day, month, year, len } = this.parseDate(item.day)
-        result[year] = (!result[year]) ? new Array(months) : result[year]
-        result[year][month] = result[year][month] || new Array(len).fill(0, 0, len)
 
-        result[year][month].forEach((d, i) => {
-          if (i + 1 === day) {
-            result[year][month][i] = item.count_day
-          }
-        })
+    const max = getValue(_maxBy(filteredValues, getValue))
 
-        return result
-      }, {})
+    return [filteredValues.reduce((result, item) => {
+      const { day, month, year, len } = this.parseDate(item.day)
+      result[year] = (!result[year]) ? new Array(months) : result[year]
+      result[year][month] = result[year][month] || new Array(len).fill(0, 0, len)
+
+      result[year][month].forEach((d, i) => {
+        if (i + 1 === day) {
+          result[year][month][i] = getValue(item)
+        }
+      })
+
+      return result
+    }, {}), max]
   }
 
   getFeatures () {
@@ -79,17 +86,22 @@ class DailyActivity extends Component {
   }
 
   // groups days by week and returns the average of each week
-  groupByWeek (data) {
-    return data.reduce((acc, [days, max]) => {
-      const weeks = chunk(days, 7).map(d => _mean(d))
-      acc.push([weeks, max])
-      return acc
-    }, [])
+  groupByWeek ([data, max]) {
+    return [_reduce(data, (years, months, year) => {
+      years[year] = years[year] || months
+        .map(days => _chunk(days, 7).map(d => _mean(d)))
+
+      return years
+    }, {}), max]
   }
 
   // groups days by month and returns the average of each Monthly
-  groupByMonth (data) {
-    return data.map(([d, max]) => [[_mean(d)], max])
+  groupByMonth ([data, max]) {
+    return [_reduce(data, (years, months, year) => {
+      years[year] = years[year] || months
+        .map(days => [_mean(days)])
+      return years
+    }, {}), max]
   }
 
   updateGranularity (granularity) {
@@ -122,7 +134,7 @@ class DailyActivity extends Component {
 
   render () {
     const { facet, granularity } = this.state
-    const data = this.getData()
+    const [data, max] = this.getData()
     return (
       <div class={cx(styles.activity)}>
         <div class={appStyles.heading}>
@@ -141,7 +153,7 @@ class DailyActivity extends Component {
             {...{ tabs: FACETS, selected: facet }}
           />
         </div>
-        <Histogram className={styles.histogram} {...{ data, margin: 2 }} />
+        <Histogram className={styles.histogram} {...{ data, max, margin: 2 }} />
       </div>
     )
   }

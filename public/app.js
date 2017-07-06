@@ -2,6 +2,7 @@ const { ODRI, fetch, process } = window
 
 function mountViz (data) {
   const from = new Date(2010, 1, 1)
+  // const to = new Date(2012, 1, 1)
   const to = new Date()
   // const to = new Date(2016, 5, 1)
   ODRI.activity('#activity', { data, range: [from, to] })
@@ -23,7 +24,8 @@ function timeoutPromise (timeout, err, promise) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  const url = `${process.env.SANDBOX_ENDPOINT}/HTI`
+  // const url = `${process.env.SANDBOX_ENDPOINT}/HTI`
+  const url = `${process.env.SANDBOX_ENDPOINT}`
   timeoutPromise(2000, new Error('Server timed out!'), fetch(url))
     .then(r => r.json())
     .then(mountViz)

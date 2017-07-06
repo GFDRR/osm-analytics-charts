@@ -20,14 +20,14 @@ class TopContributors extends Component {
     const top = 10
 
     const users = Object.keys(data).reduce((allUsers, users) =>
-      allUsers.concat(data[users].users), [])
+      allUsers.concat(data[users].top_users), [])
 
-    const maxContributions = max(users.map(c => c.value))
+    const maxContributions = max(users.map(c => c.feature_value))
 
     const allUsers = users.map(c => ({
-      name: c.name,
-      contributions: c.value,
-      percent: percent(c.value, maxContributions, 1)
+      name: c.osm_name,
+      contributions: c.feature_value,
+      percent: percent(c.feature_value, maxContributions, 1)
     }))
 
     return {
