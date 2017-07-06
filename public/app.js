@@ -1,10 +1,14 @@
-const { ODRI, fetch, process } = window
+const { ODRI, fetch, process, URL } = window
 
 function mountViz (data) {
-  const from = new Date(2010, 1, 1)
-  // const to = new Date(2012, 1, 1)
-  const to = new Date()
-  // const to = new Date(2016, 5, 1)
+  const url = new URL(window.location.href)
+  const from = (url.searchParams.get('from') && new Date(url.searchParams.get('from'))) || new Date(2000, 1, 1)
+  const to = (url.searchParams.get('to') && new Date(url.searchParams.get('to'))) || new Date()
+
+  const datesUI = document.querySelector('#dates')
+  const format = d => `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+  datesUI.innerHTML = `from: ${format(from)}, to: ${format(to)}`
+
   ODRI.activity('#activity', { data, range: [from, to] })
   ODRI.compareMap('#compare-map', {
     width: '100%',

@@ -20,8 +20,6 @@ import styles from './activity.scss'
 
 import histogramUsers from '../../public/mocks/histogram-users.json'
 
-const getValue = d => d.count_features
-
 class DailyActivity extends Component {
   constructor (props) {
     super(props)
@@ -39,11 +37,6 @@ class DailyActivity extends Component {
     }
   }
 
-  getUsers (data) {
-    return histogramUsers // .slice(0, 6)
-      .map(d => [d, _max(d)])
-  }
-
   parseDate (d) {
     const date = new Date(d)
     const day = date.getDate() - 1
@@ -57,14 +50,14 @@ class DailyActivity extends Component {
     }
   }
 
-  formatFeatures (data) {
+  formatData (data, getCount) {
     const months = 12
     const [from, to] = this.state.range
-    const filteredValues = data.buildings.activity_count
+    const filteredValues = data
       .sort((a, b) => a.day - b.day)
       .filter(d => d.day >= from && d.day < to)
 
-    const max = getValue(_maxBy(filteredValues, getValue))
+    const max = getCount(_maxBy(filteredValues, getCount))
 
     return [filteredValues.reduce((result, item) => {
       const { day, month, year, len } = this.parseDate(item.day)
@@ -73,7 +66,7 @@ class DailyActivity extends Component {
 
       result[year][month].forEach((d, i) => {
         if (i + 1 === day) {
-          result[year][month][i] = getValue(item)
+          result[year][month][i] = getCount(item)
         }
       })
 
@@ -82,7 +75,14 @@ class DailyActivity extends Component {
   }
 
   getFeatures () {
-    return this.formatFeatures(this.state.data)
+    const getCount = d => d.count_features
+    return this.formatData(this.state.data.buildings.activity_count, getCount)
+  }
+
+  getUsers (data) {
+    const getCount = d => d.count_features
+    // const getCount = d => d.count_users
+    return this.formatData(this.state.data.buildings.activity_count, getCount)
   }
 
   // groups days by week and returns the average of each week
