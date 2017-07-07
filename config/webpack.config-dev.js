@@ -9,16 +9,23 @@ const { buildPath } = paths
 module.exports = Object.assign(config, {
   devtool: 'source-map',
 
-  plugins: config.plugins.concat([
-    new webpack.HotModuleReplacementPlugin()
-  ]),
+  plugins: config.plugins.concat([new webpack.HotModuleReplacementPlugin()]),
 
   devServer: {
     hot: true,
     contentBase: buildPath,
     publicPath: '/',
     setup (app) {
-      app.use('/public', express.static(path.resolve(buildPath), { index: false }))
+      app.use(
+        '/public',
+        express.static(path.resolve(buildPath), { index: false })
+      )
+    },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET',
+      'Access-Control-Allow-Headers':
+        'X-Requested-With, content-type, Authorization'
     }
   }
 })
