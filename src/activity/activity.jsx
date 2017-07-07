@@ -5,6 +5,7 @@ import _maxBy from 'lodash/maxBy'
 import _mean from 'lodash/mean'
 import _chunk from 'lodash/chunk'
 import _reduce from 'lodash/reduce'
+import startCase from 'lodash/startCase'
 
 import { mountComponent, monthLength } from 'utils'
 
@@ -27,8 +28,10 @@ class DailyActivity extends Component {
 
   formatState (props) {
     return {
-      granularity: GRANULARITIES.Daily,
-      facet: FACETS.Features,
+      granularity:
+        (props.granularity && startCase(props.granularity)) ||
+        GRANULARITIES.Daily,
+      facet: (props.facet && startCase(props.facet)) || FACETS.Features,
       data: props.data,
       range: props.range || [new Date(), new Date()]
     }
@@ -83,9 +86,8 @@ class DailyActivity extends Component {
   }
 
   getUsers (data) {
-    const getCount = d => d.count_features
-    // const getCount = d => d.count_users
-    return this.formatData(this.state.data.buildings.activity_count, getCount)
+    const getCount = d => d.count_users
+    return this.formatData(this.state.data.buildings.activity_users, getCount)
   }
 
   // groups days by week and returns the average of each week
