@@ -80,4 +80,3 @@ Note: parameters are snake_cased to be consistent with WP API requirements
 
 - __start_date__ (`2016-01-01`) represents the start date of an OpenDRI project
 - __end_date__ (`2017-01-01`) represents the end date of an OpenDRI project
-- __default_tab__ (`all`) show `all` or `local` users by default
