@@ -43,16 +43,19 @@ module.exports = {
         },
         {
           test: /variables\.scss$/,
-          use: [
-            'sass-variable-loader'
-          ]
+          use: ['sass-variable-loader']
         },
         { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ }
       ]
     },
 
     resolve: {
-      modules: [_dirname, path.join(srcPath), path.join(buildPath), 'node_modules'],
+      modules: [
+        _dirname,
+        path.join(srcPath),
+        path.join(buildPath),
+        'node_modules'
+      ],
       plugins: [new ComponentDirectoryPlugin()],
       extensions: ['.js', '.json', '.jsx', '.css', '.scss']
     },
@@ -65,6 +68,7 @@ module.exports = {
     ]
   },
   paths: {
-    buildPath
+    buildPath,
+    _dirname
   }
 }
