@@ -1,7 +1,10 @@
 html {
   box-sizing: border-box;
 }
-*, *:before, *:after {
+
+*,
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
@@ -18,7 +21,7 @@ html {
 
 .title {
   font-weight: bold;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   position: relative;
   text-transform: uppercase;
 }
