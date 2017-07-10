@@ -1,5 +1,6 @@
 import { h, Component } from 'preact'
 import cx from 'classnames'
+import { stripUnit } from 'polished'
 
 import _maxBy from 'lodash/maxBy'
 import _mean from 'lodash/mean'
@@ -15,6 +16,7 @@ import Tabs from 'components/tabs'
 import Dropdown from './components/dropdown'
 import Histogram from './components/histogram'
 
+import sassVars from 'variables.scss'
 import appStyles from 'src/styles'
 import styles from './activity.scss'
 
@@ -145,6 +147,7 @@ class DailyActivity extends Component {
   }
 
   render () {
+    const margin = stripUnit(sassVars.monthMargin)
     const { facet, granularity } = this.state
     const [data, max] = this.getData()
     return (
@@ -165,7 +168,7 @@ class DailyActivity extends Component {
             {...{ tabs: FACETS, selected: facet }}
           />
         </div>
-        <Histogram className={styles.histogram} {...{ data, max, margin: 2 }} />
+        <Histogram className={styles.histogram} {...{ data, max, margin }} />
       </div>
     )
   }

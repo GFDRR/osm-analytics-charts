@@ -3,15 +3,11 @@ import cx from 'classnames'
 
 import styles from './histogram.scss'
 
-const dataToWidth = (data, margin, i) =>
-  `calc((100% / ${data.length} - ${margin}px) + ${data.length > 1
-    ? margin / (data.length - 1)
-    : 0}px)`
+const dataToWidth = (data, i) => `calc((100% / ${data.length}`
 
-const dataToLeft = (data, margin, i) =>
-  `calc((${dataToWidth(data, margin, i)} * ${i}) + ${i * margin}px)`
+const dataToLeft = (data, i) => `calc(${dataToWidth(data, i)} * ${i})`
 
-const Bars = ({ data, yScale, margin = 1 }) => {
+const Bars = ({ data, yScale }) => {
   return (
     <div class={styles.bars}>
       {data.map((d, i) =>
@@ -20,10 +16,8 @@ const Bars = ({ data, yScale, margin = 1 }) => {
           style={{
             opacity: yScale(d) / 100,
             height: `${yScale(d)}%`,
-            left: dataToLeft(data, margin, i),
-            width: dataToWidth(data, margin, i),
-            minWidth: dataToWidth(data, 0, i),
-            marginRight: `${(margin && margin / data.length) || 0}px`
+            left: dataToLeft(data, i),
+            width: dataToWidth(data, i)
           }}
         />
       )}

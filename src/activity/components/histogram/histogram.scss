@@ -9,7 +9,7 @@
   color: $light-grey;
   margin: 0.5rem $month-margin;
   text-align: center;
-  width: calc(100% - #{2 * $month-margin});
+  width: calc(100% - #{$month-margin});
 }
 
 .bars {
