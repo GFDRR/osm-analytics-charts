@@ -19,15 +19,16 @@ class TopContributors extends Component {
     const { data } = this.props
     const top = 10
 
-    const users = Object.keys(data).reduce((allUsers, users) =>
-      allUsers.concat(data[users].users), [])
-
-    const maxContributions = max(users.map(c => c.value))
+    const users = Object.keys(data).reduce(
+      (allUsers, users) => allUsers.concat(data[users].top_users),
+      []
+    )
+    const maxContributions = max(users.map(c => c.feature_value))
 
     const allUsers = users.map(c => ({
-      name: c.name,
-      contributions: c.value,
-      percent: percent(c.value, maxContributions, 1)
+      name: c.osm_name,
+      contributions: c.feature_value,
+      percent: percent(c.feature_value, maxContributions, 1)
     }))
 
     return {
@@ -45,21 +46,29 @@ class TopContributors extends Component {
         <div class={cx(styles['header'], appStyles.heading)}>
           <div class={cx(styles.title, appStyles.title)}>Top contributors</div>
         </div>
-        <ul class={styles['list']}>{top.map(c =>
-          <li class={styles['list-items']}>
-            <span class={cx(styles['name'], {[styles['local']]: c.local})}>
-              {c.name}
-            </span>
-            <div class={cx(styles['percent'])}>
-              <div
-                style={{width: `calc(${Math.round(c.percent)}% - ${percentWidth})`}}
-                class={cx(styles['percent-bar'])}
-              />
-              <span class={cx(styles['percent-nr'])}>{c.percent}%</span>
-            </div>
-          </li>
-        )}</ul>
-        <div class={styles['remaining']}>+ {remaining} More</div>
+        <ul class={styles['list']}>
+          {top.map(c =>
+            <li class={styles['list-items']}>
+              <span class={cx(styles['name'], { [styles['local']]: c.local })}>
+                {c.name}
+              </span>
+              <div class={cx(styles['percent'])}>
+                <div
+                  style={{
+                    width: `calc(${Math.round(c.percent)}% - ${percentWidth})`
+                  }}
+                  class={cx(styles['percent-bar'])}
+                />
+                <span class={cx(styles['percent-nr'])}>
+                  {c.percent}%
+                </span>
+              </div>
+            </li>
+          )}
+        </ul>
+        <div class={styles['remaining']}>
+          + {remaining} More
+        </div>
       </div>
     )
   }
