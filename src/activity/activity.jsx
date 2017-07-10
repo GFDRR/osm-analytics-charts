@@ -57,9 +57,11 @@ class DailyActivity extends Component {
     const toSamp = new Date(range[1]).getTime()
     const filteredValues = data
       .sort((a, b) => a.day - b.day)
-      .filter(d => d.day >= fromSamp && d.day < toSamp)
+      .filter(d => d && d.day >= fromSamp && d.day < toSamp)
 
-    const max = getCount(_maxBy(filteredValues, getCount))
+    const max = filteredValues.length
+      ? getCount(_maxBy(filteredValues, getCount))
+      : 0
 
     return [
       filteredValues.reduce((result, item) => {
