@@ -11,10 +11,7 @@ const dataToWidth = (data, margin, i) =>
 const dataToLeft = (data, margin, i) =>
   `calc((${dataToWidth(data, margin, i)} * ${i}) + ${i * margin}px)`
 
-// const valueToPerc = (value, max) => `${value / max * 100}`
-// const valueToOpacity = (value, max) => `${valueToPerc(value, max) / 100}`
 const Bars = ({ data, yScale, margin = 1 }) => {
-  // const yScale = scaleLog().domain([0, max]).range([0, 100])
   return (
     <div class={styles.bars}>
       {data.map((d, i) =>
