@@ -23,7 +23,6 @@ class TopContributors extends Component {
       (allUsers, users) => allUsers.concat(data[users].top_users),
       []
     )
-    console.log(data)
     const maxContributions = max(users.map(c => c.feature_value))
 
     const allUsers = users.map(c => ({

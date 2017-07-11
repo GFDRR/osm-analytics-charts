@@ -53,13 +53,15 @@ class DailyActivity extends Component {
   formatData (data, getCount) {
     const months = 12
     const { range } = this.state
-    const fromSamp = new Date(range[0]).getTime()
-    const toSamp = new Date(range[1]).getTime()
+    const fromStamp = new Date(range[0]).getTime()
+    const toStamp = new Date(range[1]).getTime()
     const filteredValues = data
       .sort((a, b) => a.day - b.day)
-      .filter(d => d.day >= fromSamp && d.day < toSamp)
+      .filter(d => d && d.day >= fromStamp && d.day < toStamp)
 
-    const max = getCount(_maxBy(filteredValues, getCount))
+    const max = filteredValues.length
+      ? getCount(_maxBy(filteredValues, getCount))
+      : 0
 
     return [
       filteredValues.reduce((result, item) => {
@@ -90,37 +92,28 @@ class DailyActivity extends Component {
     return this.formatData(this.state.data.buildings.activity_users, getCount)
   }
 
+  groupBy (data, predicate) {
+    return _reduce(
+      data,
+      (years, months, year) => {
+        years[year] = years[year] || months.map(predicate)
+        return years
+      },
+      {}
+    )
+  }
+
   // groups days by week and returns the average of each week
   groupByWeek ([data, max]) {
     return [
-      _reduce(
-        data,
-        (years, months, year) => {
-          years[year] =
-            years[year] ||
-            months.map(days => _chunk(days, 7).map(d => _mean(d)))
-
-          return years
-        },
-        {}
-      ),
+      this.groupBy(data, days => _chunk(days, 7).map(d => _mean(d))),
       max
     ]
   }
 
   // groups days by month and returns the average of each Monthly
   groupByMonth ([data, max]) {
-    return [
-      _reduce(
-        data,
-        (years, months, year) => {
-          years[year] = years[year] || months.map(days => [_mean(days)])
-          return years
-        },
-        {}
-      ),
-      max
-    ]
+    return [this.groupBy(data, days => [_mean(days)]), max]
   }
 
   updateGranularity (granularity) {
