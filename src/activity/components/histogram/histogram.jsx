@@ -23,7 +23,7 @@ const Histogram = ({ data, max, margin = 1, className }) => {
   // linear scale
   // const yScale = scaleLinear().domain([0, max]).range([0, 100])
   // exponential scale exponent 0.5
-  const yScale = scalePow().exponent(0.5).domain([0, max]).range([0, 100])
+  const yScale = scalePow().exponent(0.25).domain([0, max]).range([0, 100])
   const avgToColor = (m, max) => rgba(sassVars.blue, yScale(_mean(m)) / 100)
   return (
     <div class={cx(className, styles.histogram)}>
