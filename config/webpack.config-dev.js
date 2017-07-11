@@ -20,12 +20,6 @@ module.exports = Object.assign(config, {
         '/public',
         express.static(path.resolve(buildPath), { index: false })
       )
-    },
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET',
-      'Access-Control-Allow-Headers':
-        'X-Requested-With, content-type, Authorization'
     }
   }
 })
