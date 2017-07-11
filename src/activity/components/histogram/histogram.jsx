@@ -17,7 +17,13 @@ const Histogram = ({ data, max, margin = 1, className }) => {
     (yy, y) => (yy += Number(data[y].length)),
     0
   )
-  const yScale = scalePow().domain([0, max]).range([0, 100]).exponent(0.25)
+  // Different scales to decide which one works best
+  // logarithmic scale base 10
+  // const yScale = scaleLog().base(10).domain([0, max]).range([0, 100])
+  // linear scale
+  // const yScale = scaleLinear().domain([0, max]).range([0, 100])
+  // exponential scale exponent 0.5
+  const yScale = scalePow().exponent(0.5).domain([0, max]).range([0, 100])
   const avgToColor = (m, max) => rgba(sassVars.blue, yScale(_mean(m)) / 100)
   return (
     <div class={cx(className, styles.histogram)}>

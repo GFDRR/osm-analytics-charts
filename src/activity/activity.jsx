@@ -3,8 +3,10 @@ import cx from 'classnames'
 
 import _maxBy from 'lodash/maxBy'
 import _mean from 'lodash/mean'
+import _meanBy from 'lodash/meanBy'
 import _chunk from 'lodash/chunk'
 import _reduce from 'lodash/reduce'
+import _map from 'lodash/map'
 import startCase from 'lodash/startCase'
 
 import { mountComponent, monthLength } from 'utils'
@@ -82,14 +84,68 @@ class DailyActivity extends Component {
     ]
   }
 
+  stdDeviation (data, average, getData = d => d) {
+    const diffs = data.map(d => Math.pow(getData(d) - average, 2))
+    return Math.sqrt(_mean(diffs))
+  }
+
+  aggregateFeatures (data, key, count) {
+    const getCount = d => d[count]
+    const getKey = d => d[key]
+
+    const distAvgToStdDev = _reduce(
+      this.state.data,
+      (result, d, key) => {
+        const values = (getKey(d) && getKey(d)) || []
+
+        const average = _meanBy(getKey(d), getCount)
+        const stdev = this.stdDeviation(values, average, getCount)
+
+        result[key] = values.map(v => ({
+          day: v.day,
+          [count]: (getCount(v) - average) / stdev
+        }))
+        return result
+      },
+      {}
+    )
+
+    const aggregated = _reduce(
+      distAvgToStdDev,
+      (r, items) => {
+        items.forEach(item => {
+          const { day } = item
+          r[day] = r[day] ? (r[day] + item[count]) / 2 : item[count]
+        })
+        return r
+      },
+      {}
+    )
+
+    return _map(aggregated, (aggregatedCount, day) => ({
+      day: day * 1,
+      [count]: aggregatedCount
+    }))
+  }
+
   getFeatures () {
-    const getCount = d => d.count_features
-    return this.formatData(this.state.data.buildings.activity_count, getCount)
+    const count = 'count_features'
+    const key = 'activity_count'
+    const getCount = d => d[count]
+    return this.formatData(
+      this.aggregateFeatures(this.state.data, key, count),
+      getCount
+    )
   }
 
   getUsers (data) {
-    const getCount = d => d.count_users
-    return this.formatData(this.state.data.buildings.activity_users, getCount)
+    const count = 'count_users'
+    const key = 'activity_users'
+    const getCount = d => d[count]
+    return this.formatData(
+      this.aggregateFeatures(this.state.data, key, count),
+      getCount
+    )
   }
 
   groupBy (data, predicate) {
