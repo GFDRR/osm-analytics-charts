@@ -84,8 +84,8 @@ class DailyActivity extends Component {
     ]
   }
 
-  stdDeviation (data, average, getData = d => d) {
-    const diffs = data.map(d => Math.pow(getData(d) - average, 2))
+  stdDeviation (data, mean, getData = d => d) {
+    const diffs = data.map(d => Math.pow(getData(d) - mean, 2))
     return Math.sqrt(_mean(diffs))
   }
 
@@ -98,12 +98,12 @@ class DailyActivity extends Component {
       (result, d, key) => {
         const values = (getKey(d) && getKey(d)) || []
 
-        const average = _meanBy(getKey(d), getCount)
-        const stdev = this.stdDeviation(values, average, getCount)
+        const mean = _meanBy(getKey(d), getCount)
+        const stdev = this.stdDeviation(values, mean, getCount)
 
         result[key] = values.map(v => ({
           day: v.day,
-          [count]: (getCount(v) - average) / stdev
+          [count]: (getCount(v) - mean) / stdev
         }))
         return result
       },
