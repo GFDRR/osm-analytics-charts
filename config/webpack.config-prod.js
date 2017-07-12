@@ -6,15 +6,13 @@ const baseConfig = require('./webpack.config-base')
 const { config, paths, sassRules } = baseConfig
 const { buildPath } = paths
 
-const { rules } = config.module
-
 module.exports = Object.assign(config, {
   output: Object.assign(config.output, {
     filename: path.join(buildPath, 'bundle.js')
   }),
 
   module: Object.assign(config.module, {
-    rules: Object.assign(rules, {
+    rules: Object.assign(config.module.rules, {
       use: ExtractTextPlugin.extract({
         fallback: 'style-loader',
         use: sassRules.use
