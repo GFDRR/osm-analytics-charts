@@ -2,7 +2,7 @@
 import { h } from 'preact'
 import cx from 'classnames'
 import _mean from 'lodash/mean'
-import { rgba, stripUnit } from 'polished'
+import { rgba } from 'polished'
 import { scalePow } from 'd3-scale'
 
 import Bars from './bars'
@@ -25,13 +25,9 @@ const Histogram = ({ data, max, margin = 1, className }) => {
         data[year].map((month, i) =>
           <div
             class={styles['histogram-month']}
-            style={{ width: `calc(100% / ${cumulatedYs})` }}
+            style={{ width: `calc((100% / ${cumulatedYs}) + ${margin}px)` }}
           >
-            <Bars
-              margin={stripUnit(sassVars.monthMargin)}
-              data={month}
-              {...{ yScale }}
-            />
+            <Bars data={month} {...{ yScale }} />
             <div
               style={{ borderColor: avgToColor(month, max) }}
               class={styles['histogram-month-label']}
