@@ -1,29 +1,10 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ComponentDirectoryPlugin = require('component-directory-webpack-plugin')
 
 const _dirname = path.join(__dirname, '..')
 const srcPath = path.join(_dirname, 'src')
 const entry = path.join(srcPath, 'index.js')
 const buildPath = path.join('public')
-
-const sassRules = {
-  test: /\.scss$/,
-  use: [
-    'style-loader',
-    {
-      loader: 'css-loader',
-      options: {
-        modules: 'true',
-        importLoaders: 2,
-        localIdentName: '[name]__[local]___[hash:base64:5]'
-      }
-    },
-    'postcss-loader',
-    'sass-loader'
-  ],
-  exclude: /variables\.scss$/
-}
 
 module.exports = {
   config: {
@@ -46,8 +27,7 @@ module.exports = {
         {
           test: /variables\.scss$/,
           use: ['sass-variable-loader']
-        },
-        sassRules
+        }
       ]
     },
 
@@ -60,16 +40,8 @@ module.exports = {
       ],
       plugins: [new ComponentDirectoryPlugin()],
       extensions: ['.js', '.json', '.jsx', '.css', '.scss']
-    },
-
-    plugins: [
-      new HtmlWebpackPlugin({
-        template: path.join(buildPath, 'index.html'),
-        inject: false
-      })
-    ]
+    }
   },
-  sassRules,
   paths: {
     buildPath,
     _dirname
