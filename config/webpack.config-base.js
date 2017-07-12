@@ -7,6 +7,24 @@ const srcPath = path.join(_dirname, 'src')
 const entry = path.join(srcPath, 'index.js')
 const buildPath = path.join('public')
 
+const sassRules = {
+  test: /\.scss$/,
+  use: [
+    'style-loader',
+    {
+      loader: 'css-loader',
+      options: {
+        modules: 'true',
+        importLoaders: 2,
+        localIdentName: '[name]__[local]___[hash:base64:5]'
+      }
+    },
+    'postcss-loader',
+    'sass-loader'
+  ],
+  exclude: /variables\.scss$/
+}
+
 module.exports = {
   config: {
     entry,
@@ -24,28 +42,12 @@ module.exports = {
           test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
           loader: 'file-loader?name=public/fonts/[name].[ext]'
         },
-        {
-          test: /\.scss$/,
-          use: [
-            'style-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                modules: 'true',
-                importLoaders: 2,
-                localIdentName: '[name]__[local]___[hash:base64:5]'
-              }
-            },
-            'postcss-loader',
-            'sass-loader'
-          ],
-          exclude: /variables\.scss$/
-        },
+        { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
         {
           test: /variables\.scss$/,
           use: ['sass-variable-loader']
         },
-        { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ }
+        sassRules
       ]
     },
 
@@ -67,6 +69,7 @@ module.exports = {
       })
     ]
   },
+  sassRules,
   paths: {
     buildPath,
     _dirname

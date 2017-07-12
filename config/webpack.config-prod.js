@@ -1,16 +1,12 @@
 const webpack = require('webpack')
 const path = require('path')
-const difference = require('lodash/difference')
-const drop = require('lodash/drop')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const baseConfig = require('./webpack.config-base')
-const { config, paths } = baseConfig
+const { config, paths, sassRules } = baseConfig
 const { buildPath } = paths
 
 const { rules } = config.module
-const restRules = rules.filter(rule => `${rule.test}` !== '/\\.scss$/')
-const cssRules = difference(rules, restRules)
 
 module.exports = Object.assign(config, {
   output: Object.assign(config.output, {
@@ -18,14 +14,12 @@ module.exports = Object.assign(config, {
   }),
 
   module: Object.assign(config.module, {
-    rules: restRules.concat([
-      Object.assign(cssRules[0], {
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: drop(cssRules[0].use, 1)
-        })
+    rules: Object.assign(rules, {
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: sassRules.use
       })
-    ])
+    })
   }),
 
   plugins: [
