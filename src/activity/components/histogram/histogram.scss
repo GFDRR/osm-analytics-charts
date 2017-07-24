@@ -5,11 +5,14 @@
 }
 
 .histogram-month-label {
+  $vertical-space: 0.5rem;
+
   border-top: 5px solid;
   color: $light-grey;
-  margin: 0.5rem $month-margin;
+  margin: $vertical-space $month-margin;
   text-align: center;
   width: calc(100% - #{$month-margin});
+  padding-top: 0.4rem;
 }
 
 .bars {
@@ -23,4 +26,13 @@
   bottom: 0;
   position: absolute;
   transition: height 0.15s ease-out;
+}
+
+.label {
+  white-space: nowrap;
+  padding: 0.2rem 0 0 3px;
+}
+
+.labelBorder {
+  border-left: 1px solid;
 }

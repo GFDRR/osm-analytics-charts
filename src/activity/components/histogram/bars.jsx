@@ -4,7 +4,6 @@ import cx from 'classnames'
 import styles from './histogram.scss'
 
 const dataToWidth = (data, i) => `calc((100% / ${data.length}`
-
 const dataToLeft = (data, i) => `calc(${dataToWidth(data, i)} * ${i})`
 
 const Bars = ({ data, yScale }) => {
