@@ -33,6 +33,19 @@
   padding: 0.2rem 0 0 3px;
 }
 
+.labelHidden {
+  display: none;
+}
+
 .labelBorder {
   border-left: 1px solid;
+}
+
+.year {
+  display: none;
+}
+
+.yearVisible {
+  margin-left: 3px;
+  display: inline-block;
 }

@@ -29,6 +29,8 @@ const Histogram = ({ data, max, margin = 1, className }) => {
   // const yScale = scaleLinear().domain([0, max]).range([0, 100])
   const colorScale = yScale.copy().range([0.3, 1])
   const avgToColor = (m, max) => rgba(sassVars.blue, colorScale(_mean(m)))
+  const firstItem = data[years[0]].filter(Boolean)[0]
+  const firstItemIndex = data[years[0]].indexOf(firstItem)
 
   return (
     <div class={cx(className, styles.histogram)}>
@@ -45,9 +47,11 @@ const Histogram = ({ data, max, margin = 1, className }) => {
             >
               <Labels
                 {...{
-                  index: yearIndex,
-                  month: i,
+                  month,
                   year,
+                  firstItem,
+                  firstItemIndex,
+                  monthIndex: i,
                   numMonths: cumulatedYs
                 }}
               />
