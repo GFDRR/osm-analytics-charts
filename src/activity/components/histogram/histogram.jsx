@@ -12,23 +12,17 @@ import sassVars from 'variables.scss'
 
 const pass = _ => true
 
-const Histogram = ({ data, max, margin = 1, className }) => {
+const Histogram = ({ data, min, max, margin = 1, className }) => {
   const years = Object.keys(data)
   const cumulatedYs = years.reduce(
     (yy, y) => (yy += Number(data[y].filter(pass).length)),
     0
   )
 
-  // Different scales to decide which one works best
-  // logarithmic scale base 10
-  // const yScale = scaleLog().base(10).domain([0, max]).range([0, 100])
-  // linear scale
-  // const yScale = scaleLinear().domain([0, max]).range([0, 100])
-  // exponential scale exponent 0.5
-  const yScale = scalePow().exponent(0.5).domain([0, max]).range([0, 100])
-  // const yScale = scaleLinear().domain([0, max]).range([0, 100])
-  const colorScale = yScale.copy().range([0.3, 1])
-  const avgToColor = (m, max) => rgba(sassVars.blue, colorScale(_mean(m)))
+  const baseScale = scalePow().exponent(0.25).domain([min, max])
+  const yScale = baseScale.copy().range([0, 100])
+  const opaciyScale = baseScale.copy().range([0.5, 1])
+  const avgToColor = m => rgba(sassVars.blue, opaciyScale(_mean(m)))
   const firstItem = data[years[0]].filter(Boolean)[0]
   const firstItemIndex = data[years[0]].indexOf(firstItem)
 
@@ -40,15 +34,15 @@ const Histogram = ({ data, max, margin = 1, className }) => {
             class={styles['histogram-month']}
             style={{ width: `calc((100% / ${cumulatedYs}) + ${margin}px)` }}
           >
-            <Bars data={month} {...{ yScale }} />
+            <Bars data={month} {...{ yScale, opaciyScale }} />
             <div
-              style={{ borderColor: avgToColor(month, max) }}
+              style={{ borderColor: avgToColor(month) }}
               class={styles['histogram-month-label']}
             >
               <Labels
                 {...{
-                  month,
                   year,
+                  month,
                   firstItem,
                   firstItemIndex,
                   monthIndex: i,

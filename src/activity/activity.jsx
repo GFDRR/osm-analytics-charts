@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { stripUnit } from 'polished'
 
 import _maxBy from 'lodash/maxBy'
+import _minBy from 'lodash/minBy'
 import _mean from 'lodash/mean'
 import _meanBy from 'lodash/meanBy'
 import _chunk from 'lodash/chunk'
@@ -63,8 +64,14 @@ class DailyActivity extends Component {
       .sort((a, b) => a.day - b.day)
       .filter(d => d && d.day >= fromStamp && d.day < toStamp)
 
+    const nonZero = d => Boolean(Math.abs(getCount(d)))
+
     const max = filteredValues.length
-      ? getCount(_maxBy(filteredValues, getCount))
+      ? getCount(_maxBy(filteredValues.filter(nonZero), getCount))
+      : 0
+
+    const min = filteredValues.length
+      ? getCount(_minBy(filteredValues.filter(nonZero), getCount))
       : 0
 
     return [
@@ -82,7 +89,7 @@ class DailyActivity extends Component {
 
         return result
       }, {}),
-      max
+      [min, max]
     ]
   }
 
@@ -125,7 +132,7 @@ class DailyActivity extends Component {
     )
 
     return _map(aggregated, (aggregatedCount, day) => ({
-      day: day * 1,
+      day: Number(day),
       [count]: aggregatedCount
     }))
   }
@@ -205,7 +212,7 @@ class DailyActivity extends Component {
   render () {
     const margin = stripUnit(sassVars.monthMargin)
     const { facet, granularity } = this.state
-    const [data, max] = this.getData()
+    const [data, [min, max]] = this.getData()
     return (
       <div class={cx(styles.activity)}>
         <div class={appStyles.heading}>
@@ -224,7 +231,10 @@ class DailyActivity extends Component {
             {...{ tabs: FACETS, selected: facet }}
           />
         </div>
-        <Histogram className={styles.histogram} {...{ data, max, margin }} />
+        <Histogram
+          className={styles.histogram}
+          {...{ data, min, max, margin }}
+        />
       </div>
     )
   }
