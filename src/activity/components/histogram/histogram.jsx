@@ -12,9 +12,19 @@ import sassVars from 'variables.scss'
 
 const pass = _ => true
 
+const indexData = data => {
+  let index = 0
+  return Object.keys(data).reduce((result, year) => {
+    result[year] = data[year].map(m => [index++, m])
+    return result
+  }, {})
+}
+
 const Histogram = ({ data, min, max, margin = 1, className }) => {
   const years = Object.keys(data)
-  const cumulatedYs = years.reduce(
+
+  const indexedData = indexData(data)
+  const cumulatedMonths = years.reduce(
     (yy, y) => (yy += Number(data[y].filter(pass).length)),
     0
   )
@@ -23,16 +33,17 @@ const Histogram = ({ data, min, max, margin = 1, className }) => {
   const yScale = baseScale.copy().range([0, 100])
   const opaciyScale = baseScale.copy().range([0.5, 1])
   const avgToColor = m => rgba(sassVars.blue, opaciyScale(_mean(m)))
+
   const firstItem = data[years[0]].filter(Boolean)[0]
   const firstItemIndex = data[years[0]].indexOf(firstItem)
 
   return (
     <div class={cx(className, styles.histogram)}>
-      {years.map((year, yearIndex) =>
-        data[year].map((month, i) =>
+      {Object.keys(indexedData).map((year, yearIndex) =>
+        indexedData[year].map(([index, month], i) =>
           <div
             class={styles['histogram-month']}
-            style={{ width: `calc((100% / ${cumulatedYs}) + ${margin}px)` }}
+            style={{ width: `calc((100% / ${cumulatedMonths}) + ${margin}px)` }}
           >
             <Bars data={month} {...{ yScale, opaciyScale }} />
             <div
@@ -42,11 +53,10 @@ const Histogram = ({ data, min, max, margin = 1, className }) => {
               <Labels
                 {...{
                   year,
-                  month,
-                  firstItem,
+                  index,
                   firstItemIndex,
                   monthIndex: i,
-                  numMonths: cumulatedYs
+                  numMonths: cumulatedMonths
                 }}
               />
             </div>

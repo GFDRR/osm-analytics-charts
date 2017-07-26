@@ -1,5 +1,4 @@
 import { h } from 'preact'
-import _isEqual from 'lodash/isEqual'
 import cx from 'classnames'
 
 import { MONTH_NAMES } from 'src/constants'
@@ -10,21 +9,16 @@ const shortenMonth = m => m.substr(0, 3)
 const shortenyear = y => y.substr(2)
 const shortMonthName = i => shortenMonth(monthName(i))
 
-const Labels = ({
-  month,
-  firstItem,
-  firstItemIndex,
-  monthIndex,
-  year,
-  numMonths
-}) => {
+const Labels = ({ index, firstItemIndex, monthIndex, year, numMonths }) => {
   const isJanuary = monthIndex === 0
-  const isFirst = _isEqual(firstItem, month)
+  const isFirst = index === 0
+  const isLate = index > numMonths - 3
 
   const labelClasses = cx({
     [styles.label]: isJanuary || numMonths <= 1 || isFirst,
     [styles.labelHidden]:
-    numMonths >= 24 && !isJanuary && (!isFirst || firstItemIndex > 10),
+    (numMonths >= 24 && !isJanuary && (!isFirst || firstItemIndex > 7)) ||
+      isLate,
     [styles.labelBorder]: numMonths > 24 && (isJanuary || isFirst)
   })
 
