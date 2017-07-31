@@ -6,7 +6,7 @@ import styles from './histogram.scss'
 const dataToWidth = (data, i) => `calc((100% / ${data.length}`
 const dataToLeft = (data, i) => `calc(${dataToWidth(data, i)} * ${i})`
 
-const Bars = ({ data, yScale, opaciyScale }) => {
+const Bars = ({ data, yScale, opacityScale }) => {
   return (
     <div class={styles.bars}>
       {data.map((d, i) =>
@@ -15,7 +15,7 @@ const Bars = ({ data, yScale, opaciyScale }) => {
           class={cx(styles.bar)}
           style={{
             // hide zeros
-            opacity: d === 0 ? 0 : opaciyScale(d),
+            opacity: d === 0 ? 0 : opacityScale(d),
             height: `${yScale(d)}%`,
             left: dataToLeft(data, i),
             width: dataToWidth(data, i)

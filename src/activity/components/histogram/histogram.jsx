@@ -31,8 +31,8 @@ const Histogram = ({ data, min, max, margin = 1, className }) => {
 
   const baseScale = scalePow().exponent(0.25).domain([min, max])
   const yScale = baseScale.copy().range([0, 100])
-  const opaciyScale = baseScale.copy().range([0.5, 1])
-  const avgToColor = m => rgba(sassVars.blue, opaciyScale(_mean(m)))
+  const opacityScale = baseScale.copy().range([0.5, 1])
+  const avgToColor = m => rgba(sassVars.blue, opacityScale(_mean(m)))
 
   const firstItem = data[years[0]].filter(Boolean)[0]
   const firstItemIndex = data[years[0]].indexOf(firstItem)
@@ -45,7 +45,7 @@ const Histogram = ({ data, min, max, margin = 1, className }) => {
             class={styles['histogram-month']}
             style={{ width: `calc((100% / ${cumulatedMonths}) + ${margin}px)` }}
           >
-            <Bars data={month} {...{ yScale, opaciyScale }} />
+            <Bars data={month} {...{ yScale, opacityScale }} />
             <div
               style={{ borderColor: avgToColor(month) }}
               class={styles['histogram-month-label']}
