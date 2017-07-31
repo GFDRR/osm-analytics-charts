@@ -58,13 +58,13 @@ class DailyActivity extends Component {
   formatData (data, getCount) {
     const months = 12
     const { range } = this.state
-    const dateFrom = toTime(range[0])
-    const dateTo = toTime(range[0])
+    const timeFrom = toTime(range[0])
+    const timeTo = toTime(range[0])
     const fromStamp = new Date(
-      dateFrom > 0 ? Math.max(dateFrom, dateTo) : null
+      timeFrom > 0 ? Math.max(timeFrom, timeTo) : null
     ).getTime()
     const toStamp = new Date(
-      dateTo > 0 ? Math.min(dateFrom, dateTo) : null
+      timeTo > 0 ? Math.min(timeFrom, timeTo) : null
     ).getTime()
 
     const filteredValues = data
