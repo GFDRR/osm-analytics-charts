@@ -30,7 +30,7 @@ export const GRANULARITIES = {
 }
 
 export const COMPARE_MAP_DEFAULTS = {
-  iframe_base_url: 'http://localhost:3000',
+  iframe_base_url: 'https://osm-analytics.vizzuality.com:442/#/',
   polygon:
     'ifv%7BDndwkBx%60%40aYwQev%40sHkPuf%40ss%40%7BfA_%40uq%40xdCn%7D%40%5E',
   default_start_year: '2010',
