@@ -18,7 +18,7 @@ const Labels = ({ index, firstItemIndex, monthIndex, year, numMonths }) => {
     [styles.label]: isJanuary || numMonths <= 1 || isFirst,
     [styles.labelHidden]:
     (numMonths >= 24 && !isJanuary && (!isFirst || firstItemIndex > 7)) ||
-      isLate,
+      (numMonths >= 24 && isLate),
     [styles.labelBorder]: numMonths > 24 && (isJanuary || isFirst)
   })
 
