@@ -1,4 +1,3 @@
-/* eslint no-return-assign: 0 */
 import { h } from 'preact'
 import cx from 'classnames'
 import _mean from 'lodash/mean'
@@ -6,39 +5,60 @@ import { rgba } from 'polished'
 import { scalePow } from 'd3-scale'
 
 import Bars from './bars'
+import Labels from './labels'
 import styles from './histogram.scss'
 
 import sassVars from 'variables.scss'
 
-const displayLabel = (m, y) => ``
+const pass = _ => true
 
-const Histogram = ({ data, max, margin = 1, className }) => {
-  const cumulatedYs = Object.keys(data).reduce(
-    (yy, y) => (yy += Number(data[y].length)),
+const indexData = data => {
+  let index = 0
+  return Object.keys(data).reduce((result, year) => {
+    result[year] = data[year].map(m => [index++, m])
+    return result
+  }, {})
+}
+
+const Histogram = ({ data, min, max, margin = 1, className }) => {
+  const years = Object.keys(data)
+
+  const indexedData = indexData(data)
+  const cumulatedMonths = years.reduce(
+    (yy, y) => (yy += Number(data[y].filter(pass).length)),
     0
   )
-  // Different scales to decide which one works best
-  // logarithmic scale base 10
-  // const yScale = scaleLog().base(10).domain([0, max]).range([0, 100])
-  // linear scale
-  // const yScale = scaleLinear().domain([0, max]).range([0, 100])
-  // exponential scale exponent 0.5
-  const yScale = scalePow().exponent(0.25).domain([0, max]).range([0, 100])
-  const avgToColor = (m, max) => rgba(sassVars.blue, yScale(_mean(m)) / 100)
+
+  const baseScale = scalePow().exponent(0.25).domain([min, max])
+  const yScale = baseScale.copy().range([0, 100])
+  const opacityScale = baseScale.copy().range([0.5, 1])
+  const avgToColor = m => rgba(sassVars.blue, opacityScale(_mean(m)))
+
+  const firstItem = data[years[0]].filter(Boolean)[0]
+  const firstItemIndex = data[years[0]].indexOf(firstItem)
+
   return (
     <div class={cx(className, styles.histogram)}>
-      {Object.keys(data).map(year =>
-        data[year].map((month, i) =>
+      {Object.keys(indexedData).map((year, yearIndex) =>
+        indexedData[year].map(([index, month], i) =>
           <div
             class={styles['histogram-month']}
-            style={{ width: `calc((100% / ${cumulatedYs}) + ${margin}px)` }}
+            style={{ width: `calc((100% / ${cumulatedMonths}) + ${margin}px)` }}
           >
-            <Bars data={month} {...{ yScale }} />
+            <Bars data={month} {...{ yScale, opacityScale }} />
             <div
-              style={{ borderColor: avgToColor(month, max) }}
+              style={{ borderColor: avgToColor(month) }}
               class={styles['histogram-month-label']}
             >
-              {displayLabel(i, year)}
+              <Labels
+                {...{
+                  year,
+                  index,
+                  firstItemIndex,
+                  monthIndex: i,
+                  numMonths: cumulatedMonths
+                }}
+              />
             </div>
           </div>
         )

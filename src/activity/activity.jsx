@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { stripUnit } from 'polished'
 
 import _maxBy from 'lodash/maxBy'
+import _minBy from 'lodash/minBy'
 import _mean from 'lodash/mean'
 import _meanBy from 'lodash/meanBy'
 import _chunk from 'lodash/chunk'
@@ -10,7 +11,7 @@ import _reduce from 'lodash/reduce'
 import _map from 'lodash/map'
 import startCase from 'lodash/startCase'
 
-import { mountComponent, monthLength } from 'utils'
+import { mountComponent, monthLength, toTime } from 'utils'
 
 import { FACETS, GRANULARITIES } from 'src/constants'
 
@@ -57,14 +58,25 @@ class DailyActivity extends Component {
   formatData (data, getCount) {
     const months = 12
     const { range } = this.state
-    const fromStamp = new Date(range[0]).getTime()
-    const toStamp = new Date(range[1]).getTime()
+    const beginning = new Date(0).getTime()
+    const today = new Date().getTime()
+    const timeFrom = toTime(range[0])
+    const timeTo = toTime(range[1])
+    const fromStamp = timeFrom > 0 ? Math.min(timeFrom, timeTo) : beginning
+    const toStamp = timeTo > 0 ? Math.max(timeFrom, timeTo) : today
+
     const filteredValues = data
       .sort((a, b) => a.day - b.day)
       .filter(d => d && d.day >= fromStamp && d.day < toStamp)
 
+    const nonZero = d => Boolean(Math.abs(getCount(d)))
+
     const max = filteredValues.length
-      ? getCount(_maxBy(filteredValues, getCount))
+      ? getCount(_maxBy(filteredValues.filter(nonZero), getCount))
+      : 0
+
+    const min = filteredValues.length
+      ? getCount(_minBy(filteredValues.filter(nonZero), getCount))
       : 0
 
     return [
@@ -82,7 +94,7 @@ class DailyActivity extends Component {
 
         return result
       }, {}),
-      max
+      [min, max]
     ]
   }
 
@@ -125,7 +137,7 @@ class DailyActivity extends Component {
     )
 
     return _map(aggregated, (aggregatedCount, day) => ({
-      day: day * 1,
+      day: Number(day),
       [count]: aggregatedCount
     }))
   }
@@ -205,7 +217,7 @@ class DailyActivity extends Component {
   render () {
     const margin = stripUnit(sassVars.monthMargin)
     const { facet, granularity } = this.state
-    const [data, max] = this.getData()
+    const [data, [min, max]] = this.getData()
     return (
       <div class={cx(styles.activity)}>
         <div class={appStyles.heading}>
@@ -224,7 +236,10 @@ class DailyActivity extends Component {
             {...{ tabs: FACETS, selected: facet }}
           />
         </div>
-        <Histogram className={styles.histogram} {...{ data, max, margin }} />
+        <Histogram
+          className={styles.histogram}
+          {...{ data, min, max, margin }}
+        />
       </div>
     )
   }
