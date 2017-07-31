@@ -11,7 +11,7 @@ import _reduce from 'lodash/reduce'
 import _map from 'lodash/map'
 import startCase from 'lodash/startCase'
 
-import { mountComponent, monthLength } from 'utils'
+import { mountComponent, monthLength, toTime } from 'utils'
 
 import { FACETS, GRANULARITIES } from 'src/constants'
 
@@ -58,8 +58,15 @@ class DailyActivity extends Component {
   formatData (data, getCount) {
     const months = 12
     const { range } = this.state
-    const fromStamp = new Date(range[0]).getTime()
-    const toStamp = new Date(range[1]).getTime()
+    const dateFrom = toTime(range[0])
+    const dateTo = toTime(range[0])
+    const fromStamp = new Date(
+      dateFrom > 0 ? Math.max(dateFrom, dateTo) : null
+    ).getTime()
+    const toStamp = new Date(
+      dateTo > 0 ? Math.min(dateFrom, dateTo) : null
+    ).getTime()
+
     const filteredValues = data
       .sort((a, b) => a.day - b.day)
       .filter(d => d && d.day >= fromStamp && d.day < toStamp)
