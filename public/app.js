@@ -1,14 +1,14 @@
 const { ODRI, fetch, process, URL } = window
 
-function mountViz (data) {
-  const url = new URL(window.location.href)
-  const from =
-    (url.searchParams.get('from') && new Date(url.searchParams.get('from'))) ||
-    new Date(2000, 1, 1)
-  const to =
-    (url.searchParams.get('to') && new Date(url.searchParams.get('to'))) ||
-    new Date()
+const url = new URL(window.location.href)
+const from =
+  (url.searchParams.get('from') && new Date(url.searchParams.get('from'))) ||
+  new Date(2000, 1, 1)
+const to =
+  (url.searchParams.get('to') && new Date(url.searchParams.get('to'))) ||
+  new Date()
 
+function mountViz (data) {
   const datesUI = document.querySelector('#dates')
   const format = d => `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
   datesUI.innerHTML = `from: ${format(from)}, to: ${format(to)}`
@@ -32,8 +32,11 @@ function timeoutPromise (timeout, err, promise) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  const url = `${process.env.SANDBOX_ENDPOINT}/stats/all/country/HTI`
-  timeoutPromise(2000, new Error('Server timed out!'), fetch(url))
+  const period = [from, to].map(d => d.toISOString().substr(0, 10)).join()
+
+  const apiUrl = `${process.env
+    .SANDBOX_ENDPOINT}/stats/all/country/HTI?period=${period}`
+  timeoutPromise(20000, new Error('Server timed out!'), fetch(apiUrl))
     .then(r => r.json())
     .then(mountViz)
 })
