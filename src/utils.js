@@ -1,7 +1,15 @@
 import { h, render } from 'preact'
 
+const empty = el =>
+  new Promise((resolve, reject) => {
+    el.innerHTML = ''
+    resolve(el)
+  })
+
 export const mountComponent = (Component, selector, options) =>
-  render(h(Component, options), document.querySelector(selector))
+  empty(document.querySelector(selector)).then(el =>
+    render(h(Component, options), el)
+  )
 
 export const toInt = n => Math.floor(Number(n))
 
