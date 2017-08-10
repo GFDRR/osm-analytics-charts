@@ -1,6 +1,7 @@
 import { h, Component } from 'preact'
 import cx from 'classnames'
 import max from 'lodash/max'
+import trunc from 'lodash/truncate'
 
 import { mountComponent, percent } from 'utils'
 import { percentWidth } from 'variables.scss'
@@ -49,8 +50,11 @@ class TopContributors extends Component {
         <ul class={styles['list']}>
           {top.map(c =>
             <li class={styles['list-items']}>
-              <span class={cx(styles['name'], { [styles['local']]: c.local })}>
-                {c.name}
+              <span
+                title={c.name}
+                class={cx(styles['name'], { [styles['local']]: c.local })}
+              >
+                {trunc(c.name, { length: 10 })}
               </span>
               <div class={cx(styles['percent'])}>
                 <div
