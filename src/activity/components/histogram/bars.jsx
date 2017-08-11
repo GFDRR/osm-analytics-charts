@@ -11,7 +11,6 @@ const Bars = ({ data, yScale, opacityScale }) => {
     <div class={styles.bars}>
       {data.map((d, i) =>
         <div
-          title={`${d}, ${yScale(d)}`}
           class={cx(styles.bar)}
           style={{
             // hide zeros
