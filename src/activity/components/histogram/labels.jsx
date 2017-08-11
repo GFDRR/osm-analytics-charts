@@ -31,7 +31,7 @@ const Labels = ({ index, firstItemIndex, monthIndex, year, numMonths }) => {
     [styles.yearVisible]: isFirst || isLast || isJanuary || numMonths <= 1
   })
 
-  const monthClasses = cx({
+  const monthClasses = cx(styles.month, {
     [styles.monthHidden]: numMonths >= 24 && !isFirst && !isLast
   })
 

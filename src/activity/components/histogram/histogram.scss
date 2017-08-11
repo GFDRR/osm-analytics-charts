@@ -41,13 +41,16 @@
   border-left: 1px solid;
 }
 
+.year {
+  margin: 0;
+}
+
 .year,
 .monthHidden {
   display: none;
 }
 
 .yearVisible {
-  margin-left: 3px;
   display: inline-block;
 }
 
@@ -58,4 +61,9 @@
 
 .labelBorderLast {
   border-right: 1px solid;
+}
+
+.labelBorderLast,
+.month {
+  margin-right: 3px;
 }
