@@ -34,7 +34,7 @@ npm run server
 
 To override default endpoints configuration:
 ```
-cp public/.env.sample.js public /.env.js
+cp public/env.sample.js public/env.js
 ```
 
 Then edit to override.
