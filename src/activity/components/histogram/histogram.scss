@@ -4,6 +4,10 @@
   display: flex;
 }
 
+.histogram-month {
+  position: relative;
+}
+
 .histogram-month-label {
   $vertical-space: 0.5rem;
 
@@ -55,8 +59,13 @@
 }
 
 .last {
+  $pad: 3px;
+  $border: 1px;
+
   margin-left: -50px;
   padding-right: 3px;
+  right: $pad + $border;
+  position: relative;
 }
 
 .labelBorderLast {
