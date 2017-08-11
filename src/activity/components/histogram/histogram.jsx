@@ -43,7 +43,7 @@ const Histogram = ({ data, min, max, margin = 1, className }) => {
         indexedData[year].map(([index, month], i) =>
           <div
             class={styles['histogram-month']}
-            style={{ width: `calc((100% / ${cumulatedMonths}) + ${margin}px)` }}
+            style={{ width: `${100 / cumulatedMonths}%` }}
           >
             <Bars data={month} {...{ yScale, opacityScale }} />
             <div
