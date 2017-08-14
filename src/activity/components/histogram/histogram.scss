@@ -60,12 +60,11 @@
 
 .last {
   $pad: 3px;
-  $border: 1px;
 
   margin-left: -50px;
-  padding-right: 3px;
-  right: $pad + $border;
-  position: relative;
+  padding-right: $pad;
+  right: - $pad;
+  position: absolute;
 }
 
 .labelBorderLast {
