@@ -1,10 +1,10 @@
-# OpenDRI charts sandbox
+# OSM analytics charts
 
-This repository holds a development sandbox for the OpenDRI site graphs developed by [vizzuality](http://www.vizzuality.com/).  
+This repository contains a set of charts based on the data from [OSM analytics](http://osm-analytics.org) site and API.
 
-The sanbox simulates a generic html environment in which the different graphs will be instantiated via vanilla javascript invocations.  
+It was developed primarily to integrate the above mentioned data on [the OpenDRI website](https://opendri.org) but it can be easily used in other contexts.
 
-The repository also contains all necessary dependencies to develop the separate visualizations and bundle them into a library/ies.
+It also contains a basic application server that hosts a sandbox containing the charts above, for development and test purposes.
 
 # Requirements
 
@@ -12,13 +12,7 @@ The repository also contains all necessary dependencies to develop the separate 
 
 # Installation
 
-First clone this repository:
-
-```
-git clone https://github.com/Vizzuality/opendri-charts
-```
-
-then install the required nodejs packages using `npm` (already bundled with recent nodejs installations):
+Use [npm](https://www.npmjs.com/) to install all dependencies.
 
 ```
 npm install
@@ -32,12 +26,19 @@ To start a development server run:
 npm run server
 ```
 
-To override default endpoints configuration:
+The sandbox page should now be available on [http://localhost:8080](http://localhost:8080)
+
+# Configuration
+
+The project comes preconfigured with sensible defaults, which should work in most cases. 
+
+If you want to override the default endpoints configuration, you need to duplicate the configuration file:
+
 ```
 cp public/env.sample.js public/env.js
 ```
 
-Then edit to override.
+Then edit to override. You may need to restart the application server after you change the settings.
 
 # Production
 
@@ -47,15 +48,8 @@ To bundle all the dependencies and minify the code run:
 npm run bundle
 ```
 
-There's an utility to build and copy the bundle to the target WP plugin folder (provided you have the opendri-website repo checked in in the same folder):
-```
-npm run publish-wp
-```
+This creates `public/bundle.js` and `public/styles.css` which contain the minified, production-ready version of this library.
 
-Or in watch mode:
-```
-npm run publish-wp:watch
-```
 
 # Charts configuration
 
@@ -80,3 +74,8 @@ Note: parameters are snake_cased to be consistent with WP API requirements
 
 - __start_date__ (`2016-01-01`) represents the start date of an OpenDRI project
 - __end_date__ (`2017-01-01`) represents the end date of an OpenDRI project
+
+# See also:
+
+- [OSMA charts integration for Wordpress](https://github.com/Vizzuality/wp-osma-charts)
+- [OpendDRI website](github.com/GFDRR/opendri-website)

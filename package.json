@@ -5,12 +5,7 @@
     "server": "npm run clean && webpack-dev-server --progress --colors --config ./config/webpack.config-dev.js",
     "precommit": "lint-staged",
     "clean": "rm -f public/styles.css public/bundle.js",
-    "build": "npm run clean && NODE_ENV=production && webpack --config ./config/webpack.config-prod.js",
-    "publish": "cp -rf ./public/ ../opendri-charts-gh-pages",
-    "cp-wp-scripts": "cp -p ./public/bundle.js ../opendri-website/wp-content/plugins/osma-charts/scripts",
-    "cp-wp-styles": "cp -p ./public/styles.css ../opendri-website/wp-content/plugins/osma-charts/styles",
-    "publish-wp": "npm run build && npm run cp-wp-scripts && npm run cp-wp-styles",
-    "publish-wp:watch": "onchange 'src/**/*.*' -- npm run publish-wp"
+    "build": "npm run clean && NODE_ENV=production && webpack --config ./config/webpack.config-prod.js"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
