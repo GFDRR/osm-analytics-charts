@@ -1,6 +1,4 @@
 node_modules
 .DS*
 
-public/bundle.js
-public/styles.css
 public/env.js

@@ -1,5 +1,6 @@
 {
-  "name": "openDRI",
+  "name": "osma-charts",
+  "version": "1.0.0",
   "scripts": {
     "start": "echo 'call \"npm run server\" for development or \"npm run build\" for production'",
     "server": "npm run clean && webpack-dev-server --progress --colors --config ./config/webpack.config-dev.js",
