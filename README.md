@@ -30,7 +30,7 @@ The sandbox page should now be available on [http://localhost:8080](http://local
 
 # Configuration
 
-The project comes preconfigured with sensible defaults, which should work in most cases. 
+The project comes preconfigured with sensible defaults, which should work in most cases.
 
 If you want to override the default endpoints configuration, you need to duplicate the configuration file:
 
@@ -64,7 +64,7 @@ Note: parameters are snake_cased to be consistent with WP API requirements
 
 ## Before/after map
 
-- __iframe_base_url__ (`http://localhost:3000`) 
+- __iframe_base_url__ (`http://localhost:3000`)
 - __polygon__ an encoded polyline of the area of interest related to the project (ie `ifv%7BDndwkBx%60%40aYwQev%40sHkPuf%40ss%40%7BfA_%40uq%40xdCn%7D%40%5E`))
 - __default_start_year__ (`2016`) represents the start year of an OpenDRI project
 - __default_end_year__ (`now`) represents the end year of an OpenDRI project. `now` can also be provided to compare with latest OSM data
@@ -78,4 +78,4 @@ Note: parameters are snake_cased to be consistent with WP API requirements
 # See also:
 
 - [OSMA charts integration for Wordpress](https://github.com/Vizzuality/wp-osma-charts)
-- [OpendDRI website](github.com/GFDRR/opendri-website)
+- [OpendDRI website](https://github.com/GFDRR/opendri-website)
