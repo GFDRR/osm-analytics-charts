@@ -50,7 +50,17 @@ class TopContributors extends Component {
     return (
       <div style={{ width }} class={cx(styles.contributors, appStyles.viz)}>
         <div class={cx(styles['header'], appStyles.heading)}>
-          <div class={cx(styles.title, appStyles.title)}>Top contributors</div>
+          <div class={cx(styles.title, appStyles.title)}>
+            Top contributors
+            {this.props.apiUrl !== undefined &&
+              <a
+                target="_blank"
+                className={appStyles.download}
+                href={this.props.apiUrl}
+              >
+                Download data
+              </a>}
+          </div>
         </div>
         <ul class={styles['list']}>
           {top.map(c =>

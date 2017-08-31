@@ -35,7 +35,7 @@ class DailyActivity extends Component {
     return {
       granularity:
         (props.granularity && startCase(props.granularity)) ||
-        GRANULARITIES.Daily,
+          GRANULARITIES.Daily,
       facet: (props.facet && startCase(props.facet)) || FACETS.Features,
       data: props.data,
       range: props.range || [new Date(), new Date()]
@@ -229,6 +229,14 @@ class DailyActivity extends Component {
               {...{ options: GRANULARITIES, selected: granularity }}
             />{' '}
             activity
+            {this.props.apiUrl !== undefined &&
+              <a
+                target="_blank"
+                className={appStyles.download}
+                href={this.props.apiUrl}
+              >
+                Download data
+              </a>}
           </div>
           <Tabs
             className={styles.tabs}

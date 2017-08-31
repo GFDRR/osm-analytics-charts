@@ -1,3 +1,5 @@
+@import 'src/variables';
+
 html {
   box-sizing: border-box;
 }
@@ -25,4 +27,16 @@ html {
   letter-spacing: 0.5px;
   position: relative;
   text-transform: uppercase;
+}
+
+.download {
+  margin-left: 10px;
+  text-transform: none;
+  font-weight: normal;
+  font-size: 0.8em;
+  color: $blue;
+
+  &:active {
+    color: $blue;
+  }
 }

@@ -8,12 +8,15 @@ const to =
   (url.searchParams.get('to') && new Date(url.searchParams.get('to'))) ||
   new Date()
 
+const period = [from, to].map(d => d.toISOString().substr(0, 10)).join()
+const apiUrl = `${process.env
+  .SANDBOX_ENDPOINT}/stats/all/country/HTI?period=${period}`
+
 function mountViz (data) {
   const datesUI = document.querySelector('#dates')
   const format = d => `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
   datesUI.innerHTML = `from: ${format(from)}, to: ${format(to)}`
-
-  ODRI.activity('#activity', { data, range: [from, to] })
+  ODRI.activity('#activity', { data, apiUrl, range: [from, to] })
   ODRI.compareMap('#compare-map', {
     width: '100%',
     height: '500px',
@@ -21,7 +24,7 @@ function mountViz (data) {
       default_feature_type: 'highways'
     }
   })
-  ODRI.contributors('#contributors', { data })
+  ODRI.contributors('#contributors', { data, apiUrl })
 }
 
 function timeoutPromise (timeout, err, promise) {
@@ -32,10 +35,6 @@ function timeoutPromise (timeout, err, promise) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  const period = [from, to].map(d => d.toISOString().substr(0, 10)).join()
-
-  const apiUrl = `${process.env
-    .SANDBOX_ENDPOINT}/stats/all/country/HTI?period=${period}`
   timeoutPromise(20000, new Error('Server timed out!'), fetch(apiUrl))
     .then(r => r.json())
     .then(mountViz)
