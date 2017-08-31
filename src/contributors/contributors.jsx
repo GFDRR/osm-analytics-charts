@@ -46,7 +46,7 @@ class TopContributors extends Component {
   render () {
     const { width } = this.props
     const { top, remaining } = this.formatContributors()
-
+    console.log(top)
     return (
       <div style={{ width }} class={cx(styles.contributors, appStyles.viz)}>
         <div class={cx(styles['header'], appStyles.heading)}>
@@ -69,7 +69,12 @@ class TopContributors extends Component {
                 title={c.name}
                 class={cx(styles['name'], { [styles['local']]: c.local })}
               >
-                {trunc(c.name, { length: 10 })}
+                <a
+                  target="_blank"
+                  href={`http://www.openstreetmap.org/user/${c.name}`}
+                >
+                  {trunc(c.name, { length: 10 })}
+                </a>
               </span>
               <div class={cx(styles['percent'])}>
                 <div
