@@ -45,7 +45,7 @@ Then edit to override. You may need to restart the application server after you 
 To bundle all the dependencies and minify the code run:
 
 ```
-npm run bundle
+npm run build
 ```
 
 This creates `public/bundle.js` and `public/styles.css` which contain the minified, production-ready version of this library.
