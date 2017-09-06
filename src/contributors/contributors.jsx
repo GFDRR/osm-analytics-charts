@@ -2,6 +2,7 @@ import { h, Component } from 'preact'
 import cx from 'classnames'
 import max from 'lodash/max'
 import trunc from 'lodash/truncate'
+import { parse, format, addDays } from 'date-fns'
 
 import { mountComponent, percent } from 'utils'
 import { percentWidth } from 'variables.scss'
@@ -20,7 +21,7 @@ class TopContributors extends Component {
     const { data } = this.props
     const top = 10
 
-    const users = Object.keys(data).reduce(
+    const users = ['buildings', 'highways', 'waterways'].reduce(
       (allUsers, users) => allUsers.concat(data[users].top_users),
       []
     )
@@ -44,9 +45,23 @@ class TopContributors extends Component {
   }
 
   render () {
-    const { width } = this.props
+    const { width, data } = this.props
     const { top, remaining } = this.formatContributors()
-    console.log(top)
+
+    const subtitles = []
+    if (data.min_date !== undefined) {
+      const dates = [data.min_date, data.max_date]
+        .map(d => parseInt(d * 1000))
+        .map(d => parse(d))
+        .map(d => addDays(d, 1))
+        .map(d => format(d, 'MMM Do, YYYY'))
+        .join(' to ')
+      subtitles.push(dates)
+    }
+    if (data.country_name !== undefined) {
+      subtitles.push(`Area: ${data.country_name}`)
+    }
+
     return (
       <div style={{ width }} class={cx(styles.contributors, appStyles.viz)}>
         <div class={cx(styles['header'], appStyles.heading)}>
@@ -61,6 +76,10 @@ class TopContributors extends Component {
                 Download data
               </a>}
           </div>
+          {subtitles.length &&
+            <div class={styles.subtitle}>
+              {subtitles.join('. ')}
+            </div>}
         </div>
         <ul class={styles['list']}>
           {top.map(c =>

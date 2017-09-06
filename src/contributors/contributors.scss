@@ -5,7 +5,12 @@
 }
 
 .header {
-  display: flex;
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.subtitle {
+  margin-top: .5rem;
 }
 
 .name,
