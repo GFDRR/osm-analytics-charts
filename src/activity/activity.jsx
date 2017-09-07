@@ -35,7 +35,7 @@ class DailyActivity extends Component {
     return {
       granularity:
         (props.granularity && startCase(props.granularity)) ||
-          GRANULARITIES.Daily,
+        GRANULARITIES.Daily,
       facet: (props.facet && startCase(props.facet)) || FACETS.Features,
       data: props.data,
       range: props.range || [new Date(), new Date()]
@@ -83,7 +83,8 @@ class DailyActivity extends Component {
         const { day, month, year, len } = this.parseDate(item.day)
         result[year] = !result[year] ? new Array(months) : result[year]
         result[year][month] =
-          result[year][month] || new Array(len).fill({aggr: 0, rawDict: {}}, 0, len)
+          result[year][month] ||
+          new Array(len).fill({ aggr: 0, rawDict: {} }, 0, len)
         result[year][month].forEach((d, i) => {
           if (i + 1 === day) {
             result[year][month][i] = getCountObj(item)
@@ -134,7 +135,9 @@ class DailyActivity extends Component {
           const { day } = item
           r[day] = {
             // This is not right! Making an average recursively???
-            aggr: r[day] ? (r[day].aggr + item[count].aggr) / 2 : item[count].aggr,
+            aggr: r[day]
+              ? (r[day].aggr + item[count].aggr) / 2
+              : item[count].aggr,
             rawDict: r[day] ? r[day].rawDict : {}
           }
 
@@ -172,7 +175,11 @@ class DailyActivity extends Component {
     const getCount = d => d[count].aggr
     const getCountObj = d => d[count]
     return this.formatData(
-      this.aggregateFeatures(this.filterValidFeatureTypes(this.state.data), key, count),
+      this.aggregateFeatures(
+        this.filterValidFeatureTypes(this.state.data),
+        key,
+        count
+      ),
       getCount,
       getCountObj
     )
@@ -184,7 +191,11 @@ class DailyActivity extends Component {
     const getCount = d => d[count].aggr
     const getCountObj = d => d[count]
     return this.formatData(
-      this.aggregateFeatures(this.filterValidFeatureTypes(this.state.data), key, count),
+      this.aggregateFeatures(
+        this.filterValidFeatureTypes(this.state.data),
+        key,
+        count
+      ),
       getCount,
       getCountObj
     )
@@ -207,10 +218,13 @@ class DailyActivity extends Component {
       rawDict: {}
     }
     VALID_FEATURE_TYPES.forEach(featureType => {
-      const mean = _meanBy(d, d => (d.rawDict[featureType]) ? d.rawDict[featureType] : 0)
+      const mean = _meanBy(
+        d,
+        d => (d.rawDict[featureType] ? d.rawDict[featureType] : 0)
+      )
       if (mean > 0) {
         const roundedMean = Math.round(mean)
-        grouped.rawDict[featureType] = (roundedMean === 0) ? '<1' : roundedMean
+        grouped.rawDict[featureType] = roundedMean === 0 ? '<1' : roundedMean
       }
     })
     return grouped
@@ -226,10 +240,7 @@ class DailyActivity extends Component {
 
   // groups days by month and returns the average of each Monthly
   groupByMonth ([data, max]) {
-    return [
-      this.groupBy(data, days => [this.getGroupedItem(days)]),
-      max
-    ]
+    return [this.groupBy(data, days => [this.getGroupedItem(days)]), max]
   }
 
   updateGranularity (granularity) {
@@ -291,6 +302,10 @@ class DailyActivity extends Component {
             {...{ tabs: FACETS, selected: facet }}
           />
         </div>
+        {this.state.data.country_name !== undefined &&
+          <div class={appStyles.subtitle}>
+            Area: {this.state.data.country_name}
+          </div>}
         <Histogram
           className={styles.histogram}
           {...{ data, min, max, margin, facet }}

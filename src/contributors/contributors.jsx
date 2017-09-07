@@ -78,7 +78,7 @@ class TopContributors extends Component {
               </a>}
           </div>
           {subtitles.length &&
-            <div class={styles.subtitle}>
+            <div class={appStyles.subtitle}>
               {subtitles.join('. ')}
             </div>}
         </div>

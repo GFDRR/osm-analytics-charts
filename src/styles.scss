@@ -18,7 +18,6 @@ html {
 .heading {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 3rem;
 }
 
 .title {
@@ -27,6 +26,13 @@ html {
   letter-spacing: 0.5px;
   position: relative;
   text-transform: uppercase;
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+  font-size: 0.8em;
+  color: $black;
+  margin-bottom: 2rem;
 }
 
 .download {
