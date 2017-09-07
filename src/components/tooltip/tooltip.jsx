@@ -12,55 +12,75 @@ class Tooltip extends Component {
 
   hide = () => {
     this.setVisibility(false)
-  }
+  };
 
-  move = (e) => {
+  move = e => {
+    let offsetX =
+      this.el.getBoundingClientRect().left +
+      document.documentElement.scrollLeft
+    if (e.pageX > window.innerWidth - 220) {
+      offsetX += 240
+    }
+
+    const offsetY =
+      this.el.getBoundingClientRect().top + document.documentElement.scrollTop
+
     if (e.target) {
       const tooltip = e.target.getAttribute('data-tooltip')
       if (tooltip !== null) {
         const tooltipArr = tooltip.split('|')
         if (tooltipArr.every(t => t !== '')) {
-          this.setVisibility(true, tooltipArr, e.pageX, e.pageY)
+          this.setVisibility(
+            true,
+            tooltipArr,
+            e.pageX - offsetX,
+            e.pageY - offsetY
+          )
         }
         return
       }
     }
     this.setVisibility(false)
-  }
+  };
 
   setVisibility = (visible, content = [], x, y) => {
-    this.setState(Object.assign({}, this.state, {
-      visible,
-      content,
-      x,
-      y
-    }))
-  }
+    this.setState(
+      Object.assign({}, this.state, {
+        visible,
+        content,
+        x,
+        y
+      })
+    )
+  };
 
   render () {
-    const {props, state, hide, move, handleTouch} = this
+    const { props, state, hide, move, handleTouch } = this
     return (
       <div
-        ref={el => { this.el = el }}
+        ref={el => {
+          this.el = el
+        }}
         onMouseLeave={hide}
         onMouseMove={move}
         onTouchStart={handleTouch}
-        class={styles.wrapper}>
+        class={styles.wrapper}
+      >
         {props.children}
-        {
-          state.visible &&
-          <div class={styles.tooltip} style={{top: state.y, left: state.x}}>
+        {state.visible &&
+          <div class={styles.tooltip} style={{ top: state.y, left: state.x }}>
             <div class={styles.content}>
               {state.content.map(t =>
-                <div>{t}</div>
+                <div>
+                  {t}
+                </div>
               )}
             </div>
             {/*
             <div ref="arrow" style={styles.arrow}> </div>
             <div ref="gap" style={styles.gap}> </div>
             */}
-          </div>
-        }
+          </div>}
       </div>
     )
   }

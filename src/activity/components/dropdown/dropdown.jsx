@@ -54,7 +54,10 @@ class Dropdown extends Component {
         <div onClick={this.toggleOpen} class={styles.label}>
           {options[selected]}
         </div>
-        <ul class={cx(styles.options, { [styles['options-closed']]: closed })}>
+        <ul
+          style={{ zIndex: 2 }}
+          class={cx(styles.options, { [styles['options-closed']]: closed })}
+        >
           {Object.keys(options).map(g => {
             return (
               <li

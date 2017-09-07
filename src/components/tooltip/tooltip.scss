@@ -1,13 +1,15 @@
 @import 'src/variables';
 
 .wrapper {
-  z-index: 98;
+  z-index: $top;
+  position: relative;
 }
 
 .tooltip {
   position: absolute;
-  z-index: 99;
+  z-index: $top-over;
   background: #000;
   padding: 5px;
   margin: 10px;
+  width: 240px;
 }
