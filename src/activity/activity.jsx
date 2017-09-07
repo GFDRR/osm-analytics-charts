@@ -13,7 +13,7 @@ import startCase from 'lodash/startCase'
 
 import { mountComponent, monthLength, toTime } from 'utils'
 
-import { FACETS, GRANULARITIES } from 'src/constants'
+import { FACETS, GRANULARITIES, VALID_FEATURE_TYPES } from 'src/constants'
 
 import Tabs from 'components/tabs'
 import Dropdown from './components/dropdown'
@@ -55,7 +55,7 @@ class DailyActivity extends Component {
     }
   }
 
-  formatData (data, getCount) {
+  formatData (data, getCount, getCountObj) {
     const months = 12
     const { range } = this.state
     const beginning = new Date(0).getTime()
@@ -68,7 +68,6 @@ class DailyActivity extends Component {
     const filteredValues = data
       .sort((a, b) => a.day - b.day)
       .filter(d => d && d.day >= fromStamp && d.day < toStamp)
-
     const nonZero = d => Boolean(Math.abs(getCount(d)))
 
     const max = filteredValues.length
@@ -79,16 +78,15 @@ class DailyActivity extends Component {
       ? getCount(_minBy(filteredValues.filter(nonZero), getCount))
       : 0
 
-    return [
+    const formattedData = [
       filteredValues.reduce((result, item) => {
         const { day, month, year, len } = this.parseDate(item.day)
         result[year] = !result[year] ? new Array(months) : result[year]
         result[year][month] =
-          result[year][month] || new Array(len).fill(0, 0, len)
-
+          result[year][month] || new Array(len).fill({aggr: 0, rawDict: {}}, 0, len)
         result[year][month].forEach((d, i) => {
           if (i + 1 === day) {
-            result[year][month][i] = getCount(item)
+            result[year][month][i] = getCountObj(item)
           }
         })
 
@@ -96,6 +94,7 @@ class DailyActivity extends Component {
       }, {}),
       [min, max]
     ]
+    return formattedData
   }
 
   stdDeviation (data, mean, getData = d => d) {
@@ -107,8 +106,8 @@ class DailyActivity extends Component {
     const getCount = d => d[count]
     const getKey = d => d[key]
 
-    const distAvgToStdDev = _reduce(
-      this.state.data,
+    const distAvgToStdDevByFeatureType = _reduce(
+      data,
       (result, d, key) => {
         const values = (getKey(d) && getKey(d)) || []
 
@@ -117,48 +116,77 @@ class DailyActivity extends Component {
 
         result[key] = values.map(v => ({
           day: v.day,
-          [count]: (getCount(v) - mean) / stdev
+          [count]: {
+            aggr: (getCount(v) - mean) / stdev,
+            raw: getCount(v)
+          }
         }))
         return result
       },
       {}
     )
 
+    // aggregate all feature types
     const aggregated = _reduce(
-      distAvgToStdDev,
-      (r, items) => {
+      distAvgToStdDevByFeatureType,
+      (r, items, featureType) => {
         items.forEach(item => {
           const { day } = item
-          r[day] = r[day] ? (r[day] + item[count]) / 2 : item[count]
+          r[day] = {
+            // This is not right! Making an average recursively???
+            aggr: r[day] ? (r[day].aggr + item[count].aggr) / 2 : item[count].aggr,
+            rawDict: r[day] ? r[day].rawDict : {}
+          }
+
+          r[day].rawDict[featureType] = item[count].raw
         })
         return r
       },
       {}
     )
 
-    return _map(aggregated, (aggregatedCount, day) => ({
+    const aggregatedObj = _map(aggregated, (aggregatedCountContainer, day) => ({
       day: Number(day),
-      [count]: aggregatedCount
+      [count]: {
+        aggr: aggregatedCountContainer.aggr,
+        rawDict: aggregatedCountContainer.rawDict
+      }
     }))
+
+    return aggregatedObj
+  }
+
+  filterValidFeatureTypes (data) {
+    const filtered = {}
+    Object.keys(data).forEach(key => {
+      if (VALID_FEATURE_TYPES.indexOf(key) > -1) {
+        filtered[key] = data[key]
+      }
+    })
+    return filtered
   }
 
   getFeatures () {
     const count = 'count_features'
     const key = 'activity_count'
-    const getCount = d => d[count]
+    const getCount = d => d[count].aggr
+    const getCountObj = d => d[count]
     return this.formatData(
-      this.aggregateFeatures(this.state.data, key, count),
-      getCount
+      this.aggregateFeatures(this.filterValidFeatureTypes(this.state.data), key, count),
+      getCount,
+      getCountObj
     )
   }
 
   getUsers (data) {
     const count = 'count_users'
     const key = 'activity_users'
-    const getCount = d => d[count]
+    const getCount = d => d[count].aggr
+    const getCountObj = d => d[count]
     return this.formatData(
-      this.aggregateFeatures(this.state.data, key, count),
-      getCount
+      this.aggregateFeatures(this.filterValidFeatureTypes(this.state.data), key, count),
+      getCount,
+      getCountObj
     )
   }
 
@@ -173,17 +201,35 @@ class DailyActivity extends Component {
     )
   }
 
+  getGroupedItem (d) {
+    const grouped = {
+      aggr: _meanBy(d, d => d.aggr),
+      rawDict: {}
+    }
+    VALID_FEATURE_TYPES.forEach(featureType => {
+      const mean = _meanBy(d, d => (d.rawDict[featureType]) ? d.rawDict[featureType] : 0)
+      if (mean > 0) {
+        const roundedMean = Math.round(mean)
+        grouped.rawDict[featureType] = (roundedMean === 0) ? '<1' : roundedMean
+      }
+    })
+    return grouped
+  }
+
   // groups days by week and returns the average of each week
   groupByWeek ([data, max]) {
     return [
-      this.groupBy(data, days => _chunk(days, 7).map(d => _mean(d))),
+      this.groupBy(data, days => _chunk(days, 7).map(this.getGroupedItem)),
       max
     ]
   }
 
   // groups days by month and returns the average of each Monthly
   groupByMonth ([data, max]) {
-    return [this.groupBy(data, days => [_mean(days)]), max]
+    return [
+      this.groupBy(data, days => [this.getGroupedItem(days)]),
+      max
+    ]
   }
 
   updateGranularity (granularity) {
@@ -204,6 +250,7 @@ class DailyActivity extends Component {
     const { facet, granularity } = this.state
     const dataKey = FACETS[facet]
     let groupedData = this[`get${dataKey}`]()
+
     switch (granularity) {
       case GRANULARITIES.Weekly:
         return this.groupByWeek(groupedData)
@@ -246,7 +293,7 @@ class DailyActivity extends Component {
         </div>
         <Histogram
           className={styles.histogram}
-          {...{ data, min, max, margin }}
+          {...{ data, min, max, margin, facet }}
         />
       </div>
     )

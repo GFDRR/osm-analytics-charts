@@ -37,3 +37,5 @@ export const COMPARE_MAP_DEFAULTS = {
   default_end_year: 'now',
   default_feature_type: 'buildings'
 }
+
+export const VALID_FEATURE_TYPES = ['buildings', 'highways', 'waterways']

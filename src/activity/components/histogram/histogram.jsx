@@ -1,9 +1,10 @@
 import { h } from 'preact'
 import cx from 'classnames'
-import _mean from 'lodash/mean'
+import _meanBy from 'lodash/meanBy'
 import { rgba } from 'polished'
 import { scalePow } from 'd3-scale'
 
+import Tooltip from 'components/tooltip'
 import Bars from './bars'
 import Labels from './labels'
 import styles from './histogram.scss'
@@ -20,7 +21,7 @@ const indexData = data => {
   }, {})
 }
 
-const Histogram = ({ data, min, max, margin = 1, className }) => {
+const Histogram = ({ data, min, max, margin = 1, className, facet }) => {
   const years = Object.keys(data)
 
   const indexedData = indexData(data)
@@ -32,38 +33,42 @@ const Histogram = ({ data, min, max, margin = 1, className }) => {
   const baseScale = scalePow().exponent(0.25).domain([min, max])
   const yScale = baseScale.copy().range([0, 100])
   const opacityScale = baseScale.copy().range([0.5, 1])
-  const avgToColor = m => rgba(sassVars.blue, opacityScale(_mean(m)))
+  const avgToColor = m => {
+    return rgba(sassVars.blue, opacityScale(_meanBy(m, d => d.aggr)))
+  }
 
   const firstItem = data[years[0]].filter(Boolean)[0]
   const firstItemIndex = data[years[0]].indexOf(firstItem)
 
   return (
-    <div class={cx(className, styles.histogram)}>
-      {Object.keys(indexedData).map((year, yearIndex) =>
-        indexedData[year].map(([index, month], i) =>
-          <div
-            class={styles['histogram-month']}
-            style={{ width: `${100 / cumulatedMonths}%` }}
-          >
-            <Bars data={month} {...{ yScale, opacityScale }} />
+    <Tooltip>
+      <div class={cx(className, styles.histogram)}>
+        {Object.keys(indexedData).map((year, yearIndex) =>
+          indexedData[year].map(([index, month], i) =>
             <div
-              style={{ borderColor: avgToColor(month) }}
-              class={styles['histogram-month-label']}
+              class={styles['histogram-month']}
+              style={{ width: `${100 / cumulatedMonths}%` }}
             >
-              <Labels
-                {...{
-                  year,
-                  index,
-                  firstItemIndex,
-                  monthIndex: i,
-                  numMonths: cumulatedMonths
-                }}
-              />
+              <Bars data={month} {...{ yScale, opacityScale, facet }} />
+              <div
+                style={{ borderColor: avgToColor(month) }}
+                class={styles['histogram-month-label']}
+              >
+                <Labels
+                  {...{
+                    year,
+                    index,
+                    firstItemIndex,
+                    monthIndex: i,
+                    numMonths: cumulatedMonths
+                  }}
+                />
+              </div>
             </div>
-          </div>
-        )
-      )}
-    </div>
+          )
+        )}
+      </div>
+    </Tooltip>
   )
 }
 export default Histogram

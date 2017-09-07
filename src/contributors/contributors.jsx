@@ -6,6 +6,7 @@ import { parse, format, addDays } from 'date-fns'
 
 import { mountComponent, percent } from 'utils'
 import { percentWidth } from 'variables.scss'
+import { VALID_FEATURE_TYPES } from 'src/constants'
 
 import appStyles from 'styles.scss'
 import styles from './contributors.scss'
@@ -21,7 +22,7 @@ class TopContributors extends Component {
     const { data } = this.props
     const top = 10
 
-    const users = ['buildings', 'highways', 'waterways'].reduce(
+    const users = VALID_FEATURE_TYPES.reduce(
       (allUsers, users) => allUsers.concat(data[users].top_users),
       []
     )
