@@ -28,9 +28,10 @@ class TopContributors extends Component {
     //   []
     // )
     // so, we'll just us ebuildings for now
-    const users = data.buildings.top_users
+    const featureUsers = data.buildings
+    const users = featureUsers.top_users
 
-    const allContributions = data.buildings.total_feature_value
+    const allContributions = featureUsers.total_feature_value
     const maxContributions = max(users.map(c => c.feature_value))
 
     const allUsers = users.map(c => ({
@@ -42,7 +43,7 @@ class TopContributors extends Component {
 
     return {
       top: allUsers.slice(0, top),
-      remaining: allUsers.length - top
+      remaining: featureUsers.users_length - top
     }
   }
 
