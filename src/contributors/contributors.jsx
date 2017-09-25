@@ -18,8 +18,8 @@ class TopContributors extends Component {
   }
 
   formatContributors () {
-    const { data } = this.props
-    const top = 10
+    const { data, numUsers } = this.props
+    const top = numUsers || 10
 
     // API doesn't support overall statistics for users across feature types
     // (ie, % of contributions can't be calculated across feature types, as we'd need all users ids, not the first 100)
