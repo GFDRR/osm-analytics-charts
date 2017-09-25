@@ -6,7 +6,6 @@ import { parse, format, addDays } from 'date-fns'
 
 import { mountComponent, percent } from 'utils'
 import { percentWidth } from 'variables.scss'
-import { VALID_FEATURE_TYPES } from 'src/constants'
 
 import appStyles from 'styles.scss'
 import styles from './contributors.scss'
@@ -22,10 +21,15 @@ class TopContributors extends Component {
     const { data } = this.props
     const top = 10
 
-    const users = VALID_FEATURE_TYPES.reduce(
-      (allUsers, users) => allUsers.concat(data[users].top_users),
-      []
-    )
+    // API doesn't support overall statistics for users across feature types
+    // (ie, % of contributions can't be calculated across feature types, as we'd need all users ids, not the first 100)
+    // const users = VALID_FEATURE_TYPES.reduce(
+    //   (allUsers, users) => allUsers.concat(data[users].top_users),
+    //   []
+    // )
+    // so, we'll just us ebuildings for now
+    const users = data.buildings.top_users
+
     const allContributions = users.reduce(
       (sum, c) => (sum += c.feature_value),
       0
@@ -67,7 +71,7 @@ class TopContributors extends Component {
       <div style={{ width }} class={cx(styles.contributors, appStyles.viz)}>
         <div class={cx(styles['header'], appStyles.heading)}>
           <div class={cx(styles.title, appStyles.title)}>
-            Top contributors
+            Top contributors (buildings)
             {this.props.apiUrl !== undefined &&
               <a
                 target="_blank"
