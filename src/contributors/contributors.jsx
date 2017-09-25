@@ -30,10 +30,7 @@ class TopContributors extends Component {
     // so, we'll just us ebuildings for now
     const users = data.buildings.top_users
 
-    const allContributions = users.reduce(
-      (sum, c) => (sum += c.feature_value),
-      0
-    )
+    const allContributions = data.buildings.total_feature_value
     const maxContributions = max(users.map(c => c.feature_value))
 
     const allUsers = users.map(c => ({
