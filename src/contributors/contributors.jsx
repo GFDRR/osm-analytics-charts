@@ -41,15 +41,26 @@ class TopContributors extends Component {
       percentContrib: percent(c.feature_value, allContributions, 1)
     }))
 
+    const topUsers = allUsers.slice(0, top)
+    const topUsersSum = topUsers.reduce(
+      (sum, c) => (sum += c.contributions),
+      0
+    )
+
     return {
-      top: allUsers.slice(0, top),
-      remaining: featureUsers.users_length - top
+      topUsers,
+      remaining: featureUsers.users_length - top,
+      remainingPercent: percent(
+        allContributions - topUsersSum,
+        allContributions,
+        1
+      )
     }
   }
 
   render () {
     const { width, data } = this.props
-    const { top, remaining } = this.formatContributors()
+    const { topUsers, remaining, remainingPercent } = this.formatContributors()
 
     const subtitles = []
     if (data.min_date !== undefined) {
@@ -85,7 +96,7 @@ class TopContributors extends Component {
             </div>}
         </div>
         <ul class={styles['list']}>
-          {top.map(c =>
+          {topUsers.map(c =>
             <li class={styles['list-items']}>
               <span
                 title={c.name}
@@ -113,7 +124,7 @@ class TopContributors extends Component {
           )}
         </ul>
         <div class={styles['remaining']}>
-          + {remaining} More
+          + {remaining} More ({remainingPercent}% of total)
         </div>
       </div>
     )
