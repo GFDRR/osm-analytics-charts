@@ -20,6 +20,7 @@ class TopContributors extends Component {
   formatContributors () {
     const { data, numUsers } = this.props
     const top = numUsers || 10
+    const featureType = this.props.featureType || 'buildings'
 
     // API doesn't support overall statistics for users across feature types
     // (ie, % of contributions can't be calculated across feature types, as we'd need all users ids, not the first 100)
@@ -27,8 +28,8 @@ class TopContributors extends Component {
     //   (allUsers, users) => allUsers.concat(data[users].top_users),
     //   []
     // )
-    // so, we'll just us ebuildings for now
-    const featureUsers = data.buildings
+
+    const featureUsers = data[featureType]
     const users = featureUsers.top_users
 
     const allContributions = featureUsers.total_feature_value
@@ -54,13 +55,19 @@ class TopContributors extends Component {
         allContributions - topUsersSum,
         allContributions,
         1
-      )
+      ),
+      featureType
     }
   }
 
   render () {
     const { width, data } = this.props
-    const { topUsers, remaining, remainingPercent } = this.formatContributors()
+    const {
+      topUsers,
+      remaining,
+      remainingPercent,
+      featureType
+    } = this.formatContributors()
 
     const subtitles = []
     if (data.min_date !== undefined) {
@@ -80,7 +87,7 @@ class TopContributors extends Component {
       <div style={{ width }} class={cx(styles.contributors, appStyles.viz)}>
         <div class={cx(styles['header'], appStyles.heading)}>
           <div class={cx(styles.title, appStyles.title)}>
-            Top contributors (buildings)
+            Top contributors ({featureType})
             {this.props.apiUrl !== undefined &&
               <a
                 target="_blank"

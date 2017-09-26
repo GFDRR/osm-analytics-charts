@@ -24,7 +24,7 @@ function mountViz (data) {
       default_feature_type: 'highways'
     }
   })
-  ODRI.contributors('#contributors', { data, apiUrl, numUsers: 40 })
+  ODRI.contributors('#contributors', { data, apiUrl, numUsers: 15, featureType: 'waterways' })
 }
 
 function timeoutPromise (timeout, err, promise) {
