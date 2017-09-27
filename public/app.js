@@ -16,15 +16,30 @@ function mountViz (data) {
   const datesUI = document.querySelector('#dates')
   const format = d => `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
   datesUI.innerHTML = `from: ${format(from)}, to: ${format(to)}`
-  ODRI.activity('#activity', { data, apiUrl, range: [from, to] })
+  ODRI.activity('#activity', {
+    data,
+    apiUrl,
+    range: [from, to],
+    facet: 'users', // features
+    granularity: 'monthly' // daily, weekly
+  })
   ODRI.compareMap('#compare-map', {
     width: '100%',
     height: '500px',
     settings: {
-      default_feature_type: 'highways'
+      default_feature_type: 'buildings',
+      // iframe_base_url:
+      // polygon:
+      default_start_year: 2011,
+      default_end_year: 2014
     }
   })
-  ODRI.contributors('#contributors', { data, apiUrl, numUsers: 15, featureType: 'waterways' })
+  ODRI.contributors('#contributors', {
+    data,
+    apiUrl,
+    numUsers: 15,
+    featureType: 'waterways'
+  })
 }
 
 function timeoutPromise (timeout, err, promise) {
