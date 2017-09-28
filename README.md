@@ -53,9 +53,11 @@ This creates `public/bundle.js` and `public/styles.css` which contain the minifi
 
 # Charts configuration
 
-## Overall stats
+## Overall statistics
 
-- __stats__ (mandatory) (`['highways_activity','buildings_users']`) an array of widgets objects, each being of the following form:
+![Statistics](https://github.com/GFDRR/osm-analytics-charts/blob/master/samples/statistics.png?raw=true 'Statistics')
+
+- __stats__ (mandatory) (`[{featureType: 'highways', stat: 'count_users'}]`) an array of widgets objects, each being of the following form:
 ```
 {
   featureType: 'highways'|'buildings'|'waterways'
