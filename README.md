@@ -55,11 +55,11 @@ This creates `public/bundle.js` and `public/styles.css` which contain the minifi
 
 ## Overall stats
 
-- __widgets__ (mandatory) (`['highways_activity','buildings_users']`) an array of widgets objects, each being of the following form:
+- __stats__ (mandatory) (`['highways_activity','buildings_users']`) an array of widgets objects, each being of the following form:
 ```
 {
   featureType: 'highways'|'buildings'|'waterways'
-  type: 'count_activity'|'count_users'
+  stat: 'count_activity'|'count_users'
 }
 ```
 

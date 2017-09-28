@@ -2,10 +2,11 @@ import { h, Component } from 'preact'
 import cx from 'classnames'
 import max from 'lodash/max'
 import trunc from 'lodash/truncate'
-import { parse, format, addDays } from 'date-fns'
 
 import { mountComponent, percent } from 'utils'
 import { percentWidth } from 'variables.scss'
+
+import Context from 'components/context'
 
 import appStyles from 'styles.scss'
 import styles from './contributors.scss'
@@ -69,20 +70,6 @@ class TopContributors extends Component {
       featureType
     } = this.formatContributors()
 
-    const subtitles = []
-    if (data.min_date !== undefined) {
-      const dates = [data.min_date, data.max_date]
-        .map(d => parseInt(d * 1000))
-        .map(d => parse(d))
-        .map(d => addDays(d, 1))
-        .map(d => format(d, 'MMM Do, YYYY'))
-        .join(' to ')
-      subtitles.push(dates)
-    }
-    if (data.country_name !== undefined) {
-      subtitles.push(`Area: ${data.country_name}`)
-    }
-
     return (
       <div style={{ width }} class={cx(styles.contributors, appStyles.viz)}>
         <div class={cx(styles['header'], appStyles.heading)}>
@@ -97,10 +84,7 @@ class TopContributors extends Component {
                 Download data
               </a>}
           </div>
-          {subtitles.length &&
-            <div class={appStyles.subtitle}>
-              {subtitles.join('. ')}
-            </div>}
+          <Context data={data} />
         </div>
         <ul class={styles['list']}>
           {topUsers.map(c =>

@@ -5,13 +5,56 @@ import cx from 'classnames'
 import appStyles from 'styles.scss'
 import styles from './overall-stats.scss'
 
+import Context from 'components/context'
+
 class OverallStats extends Component {
-  // constructor (props) {
-  //   super(props)
-  // }
+  formatStats () {
+    const { data, stats } = this.props
+    return stats.map(stat => {
+      const rootValue = data[stat.featureType]
+      const value =
+        stat.stat === 'users'
+          ? rootValue.users_length
+          : rootValue.total_feature_value
+      const unit =
+        stat.featureType === 'buildings' || stat.stat === 'users' ? null : 'km'
+      const label =
+        stat.stat === 'users'
+          ? `users edited ${stat.featureType}`
+          : `${stat.featureType} edited`
+      return { value, unit, label }
+    })
+  }
 
   render () {
-    return <div className={cx(styles.overallStats, appStyles.viz)}>lala</div>
+    const { apiUrl, data } = this.props
+    const formattedStats = this.formatStats()
+    return (
+      <div className={cx(styles.overallStats, appStyles.viz)}>
+        <div class={cx(styles.title, appStyles.title)}>
+          OSM Overall stats
+          {apiUrl !== undefined &&
+            <a target="_blank" className={appStyles.download} href={apiUrl}>
+              Download data
+            </a>}
+        </div>
+        <Context data={data} />
+        {formattedStats.map(stat =>
+          <div>
+            <span>
+              {stat.value}
+            </span>
+            {stat.unit !== null &&
+              <span>
+                {stat.unit}
+              </span>}
+            <span>
+              {stat.label}
+            </span>
+          </div>
+        )}
+      </div>
+    )
   }
 }
 

@@ -18,10 +18,22 @@ function mountViz (data) {
   datesUI.innerHTML = `from: ${format(from)}, to: ${format(to)}`
   ODRI.overallStats('#overallStats', {
     data,
-    widgets: [
+    stats: [
       {
         featureType: 'buildings',
-        type: 'activity'
+        stat: 'activity'
+      },
+      {
+        featureType: 'highways',
+        stat: 'activity'
+      },
+      {
+        featureType: 'waterways',
+        stat: 'activity'
+      },
+      {
+        featureType: 'buildings',
+        stat: 'users'
       }
     ]
   })
