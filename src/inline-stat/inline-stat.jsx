@@ -1,4 +1,4 @@
-import { Component } from 'preact'
+import { h, Component } from 'preact'
 import { mountComponent } from 'utils'
 
 class InlineStat extends Component {
@@ -7,13 +7,16 @@ class InlineStat extends Component {
     const rootValue = data[featureType]
     const value =
       stat === 'users' ? rootValue.users_length : rootValue.total_feature_value
-    const unit = featureType === 'buildings' || stat === 'users' ? null : 'km'
-    return { value, unit }
+    return value
   }
 
   render () {
-    const formattedStat = this.formatStat()
-    return formattedStat.value
+    let value = this.formatStat()
+    return (
+      <span>
+        {value}
+      </span>
+    )
   }
 }
 
