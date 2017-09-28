@@ -30,7 +30,7 @@ class OverallStats extends Component {
     const { apiUrl, data } = this.props
     const formattedStats = this.formatStats()
     return (
-      <div className={cx(styles.overallStats, appStyles.viz)}>
+      <div className={appStyles}>
         <div class={cx(styles.title, appStyles.title)}>
           OSM Overall stats
           {apiUrl !== undefined &&
@@ -40,15 +40,15 @@ class OverallStats extends Component {
         </div>
         <Context data={data} />
         {formattedStats.map(stat =>
-          <div>
-            <span>
+          <div className={styles.overallStat}>
+            <span className={styles.value}>
               {stat.value}
             </span>
             {stat.unit !== null &&
-              <span>
+              <span className={styles.unit}>
                 {stat.unit}
               </span>}
-            <span>
+            <span className={styles.label}>
               {stat.label}
             </span>
           </div>
