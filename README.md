@@ -53,9 +53,11 @@ This creates `public/bundle.js` and `public/styles.css` which contain the minifi
 
 # Charts configuration
 
-## Overall statistics
+## Overall statistics table
 
-![Statistics](https://github.com/GFDRR/osm-analytics-charts/blob/master/samples/statistics.png?raw=true 'Statistics')
+![Statistics table](https://github.com/GFDRR/osm-analytics-charts/blob/master/samples/statistics.png?raw=true 'Statistics table')
+
+Presents a set of configurable statistics about contributions done to OSM. 
 
 - __stats__ (mandatory) (`[{featureType: 'highways', stat: 'users'}]`) an array of widgets objects, each being of the following form:
 ```
@@ -64,6 +66,13 @@ This creates `public/bundle.js` and `public/styles.css` which contain the minifi
   stat: 'activity'|'users'
 }
 ```
+
+## Single statistics value
+
+Renders a plain value, with no formatting or unit.
+
+- __featureType__ (mandatory) (`buildings`) show data for `buildings`, `highways` or `waterways`
+- __stat__ (mandatory) (`users`) show either `activity` (number of contributions) or the number of `users` involved
 
 ## Compare map
 ![Compare map](https://github.com/GFDRR/osm-analytics-charts/blob/master/samples/map.png?raw=true 'Compare map')
