@@ -53,7 +53,15 @@ This creates `public/bundle.js` and `public/styles.css` which contain the minifi
 
 # Charts configuration
 
-Note: parameters are snake_cased to be consistent with WP API requirements
+## Overall stats
+
+- __widgets__ (mandatory) (`['highways_activity','buildings_users']`) an array of widgets objects, each being of the following form:
+```
+{
+  featureType: 'highways'|'buildings'|'waterways'
+  type: 'count_activity'|'count_users'
+}
+```
 
 ## Compare map
 ![Compare map](https://github.com/GFDRR/osm-analytics-charts/blob/master/samples/map.png?raw=true 'Compare map')

@@ -16,6 +16,15 @@ function mountViz (data) {
   const datesUI = document.querySelector('#dates')
   const format = d => `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
   datesUI.innerHTML = `from: ${format(from)}, to: ${format(to)}`
+  ODRI.overallStats('#overallStats', {
+    data,
+    widgets: [
+      {
+        featureType: 'buildings',
+        type: 'activity'
+      }
+    ]
+  })
   ODRI.activity('#activity', {
     data,
     apiUrl,
