@@ -57,11 +57,11 @@ This creates `public/bundle.js` and `public/styles.css` which contain the minifi
 
 ![Statistics](https://github.com/GFDRR/osm-analytics-charts/blob/master/samples/statistics.png?raw=true 'Statistics')
 
-- __stats__ (mandatory) (`[{featureType: 'highways', stat: 'count_users'}]`) an array of widgets objects, each being of the following form:
+- __stats__ (mandatory) (`[{featureType: 'highways', stat: 'users'}]`) an array of widgets objects, each being of the following form:
 ```
 {
   featureType: 'highways'|'buildings'|'waterways'
-  stat: 'count_activity'|'count_users'
+  stat: 'activity'|'users'
 }
 ```
 
