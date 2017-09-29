@@ -13,7 +13,12 @@ import startCase from 'lodash/startCase'
 
 import { mountComponent, monthLength, toTime } from 'utils'
 
-import { FACETS, GRANULARITIES, VALID_FEATURE_TYPES } from 'src/constants'
+import {
+  FACETS,
+  GRANULARITIES,
+  VALID_FEATURE_TYPES,
+  ACTIVITY_HELP_URL
+} from 'src/constants'
 
 import Tabs from 'components/tabs'
 import Dropdown from './components/dropdown'
@@ -291,15 +296,14 @@ class DailyActivity extends Component {
               {...{ options: GRANULARITIES, selected: granularity }}
             />{' '}
             activity
-            {this.props.apiUrl !== undefined && (
+            {this.props.apiUrl !== undefined &&
               <a
                 target="_blank"
                 className={appStyles.download}
                 href={this.props.apiUrl}
               >
                 Download data
-              </a>
-            )}
+              </a>}
           </div>
           <Tabs
             className={styles.tabs}
@@ -307,11 +311,17 @@ class DailyActivity extends Component {
             {...{ tabs: FACETS, selected: facet }}
           />
         </div>
-        {this.state.data.country_name !== undefined && (
+        {this.state.data.country_name !== undefined &&
           <div class={appStyles.subtitle}>
             Area: {this.state.data.country_name}
-          </div>
-        )}
+          </div>}
+        <div className={styles.axis} />
+        <div className={styles.axisHelp}>
+          activity
+          <a target="_blank" href={ACTIVITY_HELP_URL}>
+            ?
+          </a>
+        </div>
         <Histogram
           className={styles.histogram}
           {...{ data, min, max, margin, facet }}

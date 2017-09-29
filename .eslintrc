@@ -2,6 +2,6 @@
   "extends": ["standard", "standard-preact"],
   "rules": {
     "jsx-quotes": ["error", "prefer-double"],
-    "max-len": ["error", 120]
+    "max-len": ["error", 130]
   }
 }

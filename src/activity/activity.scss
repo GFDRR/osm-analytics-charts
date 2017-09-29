@@ -1,6 +1,7 @@
 @import 'src/variables';
 
 .activity {
+  position: relative;
   color: $black;
   font-size: 1rem;
   margin: 1rem 0;
@@ -11,6 +12,39 @@
   display: inline-block;
 }
 
+.axis {
+  height: 200px;
+  width: 1px;
+  position: absolute;
+  background: $light-grey;
+
+  &::after {
+    content: " ";
+    width: 6px;
+    height: 6px;
+    border-left: 1px solid $light-grey;
+    border-top: 1px solid $light-grey;
+    position: absolute;
+    transform: rotateZ(45deg);
+    left: -3px;
+  }
+}
+
+.axisHelp {
+  font-size: 0.8em;
+  position: absolute;
+  left: 10px;
+  color: $light-grey;
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.8);
+
+  a {
+    color: $light-grey;
+    text-decoration: underline;
+    margin-left: 4px;
+  }
+}
+
 .histogram {
-  // margin-bottom: 1rem;
+  margin-left: 6px;
 }
