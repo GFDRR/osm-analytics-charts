@@ -44,6 +44,14 @@ function mountViz (data) {
       {
         featureType: 'buildings',
         stat: 'users'
+      },
+      {
+        featureType: 'highways',
+        stat: 'users'
+      },
+      {
+        featureType: 'waterways',
+        stat: 'users'
       }
     ]
   })
