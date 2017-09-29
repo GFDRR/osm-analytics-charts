@@ -11,11 +11,13 @@ const getTooltip = (d, facet) => {
   const labels = Object.keys(d.rawDict).map(key => {
     const value = d.rawDict[key]
     if (facet === FACETS.Users) {
-      return `${value} user${(value === 1) ? '' : 's'} edited ${key} each day`
+      return `${value} user${value === 1 ? '' : 's'} edited ${key} each day`
     }
-    // remove final s when singular
-    const featureType = (value === 1) ? key.replace(/s$/i, '') : key
-    return `${value} ${featureType} edited per day`
+    const unit = key === 'buildings' ? '' : ' km'
+    // remove final s when singular and feature is measured in units, not length
+    const featureType =
+      value === 1 && key === 'buildings' ? key.replace(/s$/i, '') : key
+    return `${value}${unit} ${featureType} edited per day`
   })
   return labels.join('|')
 }
