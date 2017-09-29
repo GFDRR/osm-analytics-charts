@@ -140,7 +140,7 @@ class TopContributors extends Component {
             </li>
           ))}
         </ul>
-        {remainingPercent < 0 &&
+        {remainingPercent > 0 &&
           remainingPercent < 100 && (
             <div class={styles['remaining']}>
               + {remaining} More ({remainingPercent}% of total)
