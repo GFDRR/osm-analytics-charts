@@ -70,24 +70,50 @@ class TopContributors extends Component {
       featureType
     } = this.formatContributors()
 
+    if (topUsers.length === 0) {
+      return (
+        <div style={{ width }} class={cx(styles.contributors, appStyles.viz)}>
+          <div class={cx(styles['header'], appStyles.heading)}>
+            <div class={cx(styles.title, appStyles.title)}>
+              Top contributors ({featureType})
+              {this.props.apiUrl !== undefined && (
+                <a
+                  target="_blank"
+                  className={appStyles.download}
+                  href={this.props.apiUrl}
+                >
+                  Download data
+                </a>
+              )}
+            </div>
+            <Context data={data} />
+          </div>
+          <div class={cx(styles.title, appStyles.subtitle)}>
+            No contributions found.
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div style={{ width }} class={cx(styles.contributors, appStyles.viz)}>
         <div class={cx(styles['header'], appStyles.heading)}>
           <div class={cx(styles.title, appStyles.title)}>
             Top contributors ({featureType})
-            {this.props.apiUrl !== undefined &&
+            {this.props.apiUrl !== undefined && (
               <a
                 target="_blank"
                 className={appStyles.download}
                 href={this.props.apiUrl}
               >
                 Download data
-              </a>}
+              </a>
+            )}
           </div>
           <Context data={data} />
         </div>
         <ul class={styles['list']}>
-          {topUsers.map(c =>
+          {topUsers.map(c => (
             <li class={styles['list-items']}>
               <span
                 title={c.name}
@@ -112,11 +138,14 @@ class TopContributors extends Component {
                 </span>
               </div>
             </li>
-          )}
+          ))}
         </ul>
-        <div class={styles['remaining']}>
-          + {remaining} More ({remainingPercent}% of total)
-        </div>
+        {remainingPercent < 0 &&
+          remainingPercent < 100 && (
+            <div class={styles['remaining']}>
+              + {remaining} More ({remainingPercent}% of total)
+            </div>
+          )}
       </div>
     )
   }

@@ -70,12 +70,16 @@ class DailyActivity extends Component {
       .filter(d => d && d.day >= fromStamp && d.day < toStamp)
     const nonZero = d => Boolean(Math.abs(getCount(d)))
 
-    const max = filteredValues.length
-      ? getCount(_maxBy(filteredValues.filter(nonZero), getCount))
+    const nonZeroValues = filteredValues.length
+      ? filteredValues.filter(nonZero)
+      : []
+
+    const max = nonZeroValues.length
+      ? getCount(_maxBy(nonZeroValues, getCount))
       : 0
 
-    const min = filteredValues.length
-      ? getCount(_minBy(filteredValues.filter(nonZero), getCount))
+    const min = nonZeroValues.length
+      ? getCount(_minBy(nonZeroValues, getCount))
       : 0
 
     const formattedData = [
@@ -113,7 +117,7 @@ class DailyActivity extends Component {
         const values = (getKey(d) && getKey(d)) || []
 
         const mean = _meanBy(getKey(d), getCount)
-        const stdev = this.stdDeviation(values, mean, getCount)
+        const stdev = this.stdDeviation(values, mean, getCount) || 1
 
         result[key] = values.map(v => ({
           day: v.day,
@@ -287,14 +291,15 @@ class DailyActivity extends Component {
               {...{ options: GRANULARITIES, selected: granularity }}
             />{' '}
             activity
-            {this.props.apiUrl !== undefined &&
+            {this.props.apiUrl !== undefined && (
               <a
                 target="_blank"
                 className={appStyles.download}
                 href={this.props.apiUrl}
               >
                 Download data
-              </a>}
+              </a>
+            )}
           </div>
           <Tabs
             className={styles.tabs}
@@ -302,10 +307,11 @@ class DailyActivity extends Component {
             {...{ tabs: FACETS, selected: facet }}
           />
         </div>
-        {this.state.data.country_name !== undefined &&
+        {this.state.data.country_name !== undefined && (
           <div class={appStyles.subtitle}>
             Area: {this.state.data.country_name}
-          </div>}
+          </div>
+        )}
         <Histogram
           className={styles.histogram}
           {...{ data, min, max, margin, facet }}
