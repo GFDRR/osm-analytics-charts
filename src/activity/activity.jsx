@@ -27,6 +27,7 @@ import Histogram from './components/histogram'
 import sassVars from 'variables.scss'
 import appStyles from 'src/styles'
 import styles from './activity.scss'
+import Tooltip from 'components/tooltip'
 
 class DailyActivity extends Component {
   constructor (props) {
@@ -296,14 +297,15 @@ class DailyActivity extends Component {
               {...{ options: GRANULARITIES, selected: granularity }}
             />{' '}
             activity
-            {this.props.apiUrl !== undefined &&
+            {this.props.apiUrl !== undefined && (
               <a
                 target="_blank"
                 className={appStyles.download}
                 href={this.props.apiUrl}
               >
                 Download data
-              </a>}
+              </a>
+            )}
           </div>
           <Tabs
             className={styles.tabs}
@@ -311,15 +313,21 @@ class DailyActivity extends Component {
             {...{ tabs: FACETS, selected: facet }}
           />
         </div>
-        {this.state.data.country_name !== undefined &&
+        {this.state.data.country_name !== undefined && (
           <div class={appStyles.subtitle}>
             Area: {this.state.data.country_name}
-          </div>}
+          </div>
+        )}
         <div className={styles.axis} />
         <div className={styles.axisHelp}>
-          activity
+          <Tooltip>
+            <span data-tooltip="Index of normalized OSM activity that includes edits of
+              different types of map features. For more information click '+info'">
+              Normalized OSM activity
+            </span>
+          </Tooltip>
           <a target="_blank" href={ACTIVITY_HELP_URL}>
-            ?
+            +info
           </a>
         </div>
         <Histogram
