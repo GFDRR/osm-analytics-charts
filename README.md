@@ -100,7 +100,11 @@ a simplified [https://en.wikipedia.org/wiki/Mahalanobis_distance](Mahalanobis di
 - __facet__ visible facet when loading the widget, must be 'users' or 'features' (default)
 - __granularity__ visible granularity by default, must be 'monthly', 'weekly' or 'daily' (default)
 
+#### Aggregation method for contributions on different features
 
+As information regarding activity in the OSM database is expressed in different units (i.e. number of km for roads or number of individual entries in the case of buildings) we had to normalize the values in order to aggregate them in a meaningful way. The approach we chose is a simplified <a href="https://en.wikipedia.org/wiki/Mahalanobis_distance">Mahalanobis distance</a> (multi-dimensional generalization of the idea of measuring how many standard deviations away a point is from the mean of a distribution) in which, by removing the original dimension from the original data, we are able to describe the features in regards to the whole set of points, allowing us to finally aggregate features of different units in the same histogram. 
+
+More info: [source code](https://github.com/GFDRR/osm-analytics-charts/blob/master/src/activity/activity.jsx#L116)
 
 ## Top contributors
 ![Contributors chart](https://github.com/GFDRR/osm-analytics-charts/blob/master/samples/contributors.png?raw=true "Contributors chart")

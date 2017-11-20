@@ -41,4 +41,4 @@ export const COMPARE_MAP_DEFAULTS = {
 export const VALID_FEATURE_TYPES = ['buildings', 'highways', 'waterways']
 
 export const ACTIVITY_HELP_URL =
-  'https://github.com/GFDRR/osm-analytics-api/blob/master/README.md#aggregation-method-for-contributions-on-different-features'
+  'https://github.com/GFDRR/osm-analytics-charts/blob/master/README.md#aggregation-method-for-contributions-on-different-features'
