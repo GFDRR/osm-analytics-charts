@@ -144,10 +144,7 @@ class DailyActivity extends Component {
         items.forEach(item => {
           const { day } = item
           r[day] = {
-            // This is not right! Making an average recursively???
-            aggr: r[day]
-              ? (r[day].aggr + item[count].aggr) / 2
-              : item[count].aggr,
+            aggr: r[day] ? r[day].aggr + item[count].aggr : item[count].aggr,
             rawDict: r[day] ? r[day].rawDict : {}
           }
 
@@ -184,6 +181,7 @@ class DailyActivity extends Component {
     const key = 'activity_count'
     const getCount = d => d[count].aggr
     const getCountObj = d => d[count]
+
     return this.formatData(
       this.aggregateFeatures(
         this.filterValidFeatureTypes(this.state.data),
@@ -270,6 +268,7 @@ class DailyActivity extends Component {
   getData () {
     const { facet, granularity } = this.state
     const dataKey = FACETS[facet]
+    // getFeatures or getUsers
     let groupedData = this[`get${dataKey}`]()
 
     switch (granularity) {
@@ -297,15 +296,14 @@ class DailyActivity extends Component {
               {...{ options: GRANULARITIES, selected: granularity }}
             />{' '}
             activity
-            {this.props.apiUrl !== undefined && (
+            {this.props.apiUrl !== undefined &&
               <a
                 target="_blank"
                 className={appStyles.download}
                 href={this.props.apiUrl}
               >
                 Download data
-              </a>
-            )}
+              </a>}
           </div>
           <Tabs
             className={styles.tabs}
@@ -313,11 +311,10 @@ class DailyActivity extends Component {
             {...{ tabs: FACETS, selected: facet }}
           />
         </div>
-        {this.state.data.country_name !== undefined && (
+        {this.state.data.country_name !== undefined &&
           <div class={appStyles.subtitle}>
             Area: {this.state.data.country_name}
-          </div>
-        )}
+          </div>}
         <div className={styles.axis} />
         <div className={styles.axisHelp}>
           <Tooltip>
