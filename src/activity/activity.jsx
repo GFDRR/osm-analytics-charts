@@ -312,8 +312,8 @@ class DailyActivity extends Component {
       return (
         <div className={styles.axisHelp}>
           <Tooltip>
-            <span data-tooltip="Average number of active users for per time period">
-              Number of active users
+            <span data-tooltip="Average number of active users per time period">
+              Active users
             </span>
           </Tooltip>
         </div>
