@@ -21,7 +21,7 @@ html {
 }
 
 .title {
-  font-family: 'Bariol', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: $font-primary;
   font-weight: bold;
   letter-spacing: 0.5px;
   position: relative;

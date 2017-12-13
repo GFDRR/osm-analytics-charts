@@ -1,6 +1,7 @@
 @import 'src/variables';
 
 .overallStat {
+  font-family: $font-primary;
   display: inline-block;
   margin-bottom: 1.5em;
   min-width: 160px;
@@ -23,4 +24,11 @@
 .label {
   display: block;
   line-height: 0.4em;
+  text-transform: uppercase;
+  color: $blue;
+  font-weight: bold;
+}
+
+.title {
+  color: $blue;
 }

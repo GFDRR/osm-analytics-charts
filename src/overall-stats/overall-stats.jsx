@@ -33,26 +33,22 @@ class OverallStats extends Component {
       <div className={appStyles}>
         <div class={cx(styles.title, appStyles.title)}>
           OSM Overall stats
-          {apiUrl !== undefined &&
+          {apiUrl !== undefined && (
             <a target="_blank" className={appStyles.download} href={apiUrl}>
               Download data
-            </a>}
+            </a>
+          )}
         </div>
         <Context data={data} />
-        {formattedStats.map(stat =>
+        {formattedStats.map(stat => (
           <div className={styles.overallStat}>
-            <span className={styles.value}>
-              {stat.value}
-            </span>
-            {stat.unit !== null &&
-              <span className={styles.unit}>
-                {stat.unit}
-              </span>}
-            <span className={styles.label}>
-              {stat.label}
-            </span>
+            <span className={styles.label}>{stat.label}</span>
+            <span className={styles.value}>{stat.value}</span>
+            {stat.unit !== null && (
+              <span className={styles.unit}>{stat.unit}</span>
+            )}
           </div>
-        )}
+        ))}
       </div>
     )
   }
