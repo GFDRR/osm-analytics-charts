@@ -113,23 +113,22 @@ class DailyActivity extends Component {
     return Math.sqrt(_mean(diffs))
   }
 
-  aggregateFeatures (data, key, count) {
-    const getCount = d => d[count]
-    const getKey = d => d[key]
-
+  aggregateFeatures (data, valuesKey, countKey, aggrKey) {
+    const getCount = d => d[countKey]
+    const getValues = d => d[valuesKey]
     const distAvgToStdDevByFeatureType = _reduce(
       data,
-      (result, d, key) => {
-        const values = (getKey(d) && getKey(d)) || []
+      (result, dataValue, dataKey) => {
+        const values = (getValues(dataValue) && getValues(dataValue)) || []
 
-        const mean = _meanBy(getKey(d), getCount)
+        const mean = _meanBy(getValues(dataValue), getCount)
         const stdev = this.stdDeviation(values, mean, getCount) || 1
 
-        result[key] = values.map(v => ({
-          day: v.day,
-          [count]: {
-            aggr: (getCount(v) - mean) / stdev,
-            raw: getCount(v)
+        result[dataKey] = values.map(value => ({
+          day: value.day,
+          [countKey]: {
+            aggr: (getCount(value) - mean) / stdev,
+            raw: getCount(value)
           }
         }))
         return result
@@ -144,21 +143,30 @@ class DailyActivity extends Component {
         items.forEach(item => {
           const { day } = item
           r[day] = {
-            aggr: r[day] ? r[day].aggr + item[count].aggr : item[count].aggr,
+            sum: r[day]
+              ? r[day].sum + item[countKey].aggr
+              : item[countKey].aggr,
+            count: r[day] ? r[day].count + 1 : 1,
+            rawSum: r[day]
+              ? r[day].rawSum + item[countKey].raw
+              : item[countKey].raw,
             rawDict: r[day] ? r[day].rawDict : {}
           }
 
-          r[day].rawDict[featureType] = item[count].raw
+          r[day].rawDict[featureType] = item[countKey].raw
         })
         return r
       },
       {}
     )
+    Object.keys(aggregated).forEach(day => {
+      aggregated[day].aggr = aggregated[day].sum
+    })
 
     const aggregatedObj = _map(aggregated, (aggregatedCountContainer, day) => ({
       day: Number(day),
-      [count]: {
-        aggr: aggregatedCountContainer.aggr,
+      [countKey]: {
+        aggr: aggregatedCountContainer[aggrKey],
         rawDict: aggregatedCountContainer.rawDict
       }
     }))
@@ -179,6 +187,7 @@ class DailyActivity extends Component {
   getFeatures () {
     const count = 'count_features'
     const key = 'activity_count'
+    const aggr = 'aggr'
     const getCount = d => d[count].aggr
     const getCountObj = d => d[count]
 
@@ -186,7 +195,8 @@ class DailyActivity extends Component {
       this.aggregateFeatures(
         this.filterValidFeatureTypes(this.state.data),
         key,
-        count
+        count,
+        aggr
       ),
       getCount,
       getCountObj
@@ -196,17 +206,20 @@ class DailyActivity extends Component {
   getUsers (data) {
     const count = 'count_users'
     const key = 'activity_users'
+    const aggr = 'rawSum'
     const getCount = d => d[count].aggr
     const getCountObj = d => d[count]
-    return this.formatData(
+    const formattedData = this.formatData(
       this.aggregateFeatures(
         this.filterValidFeatureTypes(this.state.data),
         key,
-        count
+        count,
+        aggr
       ),
       getCount,
       getCountObj
     )
+    return formattedData
   }
 
   groupBy (data, predicate) {
@@ -270,7 +283,6 @@ class DailyActivity extends Component {
     const dataKey = FACETS[facet]
     // getFeatures or getUsers
     let groupedData = this[`get${dataKey}`]()
-
     switch (granularity) {
       case GRANULARITIES.Weekly:
         return this.groupByWeek(groupedData)
@@ -279,6 +291,34 @@ class DailyActivity extends Component {
     }
 
     return groupedData
+  }
+
+  renderYAxisLegend (facet) {
+    if (facet === FACETS.Features) {
+      return (
+        <div className={styles.axisHelp}>
+          <Tooltip>
+            <span data-tooltip="Index of normalized OSM activity that includes edits of
+            different types of map features. For more information click '+info'">
+              Normalized OSM activity
+            </span>
+          </Tooltip>
+          <a target="_blank" href={ACTIVITY_HELP_URL}>
+            +info
+          </a>
+        </div>
+      )
+    } else if (facet === FACETS.Users) {
+      return (
+        <div className={styles.axisHelp}>
+          <Tooltip>
+            <span data-tooltip="Average number of contributions made by users for each time period">
+              Contributions
+            </span>
+          </Tooltip>
+        </div>
+      )
+    }
   }
 
   render () {
@@ -296,14 +336,15 @@ class DailyActivity extends Component {
               {...{ options: GRANULARITIES, selected: granularity }}
             />{' '}
             activity
-            {this.props.apiUrl !== undefined &&
+            {this.props.apiUrl !== undefined && (
               <a
                 target="_blank"
                 className={appStyles.download}
                 href={this.props.apiUrl}
               >
                 Download data
-              </a>}
+              </a>
+            )}
           </div>
           <Tabs
             className={styles.tabs}
@@ -311,22 +352,13 @@ class DailyActivity extends Component {
             {...{ tabs: FACETS, selected: facet }}
           />
         </div>
-        {this.state.data.country_name !== undefined &&
+        {this.state.data.country_name !== undefined && (
           <div class={appStyles.subtitle}>
             Area: {this.state.data.country_name}
-          </div>}
+          </div>
+        )}
         <div className={styles.axis} />
-        <div className={styles.axisHelp}>
-          <Tooltip>
-            <span data-tooltip="Index of normalized OSM activity that includes edits of
-              different types of map features. For more information click '+info'">
-              Normalized OSM activity
-            </span>
-          </Tooltip>
-          <a target="_blank" href={ACTIVITY_HELP_URL}>
-            +info
-          </a>
-        </div>
+        {this.renderYAxisLegend(facet)}
         <Histogram
           className={styles.histogram}
           {...{ data, min, max, margin, facet }}

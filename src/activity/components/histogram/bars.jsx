@@ -25,19 +25,19 @@ const getTooltip = (d, facet) => {
 const Bars = ({ data, yScale, opacityScale, facet }) => {
   return (
     <div class={styles.bars}>
-      {data.map((d, i) =>
+      {data.map((d, i) => (
         <div
           data-tooltip={getTooltip(d, facet)}
           class={cx(styles.bar)}
           style={{
             // hide zeros
             opacity: d.aggr === 0 ? 0 : opacityScale(d.aggr),
-            height: `${yScale(d.aggr)}%`,
+            height: `${d.aggr === 0 ? 0 : Math.max(yScale(d.aggr), 1)}%`,
             left: dataToLeft(data, i),
             width: dataToWidth(data, i)
           }}
         />
-      )}
+      ))}
     </div>
   )
 }
