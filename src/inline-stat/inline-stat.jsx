@@ -7,16 +7,12 @@ class InlineStat extends Component {
     const rootValue = data[featureType]
     const value =
       stat === 'users' ? rootValue.users_length : rootValue.total_feature_value
-    return value
+    return Math.round(value)
   }
 
   render () {
     let value = this.formatStat()
-    return (
-      <span>
-        {value}
-      </span>
-    )
+    return <span>{value}</span>
   }
 }
 

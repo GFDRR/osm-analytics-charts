@@ -9,7 +9,7 @@ const dataToLeft = (data, i) => `calc(${dataToWidth(data, i)} * ${i})`
 
 const getTooltip = (d, facet) => {
   const labels = Object.keys(d.rawDict).map(key => {
-    const value = d.rawDict[key]
+    const value = Math.round(d.rawDict[key])
     if (facet === FACETS.Users) {
       return `${value} user${value === 1 ? '' : 's'} edited ${key} each day`
     }

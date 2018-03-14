@@ -42,10 +42,21 @@ class DailyActivity extends Component {
       granularity:
         (props.granularity && startCase(props.granularity)) ||
         GRANULARITIES.Daily,
-      facet: (props.facet && startCase(props.facet)) || FACETS.Features,
+      facet:
+        (props.precision === 13 && props.facet && startCase(props.facet)) ||
+        FACETS.Features,
       data: props.data,
+      precision: props.precision || 13,
       range: props.range || [new Date(), new Date()]
     }
+  }
+
+  getFacets () {
+    if (parseInt(this.props.precision) !== 13) {
+      return {}
+    }
+
+    return FACETS
   }
 
   parseDate (d) {
@@ -349,7 +360,7 @@ class DailyActivity extends Component {
           <Tabs
             className={styles.tabs}
             onClick={this.updateFacet}
-            {...{ tabs: FACETS, selected: facet }}
+            {...{ tabs: this.getFacets(), selected: facet }}
           />
         </div>
         {this.state.data.country_name !== undefined && (

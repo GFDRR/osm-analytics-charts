@@ -33,6 +33,10 @@ class TopContributors extends Component {
     const featureUsers = data[featureType]
     const users = featureUsers.top_users
 
+    if (typeof users === 'undefined') {
+      return {}
+    }
+
     const allContributions = featureUsers.total_feature_value
     const maxContributions = max(users.map(c => c.feature_value))
 
@@ -69,6 +73,10 @@ class TopContributors extends Component {
       remainingPercent,
       featureType
     } = this.formatContributors()
+
+    if (typeof topUsers === 'undefined') {
+      return null
+    }
 
     if (topUsers.length === 0) {
       return (

@@ -59,20 +59,28 @@ This creates `public/bundle.js` and `public/styles.css` which contain the minifi
 
 Presents a set of configurable statistics about contributions done to OSM. 
 
-- __stats__ (mandatory) (`[{featureType: 'highways', stat: 'users'}]`) an array of widgets objects, each being of the following form:
+- __statistics__ (mandatory) (`[{featureType: 'highways', stat: 'users'}]`) an array of widgets objects, each being of the following form:
 ```
 {
   featureType: 'highways'|'buildings'|'waterways'
   stat: 'activity'|'users'
 }
 ```
+- __country__ or __polygon__ (mandatory) ISO3 country code or an encoded polyline of the area of interest related to the project (ie `ifv%7BDndwkBx%60%40aYwQev%40sHkPuf%40ss%40%7BfA_%40uq%40xdCn%7D%40%5E`))
+- __start_date__ (mandatory) (`2016-01-01`) represents the start date of an OpenDRI project
+- __end_date__ (mandatory) (`2017-01-01`) represents the end date of an OpenDRI project
+- __precision__ (`13`) value between 1 and 13, specifying accuracy of data to display.
 
 ## Single statistics value
 
 Renders a plain value, with no formatting or unit.
 
-- __featureType__ (mandatory) (`buildings`) show data for `buildings`, `highways` or `waterways`
-- __stat__ (mandatory) (`users`) show either `activity` (number of contributions) or the number of `users` involved
+- __country__ or __polygon__ (mandatory) ISO3 country code or an encoded polyline of the area of interest related to the project (ie `ifv%7BDndwkBx%60%40aYwQev%40sHkPuf%40ss%40%7BfA_%40uq%40xdCn%7D%40%5E`))
+- __start_date__ (mandatory) (`2016-01-01`) represents the start date of an OpenDRI project
+- __end_date__ (mandatory) (`2017-01-01`) represents the end date of an OpenDRI project
+- __feature_type__ (mandatory) (`buildings`) `buildings`, `waterways` or `waterways`
+- __statistic__ (mandatory) (`users`) type should be either `users` or `activity`. `users` statistics are only available if precision is set to 13.
+- __precision__ (`13`) value between 1 and 13, specifying accuracy of data to display.
 
 ## Compare map
 ![Compare map](https://github.com/GFDRR/osm-analytics-charts/blob/master/samples/map.png?raw=true 'Compare map')
@@ -97,8 +105,9 @@ a simplified [https://en.wikipedia.org/wiki/Mahalanobis_distance](Mahalanobis di
 - __data__ (mandatory) raw data from the <a href="https://github.com/GFDRR/osm-analytics-api">OSM Analytics API</a>, it has to be loaded externally
 - __apiUrl__ provide an API url for the 'Download data' button
 - __range__ (mandatory) (`[2010-03-06,2016-01-01`) time range displayed, as a [from, to] array, regardless of the data provided
-- __facet__ visible facet when loading the widget, must be 'users' or 'features' (default)
+- __facet__ visible facet when loading the widget, must be 'users' or 'features' (default). `users` statistics are only available if precision is set to 13.
 - __granularity__ visible granularity by default, must be 'monthly', 'weekly' or 'daily' (default)
+- __precision__ (`13`) value between 1 and 13, specifying accuracy of data to display.
 
 #### Aggregation method for contributions on different features
 

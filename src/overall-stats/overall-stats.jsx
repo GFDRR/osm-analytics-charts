@@ -14,8 +14,12 @@ class OverallStats extends Component {
       const rootValue = data[stat.featureType]
       const value =
         stat.stat === 'users'
-          ? rootValue.users_length
-          : rootValue.total_feature_value
+          ? Math.round(rootValue.users_length)
+          : Math.round(rootValue.total_feature_value)
+
+      if (isNaN(value)) {
+        return null
+      }
       const unit =
         stat.featureType === 'buildings' || stat.stat === 'users' ? null : 'km'
       const label =
@@ -28,7 +32,7 @@ class OverallStats extends Component {
 
   render () {
     const { apiUrl, data } = this.props
-    const formattedStats = this.formatStats()
+    const formattedStats = this.formatStats().filter(x => !!x)
     return (
       <div className={appStyles}>
         <div class={cx(styles.title, appStyles.title)}>
