@@ -1,5 +1,6 @@
 import { h } from 'preact'
 import cx from 'classnames'
+import _compact from 'lodash/compact'
 
 import styles from './histogram.scss'
 import { FACETS } from 'src/constants'
@@ -9,7 +10,8 @@ const dataToLeft = (data, i) => `calc(${dataToWidth(data, i)} * ${i})`
 
 const getTooltip = (d, facet) => {
   const labels = Object.keys(d.rawDict).map(key => {
-    const value = Math.round(d.rawDict[key])
+    const value = Math.round(d.rawDict[key]) || '1 >'
+
     if (facet === FACETS.Users) {
       return `${value} user${value === 1 ? '' : 's'} edited ${key} each day`
     }
@@ -19,7 +21,7 @@ const getTooltip = (d, facet) => {
       value === 1 && key === 'buildings' ? key.replace(/s$/i, '') : key
     return `${value}${unit} ${featureType} edited per day`
   })
-  return labels.join('|')
+  return _compact(labels).join('|')
 }
 
 const Bars = ({ data, yScale, opacityScale, facet }) => {
