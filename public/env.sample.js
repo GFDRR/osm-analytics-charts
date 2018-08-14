@@ -1,5 +1,5 @@
 window.process = {
   env: {
-    SANDBOX_ENDPOINT: 'https://osm-analytics.vizzuality.com/api/v1'
+    SANDBOX_ENDPOINT: 'https://api.osm-analytics.org/api/v1'
   }
 }
